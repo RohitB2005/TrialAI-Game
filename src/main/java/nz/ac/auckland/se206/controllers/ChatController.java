@@ -1,11 +1,14 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
@@ -16,119 +19,165 @@ import nz.ac.auckland.apiproxy.chat.openai.Choice;
 import nz.ac.auckland.apiproxy.config.ApiProxyConfig;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
-import nz.ac.auckland.se206.prompts.PromptEngineering;
-import nz.ac.auckland.se206.speech.TextToSpeech;
 
-/**
- * Controller class for the chat view. Handles user interactions and communication with the GPT
- * model via the API proxy.
- */
-public class ChatController {
+public class ChatController implements ControllerInterface {
 
-  @FXML private TextArea txtaChat;
-  @FXML private TextField txtInput;
+  // ChatController is a base class for all rooms that use chat gpt
+  // it contains all the methods and fxml elements needed for chat gpt functionality
+
+  // static so only one instance is created and shared across all rooms
+  // this means the chat history is preserved when switching rooms
+  protected static ChatCompletionRequest chatCompletionRequest;
+
+  @FXML private TextArea areaDisplayText;
+  @FXML private TextField areaInputText;
   @FXML private Button btnSend;
+  @FXML private Button btnReturn;
+  @FXML private Label timerLabel;
+  @FXML private SplitPane splitPane;
+  @FXML private Button btnPaneChange;
 
-  private ChatCompletionRequest chatCompletionRequest;
-  private String profession;
+  protected boolean isFirstTimeInit = true;
 
-  /**
-   * Initializes the chat view.
-   *
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   */
+  // initializes the chat controller, setting up the chat completion request if it is first time
+  // temp and topP are double the usual values to make the ai more creative and random
   @FXML
-  public void initialize() throws ApiProxyException {
-    // Any required initialization code can be placed here
+  private void initialize() throws ApiProxyException {
+    if (chatCompletionRequest == null) {
+      initializeChatCompletionRequest();
+    }
   }
 
-  /**
-   * Generates the system prompt based on the profession.
-   *
-   * @return the system prompt string
-   */
-  private String getSystemPrompt() {
-    Map<String, String> map = new HashMap<>();
-    map.put("profession", profession);
-    return PromptEngineering.getPrompt("chat.txt", map);
-  }
-
-  /**
-   * Sets the profession for the chat context and initializes the ChatCompletionRequest.
-   *
-   * @param profession the profession to set
-   */
-  public void setProfession(String profession) {
-    this.profession = profession;
+  private void initializeChatCompletionRequest() throws ApiProxyException {
     try {
       ApiProxyConfig config = ApiProxyConfig.readConfig();
       chatCompletionRequest =
-          new ChatCompletionRequest(config).setN(1).setModel(Model.GPT_5_NANO).setMaxTokens(2000);
-      runGpt(new ChatMessage("system", getSystemPrompt()));
+          new ChatCompletionRequest(config)
+              .setN(1)
+              .setTemperature(1)
+              .setTopP(0.5)
+              .setModel(Model.GPT_4_1_MINI)
+              .setMaxTokens(100);
     } catch (ApiProxyException e) {
       e.printStackTrace();
     }
   }
 
-  /**
-   * Appends a chat message to the chat text area.
-   *
-   * @param msg the chat message to append
-   */
-  private void appendChatMessage(ChatMessage msg) {
-    txtaChat.appendText(msg.getRole() + ": " + msg.getContent() + "\n\n");
+  @Override
+  public void updateTimer(int timeRemaining) {
+    // Update the timer display in the UI
+    timerLabel.setText(timeRemaining + " seconds left");
   }
 
-  /**
-   * Runs the GPT model with a given chat message.
-   *
-   * @param msg the chat message to process
-   * @return the response chat message
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   */
-  private ChatMessage runGpt(ChatMessage msg) throws ApiProxyException {
+  // method to run the gpt chat completion request in a background thread
+  // disables the send and return buttons while waiting for a response
+  // called on enteriing a message or entering a flashback
+  @Override
+  public void runGpt(ChatMessage msg) throws ApiProxyException {
+
     chatCompletionRequest.addMessage(msg);
-    try {
-      ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
-      Choice result = chatCompletionResult.getChoices().iterator().next();
-      chatCompletionRequest.addMessage(result.getChatMessage());
-      appendChatMessage(result.getChatMessage());
-      TextToSpeech.speak(result.getChatMessage().getContent());
-      return result.getChatMessage();
-    } catch (ApiProxyException e) {
-      e.printStackTrace();
-      return null;
+
+    btnSend.setDisable(true);
+    btnReturn.setDisable(true);
+
+    // Execute the chat completion request in a background thread
+
+    Task<Void> backgroundTask =
+        new Task<>() {
+          @Override
+          protected Void call() {
+            try {
+              ChatCompletionResult chatCompletionResult = chatCompletionRequest.execute();
+              Choice result = chatCompletionResult.getChoices().iterator().next();
+              chatCompletionRequest.addMessage(result.getChatMessage());
+              Platform.runLater(
+                  () -> {
+                    appendChatMessage(result.getChatMessage());
+                    btnSend.setDisable(false);
+                    btnReturn.setDisable(false);
+                  });
+            } catch (ApiProxyException e) {
+              e.printStackTrace();
+              return null;
+            }
+            return null;
+          }
+        };
+
+    Thread backgroundThread = new Thread(backgroundTask);
+    backgroundThread.setDaemon(true); // Ensure the thread does not prevent JVM shutdown
+    backgroundThread.start();
+  }
+
+  @Override
+  public boolean isFirstTimeInit() {
+    if (isFirstTimeInit) {
+      isFirstTimeInit = false;
+      return true;
+    }
+    return isFirstTimeInit;
+  }
+
+  public String getName() {
+    return "RoomController";
+  }
+
+  // appends a chat message to the display area with appropriate formatting based on who sent it
+  protected void appendChatMessage(ChatMessage msg) {
+    if (msg.getRole().equals("user")) {
+      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
+    } else if (msg.getRole().equals("assistant")) {
+      areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
     }
   }
 
-  /**
-   * Sends a message to the GPT model.
-   *
-   * @param event the action event triggered by the send button
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   * @throws IOException if there is an I/O error
-   */
+  // are overridden in classes that extend chat controller
+  @Override
+  public String getSystemPrompt() {
+    return null;
+  }
+
+  // are overridden in classes that extend chat controller
+  @Override
+  public String getReturnPrompt() {
+    return null;
+  }
+
+  // logic for when the player clicks the send button
+  // needs logic for if player presses enter
   @FXML
-  private void onSendMessage(ActionEvent event) throws ApiProxyException, IOException {
-    String message = txtInput.getText().trim();
+  protected void onSendMessage(ActionEvent event) throws ApiProxyException, IOException {
+    String message = areaInputText.getText().trim();
     if (message.isEmpty()) {
       return;
     }
-    txtInput.clear();
+    areaInputText.clear();
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);
   }
 
-  /**
-   * Navigates back to the previous view.
-   *
-   * @param event the action event triggered by the go back button
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   * @throws IOException if there is an I/O error
-   */
+  // logic for increasing or decreasing the chat pane size
   @FXML
-  private void onGoBack(ActionEvent event) throws ApiProxyException, IOException {
-    App.setRoot("room");
+  protected void onPaneChange(ActionEvent event) {
+    if (splitPane.getDividerPositions()[0] == 0.5) {
+      splitPane.setDividerPositions(0.1);
+      btnPaneChange.setText(">>");
+    } else {
+      splitPane.setDividerPositions(0.5);
+      btnPaneChange.setText("<<");
+      // Reset the chat area to the top when changing panes
+      areaDisplayText.setScrollTop(0);
+      areaDisplayText.setScrollLeft(0);
+      areaInputText.requestFocus(); // Focus back on the input field
+    }
+  }
+
+  // logic for pushing return button
+  @FXML
+  protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
+    Button btn = (Button) event.getSource();
+    Scene scene = btn.getScene();
+    App.openScene(scene, "courtRoom");
   }
 }
