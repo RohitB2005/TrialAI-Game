@@ -1,6 +1,9 @@
 package nz.ac.auckland.se206;
 
 import java.io.IOException;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,7 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.controllers.ChatController;
+import nz.ac.auckland.se206.controllers.ControllerInterface;
+import nz.ac.auckland.se206.controllers.SceneManager;
+import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
 
 /**
  * This is the entry point of the JavaFX application. This class initializes and runs the JavaFX
@@ -17,6 +25,10 @@ import nz.ac.auckland.se206.controllers.ChatController;
 public class App extends Application {
 
   private static Scene scene;
+  private static CurrentSceneContext context;
+  private static int timeRemaining; // seconds
+  private static Timeline timer;
+  public static boolean isFinalScene = false;
 
   /**
    * The main method that launches the JavaFX application.
@@ -27,60 +39,87 @@ public class App extends Application {
     launch();
   }
 
-  /**
-   * Sets the root of the scene to the specified FXML file.
-   *
-   * @param fxml the name of the FXML file (without extension)
-   * @throws IOException if the FXML file is not found
-   */
-  public static void setRoot(String fxml) throws IOException {
-    scene.setRoot(loadFxml(fxml));
-  }
-
-  /**
-   * Loads the FXML file and returns the associated node. The method expects that the file is
-   * located in "src/main/resources/fxml".
-   *
-   * @param fxml the name of the FXML file (without extension)
-   * @return the root node of the FXML file
-   * @throws IOException if the FXML file is not found
-   */
-  private static Parent loadFxml(final String fxml) throws IOException {
-    return new FXMLLoader(App.class.getResource("/fxml/" + fxml + ".fxml")).load();
+  // starts a countdown timer
+  // on finishing the countdown will change the scene to the final room and start a 10 second timer
+  // if the timer runs out in the final room the game will end
+  public static void startTimer(int initialTime) {
+    timeRemaining = initialTime;
+    timer =
+        new Timeline(
+            new KeyFrame(
+                Duration.seconds(1),
+                event -> {
+                  timeRemaining--;
+                  context.updateTimer(timeRemaining);
+                  // System.out.println("Time left: " + timeRemaining + "s");
+                  if (timeRemaining <= 0) {
+                    if (isFinalScene) {
+                      timer.stop();
+                    } else {
+                      timer.stop();
+                      // startTimer(10);
+                      // try {
+                      //   openScene(scene, "finalRoom");
+                      // } catch (IOException e) {
+                      //   e.printStackTrace();
+                      // }
+                    }
+                    context.outOfTime();
+                  }
+                }));
+    timer.setCycleCount(initialTime); // 120 seconds
+    timer.play();
   }
 
   /**
    * Opens the chat view and sets the profession in the chat controller.
    *
-   * @param event the mouse event that triggered the method
-   * @param profession the profession to set in the chat controller
+   * @param newScene the new scene to open
+   * @param regionId the ID of the region to set in the chat controller
    * @throws IOException if the FXML file is not found
+   * @throws ApiProxyException if there is an error communicating with the API proxy
    */
-  public static void openChat(MouseEvent event, String profession) throws IOException {
-    FXMLLoader loader = new FXMLLoader(App.class.getResource("/fxml/chat.fxml"));
-    Parent root = loader.load();
-
-    ChatController chatController = loader.getController();
-    chatController.setProfession(profession);
-
-    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  // sets currentscene in the context class and updates the timer before opening the new scene
+  // if the scene is a flashback will prompt gpt to generate a response anything said in other scenes.
+  public static void openScene(Scene newScene, String regionId) throws IOException {
+    context.setCurrentScene(regionId);
+    context.updateTimer(timeRemaining);
+    if (context.getCurrentController() instanceof ChatController) {
+      context.loadgpt(regionId);
+    }
+    scene = newScene;
+    scene.setRoot(SceneManager.getUiRoot(SceneManager.getUiName(regionId)));
   }
 
   /**
    * This method is invoked when the application starts. It loads and shows the "room" scene.
    *
    * @param stage the primary stage of the application
-   * @throws IOException if the "src/main/resources/fxml/room.fxml" file is not found
+   * @throws IOException if the FXML file is not found
+   * @throws ApiProxyException if there is an error communicating with the API proxy
    */
+  // loads all scenes and controllers into SceneManager class
+  // opens Courtroom by default and starts the timer
   @Override
   public void start(final Stage stage) throws IOException {
-    Parent root = loadFxml("room");
-    scene = new Scene(root);
+    for (AppUi ui : AppUi.values()) {
+      FXMLLoader loader =
+          new FXMLLoader(App.class.getResource("/fxml/" + SceneManager.toFxmlString(ui) + ".fxml"));
+      SceneManager.registerUi(ui, loader.load());
+      SceneManager.registerController(ui, (ControllerInterface) loader.getController());
+    }
+    context = new CurrentSceneContext();
+    scene = new Scene(SceneManager.getUiRoot(AppUi.COURTROOM));
     stage.setScene(scene);
     stage.show();
-    root.requestFocus();
+    startTimer(120);
+  }
+
+  // stops the timer if it is running
+  public static void stopTimer() {
+    if (timer != null) {
+      timer.stop();
+      timer = null;
+    }
   }
 }
