@@ -1,15 +1,11 @@
 package nz.ac.auckland.se206;
 
 import java.io.IOException;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
@@ -57,12 +53,12 @@ public class App extends Application {
                       timer.stop();
                     } else {
                       timer.stop();
-                      // startTimer(10);
-                      // try {
-                      //   openScene(scene, "finalRoom");
-                      // } catch (IOException e) {
-                      //   e.printStackTrace();
-                      // }
+                      startTimer(60);
+                      try {
+                        openScene(scene, "finalRoom");
+                      } catch (IOException e) {
+                        e.printStackTrace();
+                      }
                     }
                     context.outOfTime();
                   }
@@ -80,7 +76,8 @@ public class App extends Application {
    * @throws ApiProxyException if there is an error communicating with the API proxy
    */
   // sets currentscene in the context class and updates the timer before opening the new scene
-  // if the scene is a flashback will prompt gpt to generate a response anything said in other scenes.
+  // if the scene is a flashback will prompt gpt to generate a response anything said in other
+  // scenes.
   public static void openScene(Scene newScene, String regionId) throws IOException {
     context.setCurrentScene(regionId);
     context.updateTimer(timeRemaining);
@@ -112,7 +109,7 @@ public class App extends Application {
     scene = new Scene(SceneManager.getUiRoot(AppUi.COURTROOM));
     stage.setScene(scene);
     stage.show();
-    startTimer(120);
+    startTimer(300);
   }
 
   // stops the timer if it is running
