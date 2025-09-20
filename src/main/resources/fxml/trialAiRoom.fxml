@@ -16,7 +16,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="467.0" styleClass="root" stylesheets="@../css/ControlStyle1.css">
          <children>
             <TextArea fx:id="areaDisplayText" editable="false" layoutX="18.0" layoutY="28.0" prefHeight="499.0" prefWidth="365.0" wrapText="true" />
-            <TextField fx:id="areaInputText" layoutX="18.0" layoutY="544.0" prefHeight="25.0" prefWidth="315.0" />
+            <TextField fx:id="areaInputText" onKeyPressed="#onEnterPressed" layoutX="18.0" layoutY="544.0" prefHeight="25.0" prefWidth="315.0" />
             <Button fx:id="btnSend" layoutX="341.0" layoutY="544.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
             <Button fx:id="btnReturn" layoutX="18.0" layoutY="586.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" text="Return" />
          </children></AnchorPane>
