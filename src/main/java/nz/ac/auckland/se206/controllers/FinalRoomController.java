@@ -18,31 +18,34 @@ public class FinalRoomController implements ControllerInterface {
   @FXML private Label timerLabel;
   @FXML private TextArea textFinal;
   
-  private boolean isFirstTimeInit = true;
   private String verdict = "You have run out of time";
 
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
+    if (timeRemaining <= 0 && App.isFinalScene) {
+      onChoice();
+    }
   }
 
   // messy logic for when timer runs out in the final room
 
-  public boolean isFirstTimeInit() {
-    if (isFirstTimeInit) {
-      isFirstTimeInit = false;
+  public void onEntry() {
+    if (App.isFinalScene) {
       btnReturn.setVisible(false);
-    } else {
-      textFinal.setText(getVerdict() + "\n\n" + getSystemPrompt());
-      textFinal.setVisible(true);
-      timerLabel.setVisible(false);
-      App.stopTimer();
     }
-    return true; // or implement logic to track first-time initialization
   }
 
-  // unused methods from the interface
+  private void onChoice() {
+    textFinal.setText(getVerdict() + "\n\n" + getSystemPrompt());
+    textFinal.setVisible(true);
+    timerLabel.setVisible(false);
+    btnGuilty.setVisible(false);
+    btnInnocent.setVisible(false);
+    App.stopTimer();
+  }
+
   public String getSystemPrompt() {
     // Return the system prompt for this scene
     return PromptEngineering.getPrompt("FinalRoom.txt");
@@ -51,19 +54,13 @@ public class FinalRoomController implements ControllerInterface {
   @FXML
   private void onGuiltyButton() {
     verdict = "Your Verdict is Correct";
-    if (isFirstTimeInit) {
-      isFirstTimeInit();
-    }
-    isFirstTimeInit();
+    onChoice();
   }
 
   @FXML
   private void onInnocentButton() {
     verdict = "Your Verdict is Incorrect";
-    if (isFirstTimeInit) {
-      isFirstTimeInit();
-    }
-    isFirstTimeInit();
+    onChoice();
   }
 
   private String getVerdict() {
