@@ -40,31 +40,37 @@ public class TrialAiRoomController extends ChatController {
     flashbacks.add(imageFlashback4);
   }
 
- 
-  // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for the first time
+  // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
+  // the first time
   @Override
   public String getPrompt() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
-    // try {
-    //   media =
-    //       new Media(App.class.getResource("/sounds/Sentinal_12_Welcome.mp3").toURI().toString());
-    //   mediaPlayerWelcome = new MediaPlayer(media);
-    //   mediaPlayerWelcome.play();
-    // } catch (URISyntaxException e) {
-    //   e.printStackTrace();
-    // }
-    
+      // try {
+      //   media =
+      //       new
+      // Media(App.class.getResource("/sounds/Sentinal_12_Welcome.mp3").toURI().toString());
+      //   mediaPlayerWelcome = new MediaPlayer(media);
+      //   mediaPlayerWelcome.play();
+      // } catch (URISyntaxException e) {
+      //   e.printStackTrace();
+      // }
+
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
-        + " other witness have said or wait till you are asked a question";
+          + " other witness have said or wait till you are asked a question";
     }
   }
 
   @Override
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String getParticipantId() {
+    return "TrialAi";
   }
 
   @FXML
