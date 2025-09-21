@@ -13,7 +13,7 @@ public class FinalState implements GameState {
 
   @Override
   public void onEnter() {
-
+    controller.onEntry();
   }
 
   @Override

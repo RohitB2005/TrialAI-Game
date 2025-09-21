@@ -73,6 +73,5 @@ public class CourtroomController implements ControllerInterface {
     Button clickedbtn = (Button) event.getSource();
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "finalRoom");
-    App.isFinalScene = true; // Set the final scene flag
   }
 }

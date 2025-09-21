@@ -50,17 +50,17 @@ public class App extends Application {
                   // System.out.println("Time left: " + timeRemaining + "s");
                   if (timeRemaining <= 0) {
                     if (isFinalScene) {
-                      timer.stop();
-                    } else {
-                      timer.stop();
-                      startTimer(60);
-                      try {
-                        openScene(scene, "finalRoom");
-                      } catch (IOException e) {
-                        e.printStackTrace();
-                      }
+                      stopTimer();
+                      return;
                     }
-                   // context.outOfTime();
+                    timer.stop();
+                    startTimer(60);
+                    try {
+                      isFinalScene = true;
+                      openScene(scene, "finalRoom");
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
                   }
                 }));
     timer.setCycleCount(initialTime); // 120 seconds
