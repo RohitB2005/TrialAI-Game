@@ -60,41 +60,24 @@ public class App extends Application {
                         e.printStackTrace();
                       }
                     }
-                    context.outOfTime();
+                   // context.outOfTime();
                   }
                 }));
     timer.setCycleCount(initialTime); // 120 seconds
     timer.play();
   }
 
-  /**
-   * Opens the chat view and sets the profession in the chat controller.
-   *
-   * @param newScene the new scene to open
-   * @param regionId the ID of the region to set in the chat controller
-   * @throws IOException if the FXML file is not found
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   */
+
   // sets currentscene in the context class and updates the timer before opening the new scene
   // if the scene is a flashback will prompt gpt to generate a response anything said in other
   // scenes.
   public static void openScene(Scene newScene, String regionId) throws IOException {
     context.setCurrentScene(regionId);
     context.updateTimer(timeRemaining);
-    if (context.getCurrentController() instanceof ChatController) {
-      context.loadgpt(regionId);
-    }
     scene = newScene;
     scene.setRoot(SceneManager.getUiRoot(SceneManager.getUiName(regionId)));
   }
 
-  /**
-   * This method is invoked when the application starts. It loads and shows the "room" scene.
-   *
-   * @param stage the primary stage of the application
-   * @throws IOException if the FXML file is not found
-   * @throws ApiProxyException if there is an error communicating with the API proxy
-   */
   // loads all scenes and controllers into SceneManager class
   // opens Courtroom by default and starts the timer
   @Override

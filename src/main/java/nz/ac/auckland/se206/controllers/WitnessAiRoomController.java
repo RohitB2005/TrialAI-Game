@@ -13,14 +13,12 @@ public class WitnessAiRoomController extends ChatController {
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
-  /**
-   * Generates the system prompt based on the profession.
-   *
-   * @return the system prompt string
-   */
+
   // loads and plays a stored tts file for the ai witness when the scene is opened for the first time
   @Override
-  public String getSystemPrompt() {
+  public String getPrompt() {
+    if (isFirstTimeInit) {
+      isFirstTimeInit = false;
     // try {
     //   media = new Media(App.class.getResource("/sounds/Alpha.mp3").toURI().toString());
     //   mediaPlayerWelcome = new MediaPlayer(media);
@@ -29,17 +27,14 @@ public class WitnessAiRoomController extends ChatController {
     //   e.printStackTrace();
     // }
     return PromptEngineering.getPrompt(person + ".txt");
+    } else {
+      return "you are now Alpha-Ai again, the expert witness Ai, you may make a comment on what the"
+          + " other witness have said or wait till you are asked a question";
+    }
   }
 
   @Override
   public String getName() {
     return name;
-  }
-
-  // logic for when the player returns to this scene after visiting another flashback
-  @Override
-  public String getReturnPrompt() {
-    return "you are now Alpha-Ai again, the expert witness Ai, you may make a comment on what the"
-        + " other witness have said or wait till you are asked a question";
   }
 }

@@ -65,7 +65,6 @@ public class ChatController implements ControllerInterface {
     }
   }
 
-  @Override
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
@@ -74,7 +73,6 @@ public class ChatController implements ControllerInterface {
   // method to run the gpt chat completion request in a background thread
   // disables the send and return buttons while waiting for a response
   // called on enteriing a message or entering a flashback
-  @Override
   public void runGpt(ChatMessage msg) throws ApiProxyException {
 
     chatCompletionRequest.addMessage(msg);
@@ -111,15 +109,6 @@ public class ChatController implements ControllerInterface {
     backgroundThread.start();
   }
 
-  @Override
-  public boolean isFirstTimeInit() {
-    if (isFirstTimeInit) {
-      isFirstTimeInit = false;
-      return true;
-    }
-    return isFirstTimeInit;
-  }
-
   public String getName() {
     return "RoomController";
   }
@@ -133,16 +122,9 @@ public class ChatController implements ControllerInterface {
     }
   }
 
-  // are overridden in classes that extend chat controller
-  @Override
-  public String getSystemPrompt() {
-    return null;
-  }
-
-  // are overridden in classes that extend chat controller
-  @Override
-  public String getReturnPrompt() {
-    return null;
+  // overridden in flashback controllers to provide the appropriate prompt
+  public String getPrompt() {
+    return "No prompt set";
   }
 
   @FXML

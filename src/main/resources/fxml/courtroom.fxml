@@ -34,7 +34,7 @@
          </font>
       </Label>
       <Button fx:id="btnFinalRoom" layoutX="631.0" layoutY="604.0" mnemonicParsing="false" onAction="#onFinalRoom" text="Judge Now" />
-      <Button fx:id="btnExit" layoutX="731.0" layoutY="604.0" mnemonicParsing="false" onAction="#onExit" text="Exit" />
+      <Button fx:id="btnExit" layoutX="731.0" layoutY="604.0" mnemonicParsing="false" onAction="#onExitBtn" text="Exit" />
       <Label layoutX="189.0" layoutY="605.0" prefHeight="35.0" prefWidth="425.0" styleClass="Label1" text="Select a witness to hear their story." />
    </children>
 </Pane>

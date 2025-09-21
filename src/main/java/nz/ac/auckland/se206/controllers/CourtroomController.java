@@ -11,8 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
+
 import nz.ac.auckland.se206.App;
 
 /**
@@ -35,12 +34,6 @@ public class CourtroomController implements ControllerInterface {
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
-  /**
-   * Initializes the room view. If it's the first time initialization, it will provide instructions
-   * via text-to-speech.
-   *
-   * @throws URISyntaxException
-   */
   // loads and plays a stored tts file for the courtroom when the scene is opened for the first time
   @FXML
   public void initialize() throws URISyntaxException {
@@ -52,7 +45,7 @@ public class CourtroomController implements ControllerInterface {
     }
   }
 
-  @Override
+
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
@@ -66,20 +59,12 @@ public class CourtroomController implements ControllerInterface {
     App.openScene(scene, clickedRegion.getId());
   }
 
-  // unused methods from the interface
-  @Override
-  public void runGpt(ChatMessage msg) throws ApiProxyException {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException("runGpt is not implemented in CourtroomController");
-  }
-
-  @Override
   public boolean isFirstTimeInit() {
     return isFirstTimeInit;
   }
 
   @FXML
-  private void onExit() {
+  private void onExitBtn() {
     javafx.application.Platform.exit();
   }
 
@@ -89,19 +74,5 @@ public class CourtroomController implements ControllerInterface {
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "finalRoom");
     App.isFinalScene = true; // Set the final scene flag
-  }
-
-  @Override
-  public String getSystemPrompt() {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException(
-        "getSystemPrompt is not implemented in CourtroomController");
-  }
-
-  @Override
-  public String getReturnPrompt() {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException(
-        "getReturnPrompt is not implemented in CourtroomController");
   }
 }

@@ -40,14 +40,12 @@ public class TrialAiRoomController extends ChatController {
     flashbacks.add(imageFlashback4);
   }
 
-  /**
-   * Generates the system prompt based on the person.
-   *
-   * @return the system prompt string
-   */
+ 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for the first time
   @Override
-  public String getSystemPrompt() {
+  public String getPrompt() {
+    if (isFirstTimeInit) {
+      isFirstTimeInit = false;
     // try {
     //   media =
     //       new Media(App.class.getResource("/sounds/Sentinal_12_Welcome.mp3").toURI().toString());
@@ -56,19 +54,17 @@ public class TrialAiRoomController extends ChatController {
     // } catch (URISyntaxException e) {
     //   e.printStackTrace();
     // }
-    return PromptEngineering.getPrompt(person + ".txt");
+    
+      return PromptEngineering.getPrompt(person + ".txt");
+    } else {
+      return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
+        + " other witness have said or wait till you are asked a question";
+    }
   }
 
   @Override
   public String getName() {
     return name;
-  }
-
-  // logic for when the player returns to this scene after visiting another flashback
-  @Override
-  public String getReturnPrompt() {
-    return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
-        + " other witness have said or wait till you are asked a question";
   }
 
   @FXML

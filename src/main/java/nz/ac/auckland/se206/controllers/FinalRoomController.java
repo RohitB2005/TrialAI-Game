@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
@@ -23,21 +21,14 @@ public class FinalRoomController implements ControllerInterface {
   private boolean isFirstTimeInit = true;
   private String verdict = "You have run out of time";
 
-  @Override
+
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
   }
 
-  @Override
-  public void runGpt(ChatMessage msg) throws ApiProxyException {
-    // This method is not implemented in this controller, does not use GPT
-    throw new UnsupportedOperationException("runGpt is not implemented in FinalRoomController");
-  }
-
   // messy logic for when timer runs out in the final room
 
-  @Override
   public boolean isFirstTimeInit() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
@@ -52,17 +43,9 @@ public class FinalRoomController implements ControllerInterface {
   }
 
   // unused methods from the interface
-  @Override
   public String getSystemPrompt() {
     // Return the system prompt for this scene
     return PromptEngineering.getPrompt("FinalRoom.txt");
-  }
-
-  // unused methods from the interface
-  @Override
-  public String getReturnPrompt() {
-    // Return the prompt to be used when returning to this scene
-    return "You have returned to the final room. Make your decision.";
   }
 
   @FXML
@@ -95,4 +78,5 @@ public class FinalRoomController implements ControllerInterface {
     App.openScene(scene, "courtRoom");
     App.isFinalScene = false; // Set the final scene flag
   }
+
 }
