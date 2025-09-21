@@ -25,5 +25,4 @@ public class FinalState implements GameState {
   public void onPulse(int timeRemaining) {
     controller.updateTimer(timeRemaining);
   }
-  
 }

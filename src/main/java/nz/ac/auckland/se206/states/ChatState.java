@@ -18,9 +18,10 @@ public class ChatState implements GameState {
 
   @Override
   public void onEnter() {
-    String prompt = controller.getPrompt();
-    ChatMessage msg = new ChatMessage("system", prompt);
     try {
+      controller.initializeChatCompletionRequest();
+      String prompt = controller.getPrompt();
+      ChatMessage msg = new ChatMessage("system", prompt);
       controller.runGpt(msg);
     } catch (ApiProxyException e) {
       e.printStackTrace();
@@ -36,5 +37,4 @@ public class ChatState implements GameState {
   public void onPulse(int timeRemaining) {
     controller.updateTimer(timeRemaining);
   }
-  
 }

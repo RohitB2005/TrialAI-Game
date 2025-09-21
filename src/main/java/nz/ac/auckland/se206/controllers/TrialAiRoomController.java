@@ -28,6 +28,7 @@ public class TrialAiRoomController extends ChatController {
   private String name = "Sentinal-12";
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
+  private static boolean isFirstTimeInit = true;
 
   // initializes the linked list of images for the flashback sequence
   @FXML
@@ -44,8 +45,8 @@ public class TrialAiRoomController extends ChatController {
   // the first time
   @Override
   public String getPrompt() {
-    if (isFirstTimeInit) {
-      isFirstTimeInit = false;
+    if (TrialAiRoomController.isFirstTimeInit) {
+      TrialAiRoomController.isFirstTimeInit = false;
       // try {
       //   media =
       //       new
@@ -123,5 +124,15 @@ public class TrialAiRoomController extends ChatController {
     flashbacks.pop().setVisible(false);
     // sets the new first image to visable
     flashbacks.getFirst().setVisible(true);
+  }
+
+  public static void resetState() {
+    isFirstTimeInit = true;
+  }
+
+  @Override
+  public void reset() {
+    super.reset();
+    TrialAiRoomController.resetState();
   }
 }

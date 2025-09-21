@@ -1,9 +1,5 @@
 package nz.ac.auckland.se206;
 
-import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
-import nz.ac.auckland.se206.controllers.ControllerInterface;
-import nz.ac.auckland.se206.controllers.SceneManager;
 import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
 import nz.ac.auckland.se206.states.ChatState;
 import nz.ac.auckland.se206.states.CourtroomState;
@@ -38,6 +34,18 @@ public class CurrentSceneContext {
 
   public GameState getCurrentState() {
     return currentState;
+  }
+
+  public void reset() {
+    System.out.println("DEBUG: CurrentSceneContext is resetting all game states.");
+    this.courtroom = new CourtroomState();
+    this.finalRoom = new FinalState();
+    this.chatWitnessAi = new ChatState(AppUi.WITNESSAI);
+    this.chatWitnessHuman = new ChatState(AppUi.WITNESSHUMAN);
+    this.chatTrialAi = new ChatState(AppUi.TRIALAI);
+
+    this.currentState = courtroom;
+    this.previousState = null;
   }
 
   // sets the current scene and updates the controller

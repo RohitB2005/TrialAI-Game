@@ -15,26 +15,40 @@ public class FinalRoomController implements ControllerInterface {
   @FXML private Button btnGuilty;
   @FXML private Button btnInnocent;
   @FXML private Button btnReturn;
+  @FXML private Button btnReplay;
   @FXML private Label timerLabel;
   @FXML private TextArea textFinal;
-  
-  private String verdict = "You have run out of time";
 
+  private static String verdict = "You have run out of time";
+  private static boolean choiceMade = false;
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
-    if (timeRemaining <= 0 && App.isFinalScene) {
+    if (timeRemaining <= 0 && App.isFinalScene && !choiceMade) {
       onChoice();
     }
   }
 
-  // messy logic for when timer runs out in the final room
+  public static void resetState() {
+    verdict = "You have run out of time";
+    choiceMade = false;
+  }
 
   public void onEntry() {
     if (App.isFinalScene) {
+      textFinal.setVisible(false);
+      timerLabel.setVisible(true);
+      btnGuilty.setVisible(true);
+      btnInnocent.setVisible(true);
       btnReturn.setVisible(false);
+      btnReplay.setVisible(false);
     }
+  }
+
+  @FXML
+  private void onReplay() {
+    App.resetGame();
   }
 
   private void onChoice() {
@@ -43,11 +57,23 @@ public class FinalRoomController implements ControllerInterface {
     timerLabel.setVisible(false);
     btnGuilty.setVisible(false);
     btnInnocent.setVisible(false);
+    btnReturn.setVisible(false);
+    btnReplay.setVisible(true);
+    choiceMade = true;
     App.stopTimer();
   }
 
+  @Override
+  public void reset() {
+    btnGuilty.setVisible(true);
+    btnInnocent.setVisible(true);
+    timerLabel.setVisible(true);
+    textFinal.setVisible(false);
+    btnReplay.setVisible(false);
+    FinalRoomController.resetState();
+  }
+
   public String getSystemPrompt() {
-    // Return the system prompt for this scene
     return PromptEngineering.getPrompt("FinalRoom.txt");
   }
 
@@ -72,8 +98,7 @@ public class FinalRoomController implements ControllerInterface {
   private void onReturn(ActionEvent event) throws IOException {
     Button clickedbtn = (Button) event.getSource();
     Scene scene = clickedbtn.getScene();
-    App.openScene(scene, "courtRoom");
+    App.openScene(scene, "courtroom");
     App.isFinalScene = false; // Set the final scene flag
   }
-
 }

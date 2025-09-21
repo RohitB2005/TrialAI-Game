@@ -8,8 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
-import nz.ac.auckland.se206.controllers.ChatController;
 import nz.ac.auckland.se206.controllers.ControllerInterface;
 import nz.ac.auckland.se206.controllers.SceneManager;
 import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
@@ -67,7 +65,6 @@ public class App extends Application {
     timer.play();
   }
 
-
   // sets currentscene in the context class and updates the timer before opening the new scene
   // if the scene is a flashback will prompt gpt to generate a response anything said in other
   // scenes.
@@ -101,5 +98,19 @@ public class App extends Application {
       timer.stop();
       timer = null;
     }
+  }
+
+  public static void resetGame() {
+    System.out.println("DEBUG: MASTER RESET INITIATED IN APP.JAVA");
+    for (ControllerInterface controller : SceneManager.getAllControllers()) {
+      controller.reset();
+    }
+
+    isFinalScene = false;
+    stopTimer();
+
+    scene.setRoot(SceneManager.getUiRoot(AppUi.COURTROOM));
+    context.setCurrentScene("courtRoom");
+    startTimer(300);
   }
 }
