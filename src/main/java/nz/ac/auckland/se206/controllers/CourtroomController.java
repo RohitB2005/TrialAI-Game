@@ -11,8 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
+
 import nz.ac.auckland.se206.App;
 
 /**
@@ -35,12 +34,6 @@ public class CourtroomController implements ControllerInterface {
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
-  /**
-   * Initializes the room view. If it's the first time initialization, it will provide instructions
-   * via text-to-speech.
-   *
-   * @throws URISyntaxException
-   */
   // loads and plays a stored tts file for the courtroom when the scene is opened for the first time
   @FXML
   public void initialize() throws URISyntaxException {

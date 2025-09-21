@@ -24,7 +24,7 @@ public class CurrentSceneContext {
   private GameState chatWitnessHuman;
   private GameState chatTrialAi;
 
-  /** Constructs a new GameStateContext and initializes the curretnScene and Controller. */
+  /** Loads all the game states for the different scenes and sets courtroom to default. */
   public CurrentSceneContext() {
 
     this.courtroom = new CourtroomState();
@@ -42,6 +42,7 @@ public class CurrentSceneContext {
 
   // sets the current scene and updates the controller
   // if the new scene is courtroom it stores the previous scene
+  // triggers the onExit and onEnter methods for the states
   public void setCurrentScene(String scene) {
     if (currentState != null) {
       currentState.onExit();
@@ -53,6 +54,7 @@ public class CurrentSceneContext {
     currentState.onEnter();
   }
 
+  // triggers the pulse method for the current state
   public void updateTimer(int timeRemaining) {
     currentState.onPulse(timeRemaining);
   }

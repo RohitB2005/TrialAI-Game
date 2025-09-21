@@ -10,6 +10,8 @@ public class ChatState implements GameState {
 
   private ChatController controller;
 
+  // finds and load the appropriate chat controller based on the ui passed in
+  // used for all memories
   public ChatState(AppUi ui) {
     controller = (ChatController) SceneManager.getController(ui);
   }

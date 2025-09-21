@@ -109,14 +109,6 @@ public class ChatController implements ControllerInterface {
     backgroundThread.start();
   }
 
-  public boolean isFirstTimeInit() {
-    if (isFirstTimeInit) {
-      isFirstTimeInit = false;
-      return true;
-    }
-    return isFirstTimeInit;
-  }
-
   public String getName() {
     return "RoomController";
   }

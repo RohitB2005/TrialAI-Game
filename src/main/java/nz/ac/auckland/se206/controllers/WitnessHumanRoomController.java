@@ -13,11 +13,6 @@ public class WitnessHumanRoomController extends ChatController {
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
-  /**
-   * Generates the system prompt based on the profession.
-   *
-   * @return the system prompt string
-   */
   // loads and plays a stored tts file for the human witness when the scene is opened for the first time
   @Override
   public String getPrompt() {

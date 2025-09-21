@@ -40,11 +40,7 @@ public class TrialAiRoomController extends ChatController {
     flashbacks.add(imageFlashback4);
   }
 
-  /**
-   * Generates the system prompt based on the person.
-   *
-   * @return the system prompt string
-   */
+ 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for the first time
   @Override
   public String getPrompt() {
