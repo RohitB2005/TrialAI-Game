@@ -13,7 +13,7 @@ public class FinalState implements GameState {
 
   @Override
   public void onEnter() {
-    // Logic to execute when entering the Final state
+
   }
 
   @Override
@@ -23,7 +23,7 @@ public class FinalState implements GameState {
 
   @Override
   public void onPulse(int timeRemaining) {
-    // Logic to execute on each pulse while in the Final state
+    controller.updateTimer(timeRemaining);
   }
   
 }

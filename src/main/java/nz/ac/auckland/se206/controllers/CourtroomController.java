@@ -52,7 +52,7 @@ public class CourtroomController implements ControllerInterface {
     }
   }
 
-  @Override
+
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
@@ -81,17 +81,5 @@ public class CourtroomController implements ControllerInterface {
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "finalRoom");
     App.isFinalScene = true; // Set the final scene flag
-  }
-
-  @Override
-  public void onEnter() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
-  }
-
-  @Override
-  public void onExit() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
   }
 }

@@ -1,5 +1,7 @@
 package nz.ac.auckland.se206.states;
 
+import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
+import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.controllers.ChatController;
 import nz.ac.auckland.se206.controllers.SceneManager;
 import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
@@ -14,7 +16,13 @@ public class ChatState implements GameState {
 
   @Override
   public void onEnter() {
-    // Logic to execute when entering the Chat state
+    String prompt = controller.getPrompt();
+    ChatMessage msg = new ChatMessage("system", prompt);
+    try {
+      controller.runGpt(msg);
+    } catch (ApiProxyException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -24,7 +32,7 @@ public class ChatState implements GameState {
 
   @Override
   public void onPulse(int timeRemaining) {
-    // Logic to execute on each pulse while in the Chat state
+    controller.updateTimer(timeRemaining);
   }
   
 }

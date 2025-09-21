@@ -20,7 +20,10 @@ public class WitnessHumanRoomController extends ChatController {
    */
   // loads and plays a stored tts file for the human witness when the scene is opened for the first time
   @Override
-  public String getSystemPrompt() {
+  public String getPrompt() {
+    if (isFirstTimeInit) {
+      isFirstTimeInit = false;
+    
     // try {
     //   media = new Media(App.class.getResource("/sounds/Alex_Ryder.mp3").toURI().toString());
     //   mediaPlayerWelcome = new MediaPlayer(media);
@@ -29,17 +32,14 @@ public class WitnessHumanRoomController extends ChatController {
     //   e.printStackTrace();
     // }
     return PromptEngineering.getPrompt(person + ".txt");
+    } else {
+      return "you are now Alex Ryder again, the human victim, you may make a comment on what the"
+          + " other witness have said or wait till you are asked a question";
+    }
   }
 
   @Override
   public String getName() {
     return name;
-  }
-
-  // logic for when the player returns to this scene after visiting another flashback
-  @Override
-  public String getReturnPrompt() {
-    return "you are now Alex Ryder again, the human victim, you may make a comment on what the"
-        + " other witness have said or wait till you are asked a question";
   }
 }

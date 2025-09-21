@@ -23,7 +23,7 @@ public class CourtroomState implements GameState {
 
   @Override
   public void onPulse(int timeRemaining) {
-    // Logic to execute on each pulse while in the Courtroom state
+    controller.updateTimer(timeRemaining);
   }
   
 }

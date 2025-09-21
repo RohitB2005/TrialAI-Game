@@ -23,7 +23,7 @@ public class FinalRoomController implements ControllerInterface {
   private boolean isFirstTimeInit = true;
   private String verdict = "You have run out of time";
 
-  @Override
+
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
@@ -81,15 +81,4 @@ public class FinalRoomController implements ControllerInterface {
     App.isFinalScene = false; // Set the final scene flag
   }
 
-  @Override
-  public void onEnter() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
-  }
-
-  @Override
-  public void onExit() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
-  }
 }

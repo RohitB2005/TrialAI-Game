@@ -65,7 +65,6 @@ public class ChatController implements ControllerInterface {
     }
   }
 
-  @Override
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
@@ -131,14 +130,9 @@ public class ChatController implements ControllerInterface {
     }
   }
 
-  // are overridden in classes that extend chat controller
-  public String getSystemPrompt() {
-    return null;
-  }
-
-  // are overridden in classes that extend chat controller
-  public String getReturnPrompt() {
-    return null;
+  // overridden in flashback controllers to provide the appropriate prompt
+  public String getPrompt() {
+    return "No prompt set";
   }
 
   @FXML
@@ -184,17 +178,5 @@ public class ChatController implements ControllerInterface {
     Button btn = (Button) event.getSource();
     Scene scene = btn.getScene();
     App.openScene(scene, "courtRoom");
-  }
-
-  @Override
-  public void onEnter() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
-  }
-
-  @Override
-  public void onExit() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
   }
 }
