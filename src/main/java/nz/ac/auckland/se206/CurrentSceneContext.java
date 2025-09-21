@@ -43,10 +43,14 @@ public class CurrentSceneContext {
   // sets the current scene and updates the controller
   // if the new scene is courtroom it stores the previous scene
   public void setCurrentScene(String scene) {
+    if (currentState != null) {
+      currentState.onExit();
+    }
     if (currentState != courtroom && currentState != finalRoom) {
       this.previousState = currentState; // Store the previous scene
     }
     this.currentState = getState(scene);
+    currentState.onEnter();
   }
 
   public void updateTimer(int timeRemaining) {
