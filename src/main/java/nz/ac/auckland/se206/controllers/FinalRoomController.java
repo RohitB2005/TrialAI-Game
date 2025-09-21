@@ -29,15 +29,8 @@ public class FinalRoomController implements ControllerInterface {
     timerLabel.setText(timeRemaining + " seconds left");
   }
 
-  @Override
-  public void runGpt(ChatMessage msg) throws ApiProxyException {
-    // This method is not implemented in this controller, does not use GPT
-    throw new UnsupportedOperationException("runGpt is not implemented in FinalRoomController");
-  }
-
   // messy logic for when timer runs out in the final room
 
-  @Override
   public boolean isFirstTimeInit() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
@@ -52,17 +45,9 @@ public class FinalRoomController implements ControllerInterface {
   }
 
   // unused methods from the interface
-  @Override
   public String getSystemPrompt() {
     // Return the system prompt for this scene
     return PromptEngineering.getPrompt("FinalRoom.txt");
-  }
-
-  // unused methods from the interface
-  @Override
-  public String getReturnPrompt() {
-    // Return the prompt to be used when returning to this scene
-    return "You have returned to the final room. Make your decision.";
   }
 
   @FXML
@@ -94,5 +79,17 @@ public class FinalRoomController implements ControllerInterface {
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "courtRoom");
     App.isFinalScene = false; // Set the final scene flag
+  }
+
+  @Override
+  public void onEnter() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
+  }
+
+  @Override
+  public void onExit() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
   }
 }

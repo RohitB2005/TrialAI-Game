@@ -60,7 +60,7 @@ public class App extends Application {
                         e.printStackTrace();
                       }
                     }
-                    context.outOfTime();
+                   // context.outOfTime();
                   }
                 }));
     timer.setCycleCount(initialTime); // 120 seconds
@@ -81,9 +81,6 @@ public class App extends Application {
   public static void openScene(Scene newScene, String regionId) throws IOException {
     context.setCurrentScene(regionId);
     context.updateTimer(timeRemaining);
-    if (context.getCurrentController() instanceof ChatController) {
-      context.loadgpt(regionId);
-    }
     scene = newScene;
     scene.setRoot(SceneManager.getUiRoot(SceneManager.getUiName(regionId)));
   }

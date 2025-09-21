@@ -5,6 +5,10 @@ import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.controllers.ControllerInterface;
 import nz.ac.auckland.se206.controllers.SceneManager;
 import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
+import nz.ac.auckland.se206.states.ChatState;
+import nz.ac.auckland.se206.states.CourtroomState;
+import nz.ac.auckland.se206.states.FinalState;
+import nz.ac.auckland.se206.states.GameState;
 
 /**
  * Context class for managing the state of the game. Handles transitions between different game
@@ -12,61 +16,58 @@ import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
  */
 public class CurrentSceneContext {
 
-  private ControllerInterface sceneController;
-  private AppUi currentScene;
-  private AppUi previousScene;
+  private GameState currentState;
+  private GameState previousState;
+  private GameState courtroom;
+  private GameState finalRoom;
+  private GameState chatWitnessAi;
+  private GameState chatWitnessHuman;
+  private GameState chatTrialAi;
 
   /** Constructs a new GameStateContext and initializes the curretnScene and Controller. */
   public CurrentSceneContext() {
 
-    currentScene = AppUi.COURTROOM; // Default starting scene
-    sceneController = SceneManager.getController(currentScene);
+    this.courtroom = new CourtroomState();
+    this.finalRoom = new FinalState();
+    this.chatWitnessAi = new ChatState(AppUi.WITNESSAI);
+    this.chatWitnessHuman = new ChatState(AppUi.WITNESSHUMAN);
+    this.chatTrialAi = new ChatState(AppUi.TRIALAI);
+    this.currentState = courtroom; // Initial state
+    this.previousState = null;
   }
 
-  public AppUi getCurrentScene() {
-    return currentScene;
-  }
-
-  public ControllerInterface getCurrentController() {
-    return sceneController;
+  public GameState getCurrentState() {
+    return currentState;
   }
 
   // sets the current scene and updates the controller
   // if the new scene is courtroom it stores the previous scene
   public void setCurrentScene(String scene) {
-    if (scene.equalsIgnoreCase("courtroom")) {
-      this.previousScene = currentScene; // Store the previous scene
+    if (currentState != courtroom && currentState != finalRoom) {
+      this.previousState = currentState; // Store the previous scene
     }
-    this.currentScene = SceneManager.getUiName(scene);
-    sceneController = SceneManager.getController(currentScene);
+    this.currentState = getState(scene);
   }
 
   public void updateTimer(int timeRemaining) {
-    sceneController.updateTimer(timeRemaining);
+    currentState.onPulse(timeRemaining);
   }
 
-  // will only be used when opening flashback scenes
-  // if it is the first time opening the scene it will run gpt with the default system prompt
-  // if it is not the first time and a different flashback has been opened previously it will run gpt with the return prompt
-  public void loadgpt(String regionId) {
-    if (sceneController.isFirstTimeInit()) {
-      try {
-        sceneController.runGpt(new ChatMessage("system", sceneController.getSystemPrompt()));
-      } catch (ApiProxyException e) {
-        e.printStackTrace();
-      }
-    } else if (currentScene != previousScene) {
-      try {
-        sceneController.runGpt(new ChatMessage("system", sceneController.getReturnPrompt()));
-      } catch (ApiProxyException e) {
-        e.printStackTrace();
-      }
+  private GameState getState(String scene) {
+    scene = scene.toUpperCase();
+    switch (scene) {
+      case "COURTROOM":
+        return courtroom;
+      case "FINALROOM":
+        return finalRoom;
+      case "WITNESSAI":
+        return chatWitnessAi;
+      case "WITNESSHUMAN":
+        return chatWitnessHuman;
+      case "TRIALAI":
+        return chatTrialAi;
+      default:
+        throw new IllegalArgumentException("Unknown scene: " + scene);
     }
-  }
-
-  // called when the timer runs out
-  // isFirstTimeInit has messy logic which usually moves the game to end scene
-  public void outOfTime() {
-    sceneController.isFirstTimeInit();
   }
 }

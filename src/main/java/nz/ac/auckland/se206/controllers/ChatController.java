@@ -74,7 +74,6 @@ public class ChatController implements ControllerInterface {
   // method to run the gpt chat completion request in a background thread
   // disables the send and return buttons while waiting for a response
   // called on enteriing a message or entering a flashback
-  @Override
   public void runGpt(ChatMessage msg) throws ApiProxyException {
 
     chatCompletionRequest.addMessage(msg);
@@ -111,7 +110,6 @@ public class ChatController implements ControllerInterface {
     backgroundThread.start();
   }
 
-  @Override
   public boolean isFirstTimeInit() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
@@ -134,13 +132,11 @@ public class ChatController implements ControllerInterface {
   }
 
   // are overridden in classes that extend chat controller
-  @Override
   public String getSystemPrompt() {
     return null;
   }
 
   // are overridden in classes that extend chat controller
-  @Override
   public String getReturnPrompt() {
     return null;
   }
@@ -188,5 +184,17 @@ public class ChatController implements ControllerInterface {
     Button btn = (Button) event.getSource();
     Scene scene = btn.getScene();
     App.openScene(scene, "courtRoom");
+  }
+
+  @Override
+  public void onEnter() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
+  }
+
+  @Override
+  public void onExit() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
   }
 }

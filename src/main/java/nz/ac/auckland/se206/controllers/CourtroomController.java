@@ -66,20 +66,12 @@ public class CourtroomController implements ControllerInterface {
     App.openScene(scene, clickedRegion.getId());
   }
 
-  // unused methods from the interface
-  @Override
-  public void runGpt(ChatMessage msg) throws ApiProxyException {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException("runGpt is not implemented in CourtroomController");
-  }
-
-  @Override
   public boolean isFirstTimeInit() {
     return isFirstTimeInit;
   }
 
   @FXML
-  private void onExit() {
+  private void onExitBtn() {
     javafx.application.Platform.exit();
   }
 
@@ -92,16 +84,14 @@ public class CourtroomController implements ControllerInterface {
   }
 
   @Override
-  public String getSystemPrompt() {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException(
-        "getSystemPrompt is not implemented in CourtroomController");
+  public void onEnter() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onEnter'");
   }
 
   @Override
-  public String getReturnPrompt() {
-    // This method is not implemented in this controller, but it can be overridden by subclasses
-    throw new UnsupportedOperationException(
-        "getReturnPrompt is not implemented in CourtroomController");
+  public void onExit() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onExit'");
   }
 }

@@ -8,5 +8,5 @@ public interface GameState {
 
   void onEnter();
   void onExit();
-  void onPulse();
+  void onPulse(int timeRemaining);
 }
