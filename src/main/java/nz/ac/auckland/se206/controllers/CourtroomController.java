@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
 import nz.ac.auckland.se206.App;
 
 /**
@@ -30,7 +29,6 @@ public class CourtroomController implements ControllerInterface {
   @FXML private Region witnessAi;
   @FXML private Region witnessHuman;
 
-
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
@@ -38,17 +36,19 @@ public class CourtroomController implements ControllerInterface {
   @FXML
   public void initialize() throws URISyntaxException {
     if (isFirstTimeInit) {
-      //media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
-      //mediaPlayerWelcome = new MediaPlayer(media);
-      //mediaPlayerWelcome.play();
+      // media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
+      // mediaPlayerWelcome = new MediaPlayer(media);
+      // mediaPlayerWelcome.play();
       isFirstTimeInit = false;
+      btnFinalRoom.setDisable(true);
     }
   }
-
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(timeRemaining + " seconds left");
+    // Check if button should be enabled whenever timer updates
+    updateFinalRoomButton();
   }
 
   // logic for when the player clicks on a charcter region to go to a flashback
@@ -74,5 +74,11 @@ public class CourtroomController implements ControllerInterface {
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "finalRoom");
     App.isFinalScene = true; // Set the final scene flag
+  }
+
+  public void updateFinalRoomButton() {
+    if (ChatController.allParticipantsContacted()) {
+      btnFinalRoom.setDisable(false);
+    }
   }
 }

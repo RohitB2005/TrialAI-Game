@@ -1,6 +1,8 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -30,6 +32,10 @@ public class ChatController implements ControllerInterface {
   // static so only one instance is created and shared across all rooms
   // this means the chat history is preserved when switching rooms
   protected static ChatCompletionRequest chatCompletionRequest;
+
+  // Tracking which participants have been contacted
+  // Static so it persists across room switches
+  protected static Set<String> contactedParticipants = new HashSet<>();
 
   @FXML private TextArea areaDisplayText;
   @FXML private TextField areaInputText;
@@ -127,6 +133,24 @@ public class ChatController implements ControllerInterface {
     return "No prompt set";
   }
 
+  // method to get the current participant identifier
+  // overridden in each specific room controller
+  public String getParticipantId() {
+    return "unknown";
+  }
+
+  // method to check if all participants have been contacted
+  public static boolean allParticipantsContacted() {
+    return contactedParticipants.contains("WitnessAi")
+        && contactedParticipants.contains("WitnessHuman")
+        && contactedParticipants.contains("TrialAi");
+  }
+
+  // method to get list of contacted participants (for debugging/UI purposes)
+  public static Set<String> getContactedParticipants() {
+    return new HashSet<>(contactedParticipants);
+  }
+
   @FXML
   private void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     if (event.getCode() == KeyCode.ENTER) {
@@ -143,6 +167,18 @@ public class ChatController implements ControllerInterface {
       return;
     }
     areaInputText.clear();
+
+    // Track that this participant has been contacted
+    String participantId = getParticipantId();
+    if (!participantId.equals("unknown")) {
+      contactedParticipants.add(participantId);
+      System.out.println(
+          "DEBUG: Contacted participants: "
+              + contactedParticipants
+              + " | All contacted: "
+              + allParticipantsContacted());
+    }
+
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);

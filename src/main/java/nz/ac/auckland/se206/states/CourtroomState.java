@@ -12,9 +12,7 @@ public class CourtroomState implements GameState {
   }
 
   @Override
-  public void onEnter() {
-    // Logic to execute when entering the Courtroom state
-  }
+  public void onEnter() {}
 
   @Override
   public void onExit() {
@@ -25,5 +23,4 @@ public class CourtroomState implements GameState {
   public void onPulse(int timeRemaining) {
     controller.updateTimer(timeRemaining);
   }
-  
 }
