@@ -42,8 +42,6 @@ public class ChatController implements ControllerInterface {
   @FXML private Button btnSend;
   @FXML private Button btnReturn;
   @FXML private Label timerLabel;
-  @FXML private SplitPane splitPane;
-  @FXML private Button btnPaneChange;
 
   protected boolean isFirstTimeInit = true;
 
@@ -200,22 +198,6 @@ public class ChatController implements ControllerInterface {
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);
-  }
-
-  // logic for increasing or decreasing the chat pane size
-  @FXML
-  protected void onPaneChange(ActionEvent event) {
-    if (splitPane.getDividerPositions()[0] == 0.5) {
-      splitPane.setDividerPositions(0.1);
-      btnPaneChange.setText(">>");
-    } else {
-      splitPane.setDividerPositions(0.5);
-      btnPaneChange.setText("<<");
-      // Reset the chat area to the top when changing panes
-      areaDisplayText.setScrollTop(0);
-      areaDisplayText.setScrollLeft(0);
-      areaInputText.requestFocus(); // Focus back on the input field
-    }
   }
 
   // logic for pushing return button
