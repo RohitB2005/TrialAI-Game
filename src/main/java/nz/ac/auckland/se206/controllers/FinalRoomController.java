@@ -61,7 +61,7 @@ public class FinalRoomController extends ChatController {
   }
 
   private void onChoice() {
-    textFinal.setText(getVerdict() + "\n\n" + getSystemPrompt());
+    textFinal.setText(getVerdict() + "\n\n" + getPrompt());
     textFinal.setVisible(true);
     timerLabel.setVisible(false);
     btnGuilty.setVisible(false);
@@ -83,8 +83,9 @@ public class FinalRoomController extends ChatController {
     choiceMade = false;
   }
 
-  public String getSystemPrompt() {
-    return PromptEngineering.getPrompt("FinalRoom.txt");
+  @Override
+  public String getPrompt() {
+    return PromptEngineering.getPrompt("finalroom.txt");
   }
 
   @FXML
@@ -138,7 +139,7 @@ public class FinalRoomController extends ChatController {
     if (msg.getRole().equals("user")) {
       areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
     } else if (msg.getRole().equals("assistant")) {
-      areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
+      areaDisplayText.appendText(msg.getContent() + "\n\n");
     }
   }
 }
