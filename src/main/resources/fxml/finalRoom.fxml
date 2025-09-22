@@ -29,5 +29,6 @@
             <Font size="18.0" />
          </font>
       </TextArea>
+      <Button fx:id="btnReplay" layoutX="710.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReplay" text="Replay" visible="false" />
    </children>
 </Pane>

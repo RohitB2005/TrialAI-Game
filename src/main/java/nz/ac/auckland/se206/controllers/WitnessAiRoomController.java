@@ -10,13 +10,14 @@ public class WitnessAiRoomController extends ChatController {
   private String name = "Alpha-Ai";
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
+  private static boolean isFirstTimeInit = true;
 
   // loads and plays a stored tts file for the ai witness when the scene is opened for the first
   // time
   @Override
   public String getPrompt() {
-    if (isFirstTimeInit) {
-      isFirstTimeInit = false;
+    if (WitnessAiRoomController.isFirstTimeInit) {
+      WitnessAiRoomController.isFirstTimeInit = false;
       // try {
       //   media = new Media(App.class.getResource("/sounds/Alpha.mp3").toURI().toString());
       //   mediaPlayerWelcome = new MediaPlayer(media);
@@ -39,5 +40,15 @@ public class WitnessAiRoomController extends ChatController {
   @Override
   public String getParticipantId() {
     return "WitnessAi";
+  }
+
+  public static void resetState() {
+    isFirstTimeInit = true;
+  }
+
+  @Override
+  public void reset() {
+    super.reset();
+    WitnessAiRoomController.resetState();
   }
 }

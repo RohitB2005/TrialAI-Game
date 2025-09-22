@@ -1,5 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
+import java.util.Collection;
 import java.util.HashMap;
 import javafx.scene.Parent;
 
@@ -20,6 +21,10 @@ public class SceneManager {
 
   public static void registerController(AppUi sceneName, ControllerInterface controller) {
     controllerMap.put(sceneName, controller);
+  }
+
+  public static Collection<ControllerInterface> getAllControllers() {
+    return controllerMap.values();
   }
 
   public static void registerUi(AppUi sceneName, Parent uiRoot) {

@@ -80,4 +80,14 @@ public class CourtroomController implements ControllerInterface {
       btnFinalRoom.setDisable(false);
     }
   }
+
+  public static void resetState() {
+    isFirstTimeInit = true;
+  }
+
+  @Override
+  public void reset() {
+    btnFinalRoom.setDisable(true);
+    CourtroomController.resetState();
+  }
 }
