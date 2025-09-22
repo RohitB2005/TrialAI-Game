@@ -100,6 +100,12 @@ public class App extends Application {
     }
   }
 
+  public static String formatTime(int totalSeconds) {
+    int minutes = totalSeconds / 60;
+    int seconds = totalSeconds % 60;
+    return String.format("%02d:%02d", minutes, seconds);
+  }
+
   public static void resetGame() {
     System.out.println("DEBUG: MASTER RESET INITIATED IN APP.JAVA");
     for (ControllerInterface controller : SceneManager.getAllControllers()) {
