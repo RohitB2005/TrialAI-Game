@@ -3,80 +3,54 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="HORIZONTAL" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.TrialAiRoomController">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="467.0" styleClass="root" stylesheets="@../css/ControlStyle1.css">
-         <children>
-            <TextArea fx:id="areaDisplayText" editable="false" layoutX="18.0" layoutY="28.0" prefHeight="499.0" prefWidth="365.0" wrapText="true" />
-            <TextField fx:id="areaInputText" onKeyPressed="#onEnterPressed" layoutX="18.0" layoutY="544.0" prefHeight="25.0" prefWidth="315.0" />
-            <Button fx:id="btnSend" layoutX="341.0" layoutY="544.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
-            <Button fx:id="btnReturn" layoutX="18.0" layoutY="586.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" text="Return" />
-         </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="638.0" prefWidth="378.0" stylesheets="@../css/ControlStyle1.css">
-         <children>
-            <ImageView fx:id="imageFlashback" fitHeight="640.0" fitWidth="721.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../images/onthejob.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imageFlashback1" fitHeight="640.0" fitWidth="721.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../images/Criminal_drunk.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imageFlashback2" fitHeight="640.0" fitWidth="721.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../images/Criminal_Knife.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imageFlashback3" fitHeight="640.0" fitWidth="721.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../images/Criminal_Activist.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imageFlashback4" fitHeight="640.0" fitWidth="721.0" pickOnBounds="true" visible="false">
-               <image>
-                  <Image url="@../images/onthejob.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="timerLabel" layoutY="558.0" prefHeight="4.0" prefWidth="148.0" textAlignment="CENTER" textFill="RED">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnPaneChange" layoutY="320.0" onAction="#onPaneChange" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="&gt;&gt;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Button fx:id="btnDetain" layoutX="48.0" layoutY="588.0" mnemonicParsing="false" onAction="#onNextFlashbackBtn" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Detain Him" visible="false">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="btnObservation" layoutX="571.0" layoutY="588.0" mnemonicParsing="false" onAction="#onNextFlashbackBtn" styleClass="button1" stylesheets="@../css/ControlStyle1.css" text="Begin Surveying">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Label fx:id="labelDiscription" contentDisplay="CENTER" layoutX="102.0" layoutY="14.0" prefHeight="30.0" prefWidth="511.0" styleClass="Label1" stylesheets="@../css/ControlStyle1.css" text="I Moniter Criminal Activity at all hours, day and night" textAlignment="CENTER" textFill="RED" wrapText="true">
-               <font>
-                  <Font name="Arial Black" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="labelAccident" layoutX="172.0" layoutY="581.0" prefHeight="41.0" prefWidth="372.0" styleClass="Label1" text="Crime Rate is down 17% Since" textFill="RED">
-               <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-  </items>
-</SplitPane>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.TrialAiRoomController">
+   <children>
+      <TextArea fx:id="areaDisplayText" editable="false" layoutX="800.0" prefHeight="499.0" prefWidth="277.0" wrapText="true" />
+      <TextField fx:id="areaInputText" layoutX="800.0" layoutY="499.0" onKeyPressed="#onEnterPressed" prefHeight="71.0" prefWidth="277.0" />
+      <Button fx:id="btnSend" layoutX="1017.0" layoutY="570.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
+      <Button fx:id="btnReturn" layoutX="1008.0" layoutY="676.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" text="Return" />
+      <ImageView fx:id="imageFlashback" fitHeight="725.0" fitWidth="800.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/onthejob.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imageFlashback1" fitHeight="725.0" fitWidth="1080.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@../images/onthejob.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="timerLabel" layoutX="825.0" layoutY="676.0" prefHeight="4.0" prefWidth="148.0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnDetain" layoutX="53.0" layoutY="662.0" mnemonicParsing="false" onAction="#onNextFlashbackBtn" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Detain Him" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btnObservation" layoutX="607.0" layoutY="662.0" mnemonicParsing="false" onAction="#onNextFlashbackBtn" styleClass="button1" stylesheets="@../css/ControlStyle1.css" text="Begin Surveying">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="labelDiscription" contentDisplay="CENTER" layoutX="115.0" layoutY="615.0" prefHeight="30.0" prefWidth="511.0" styleClass="Label1" stylesheets="@../css/ControlStyle1.css" text="I Moniter Criminal Activity at all hours, day and night" textAlignment="CENTER" textFill="RED" wrapText="true">
+         <font>
+            <Font name="Arial Black" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelAccident" layoutX="195.0" layoutY="656.0" prefHeight="41.0" prefWidth="372.0" styleClass="Label1" text="Crime Rate is down 17% Since" textFill="RED">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
