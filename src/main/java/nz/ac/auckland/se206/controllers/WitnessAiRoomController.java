@@ -50,5 +50,9 @@ public class WitnessAiRoomController extends ChatController {
   public void reset() {
     super.reset();
     WitnessAiRoomController.resetState();
+
+    if (mediaPlayerWelcome != null) {
+      mediaPlayerWelcome.stop();
+    }
   }
 }

@@ -51,5 +51,9 @@ public class WitnessHumanRoomController extends ChatController {
   public void reset() {
     super.reset();
     WitnessHumanRoomController.resetState();
+
+    if (mediaPlayerWelcome != null) {
+      mediaPlayerWelcome.stop();
+    }
   }
 }

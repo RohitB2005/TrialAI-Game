@@ -33,12 +33,7 @@ public class TrialAiRoomController extends ChatController {
   // initializes the linked list of images for the flashback sequence
   @FXML
   public void initialize() {
-    flashbacks = new LinkedList<>();
-    flashbacks.add(imageFlashback);
-    flashbacks.add(imageFlashback1);
-    flashbacks.add(imageFlashback2);
-    flashbacks.add(imageFlashback3);
-    flashbacks.add(imageFlashback4);
+    resetFlashbackUi();
   }
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
@@ -130,9 +125,31 @@ public class TrialAiRoomController extends ChatController {
     isFirstTimeInit = true;
   }
 
+  private void resetFlashbackUi() {
+    flashbacks = new LinkedList<>();
+    flashbacks.add(imageFlashback);
+    flashbacks.add(imageFlashback1);
+    flashbacks.add(imageFlashback2);
+    flashbacks.add(imageFlashback3);
+    flashbacks.add(imageFlashback4);
+
+    for (int i = 0; i < flashbacks.size(); i++) {
+      flashbacks.get(i).setVisible(i == 0);
+    }
+    labelDiscription.setText("Statistical Probability of Driving under influence: 99%");
+    labelAccident.setText("Fatal Accident Potential: 76%");
+    btnObservation.setText("Maintain Observation");
+    btnObservation.setVisible(true);
+    btnDetain.setVisible(true);
+  }
+
   @Override
   public void reset() {
     super.reset();
     TrialAiRoomController.resetState();
+    resetFlashbackUi();
+    if (mediaPlayerWelcome != null) {
+      mediaPlayerWelcome.stop();
+    }
   }
 }
