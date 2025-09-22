@@ -45,10 +45,16 @@ public class ChatController implements ControllerInterface {
   @FXML private SplitPane splitPane;
   @FXML private Button btnPaneChange;
 
+  protected boolean isFirstTimeInit = true;
+
   // initializes the chat controller, setting up the chat completion request if it is first time
   // temp and topP are double the usual values to make the ai more creative and random
   @FXML
-  private void initialize() throws ApiProxyException {}
+  private void initialize() throws ApiProxyException {
+    if (chatCompletionRequest == null) {
+      initializeChatCompletionRequest();
+    }
+  }
 
   public void initializeChatCompletionRequest() throws ApiProxyException {
     try {
@@ -78,7 +84,14 @@ public class ChatController implements ControllerInterface {
     if (areaInputText != null) {
       areaInputText.clear();
     }
-    ChatController.resetState();
+    contactedParticipants.clear();
+    isFirstTimeInit = true;
+    try {
+      initializeChatCompletionRequest();
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   // method to run the gpt chat completion request in a background thread
@@ -142,11 +155,6 @@ public class ChatController implements ControllerInterface {
   // overridden in each specific room controller
   public String getParticipantId() {
     return "unknown";
-  }
-
-  public static void resetState() {
-    contactedParticipants.clear();
-    chatCompletionRequest = null;
   }
 
   // method to check if all participants have been contacted

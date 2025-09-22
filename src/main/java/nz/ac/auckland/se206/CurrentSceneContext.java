@@ -30,6 +30,7 @@ public class CurrentSceneContext {
     this.chatTrialAi = new ChatState(AppUi.TRIALAI);
     this.currentState = courtroom; // Initial state
     this.previousState = null;
+    currentState.onEnter();
   }
 
   public GameState getCurrentState() {
@@ -37,15 +38,9 @@ public class CurrentSceneContext {
   }
 
   public void reset() {
-    System.out.println("DEBUG: CurrentSceneContext is resetting all game states.");
-    this.courtroom = new CourtroomState();
-    this.finalRoom = new FinalState();
-    this.chatWitnessAi = new ChatState(AppUi.WITNESSAI);
-    this.chatWitnessHuman = new ChatState(AppUi.WITNESSHUMAN);
-    this.chatTrialAi = new ChatState(AppUi.TRIALAI);
-
     this.currentState = courtroom;
     this.previousState = null;
+    currentState.onEnter();
   }
 
   // sets the current scene and updates the controller
@@ -55,11 +50,14 @@ public class CurrentSceneContext {
     if (currentState != null) {
       currentState.onExit();
     }
-    if (currentState != courtroom && currentState != finalRoom) {
+    if (currentState instanceof ChatState) {
       this.previousState = currentState; // Store the previous scene
     }
     this.currentState = getState(scene);
-    currentState.onEnter();
+    if (currentState != previousState) {
+      currentState.onEnter();
+    }
+    
   }
 
   // triggers the pulse method for the current state
