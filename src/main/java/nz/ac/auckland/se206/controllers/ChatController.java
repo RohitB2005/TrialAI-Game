@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -37,8 +36,8 @@ public class ChatController implements ControllerInterface {
   // Static so it persists across room switches
   protected static Set<String> contactedParticipants = new HashSet<>();
 
-  @FXML private TextArea areaDisplayText;
-  @FXML private TextField areaInputText;
+  @FXML protected TextArea areaDisplayText;
+  @FXML protected TextField areaInputText;
   @FXML private Button btnSend;
   @FXML private Button btnReturn;
   @FXML private Label timerLabel;
