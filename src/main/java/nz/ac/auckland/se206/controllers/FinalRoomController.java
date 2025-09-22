@@ -44,7 +44,7 @@ public class FinalRoomController implements ControllerInterface {
       btnGuilty.setVisible(true);
       btnInnocent.setVisible(true);
       btnReturn.setVisible(false);
-      btnReplay.setVisible(false);
+      btnReplay.setVisible(true);
       question.setVisible(true);
     }
 
@@ -79,7 +79,7 @@ public class FinalRoomController implements ControllerInterface {
     btnInnocent.setVisible(true);
     timerLabel.setVisible(true);
     textFinal.setVisible(false);
-    btnReplay.setVisible(false);
+    btnReplay.setVisible(true);
     FinalRoomController.resetState();
   }
 
