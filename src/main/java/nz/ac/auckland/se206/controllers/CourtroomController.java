@@ -46,7 +46,7 @@ public class CourtroomController implements ControllerInterface {
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
-    timerLabel.setText(timeRemaining + " seconds left");
+    timerLabel.setText(App.formatTime(timeRemaining));
     // Check if button should be enabled whenever timer updates
     updateFinalRoomButton();
   }
