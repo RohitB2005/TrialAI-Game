@@ -19,7 +19,6 @@ public class ChatState implements GameState {
   @Override
   public void onEnter() {
     try {
-      controller.initializeChatCompletionRequest();
       String prompt = controller.getPrompt();
       ChatMessage msg = new ChatMessage("system", prompt);
       controller.runGpt(msg);

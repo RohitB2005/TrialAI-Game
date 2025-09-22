@@ -35,13 +35,7 @@ public class CourtroomController implements ControllerInterface {
   // loads and plays a stored tts file for the courtroom when the scene is opened for the first time
   @FXML
   public void initialize() throws URISyntaxException {
-    if (isFirstTimeInit) {
-      // media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
-      // mediaPlayerWelcome = new MediaPlayer(media);
-      // mediaPlayerWelcome.play();
-      isFirstTimeInit = false;
-      btnFinalRoom.setDisable(true);
-    }
+    btnFinalRoom.setDisable(true);
   }
 
   public void updateTimer(int timeRemaining) {
@@ -59,8 +53,14 @@ public class CourtroomController implements ControllerInterface {
     App.openScene(scene, clickedRegion.getId());
   }
 
-  public boolean isFirstTimeInit() {
-    return isFirstTimeInit;
+  public void onEntry() {
+    if (isFirstTimeInit) {
+      // media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
+      // mediaPlayerWelcome = new MediaPlayer(media);
+      // mediaPlayerWelcome.play();
+      isFirstTimeInit = false;
+      btnFinalRoom.setDisable(true);
+    }
   }
 
   @FXML
@@ -81,13 +81,9 @@ public class CourtroomController implements ControllerInterface {
     }
   }
 
-  public static void resetState() {
-    isFirstTimeInit = true;
-  }
-
   @Override
   public void reset() {
     btnFinalRoom.setDisable(true);
-    CourtroomController.resetState();
+    isFirstTimeInit = true;
   }
 }

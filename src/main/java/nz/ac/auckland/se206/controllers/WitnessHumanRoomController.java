@@ -10,14 +10,13 @@ public class WitnessHumanRoomController extends ChatController {
   private String name = "Alex Ryder";
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
-  private static boolean isFirstTimeInit = true;
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
   @Override
   public String getPrompt() {
-    if (WitnessHumanRoomController.isFirstTimeInit) {
-      WitnessHumanRoomController.isFirstTimeInit = false;
+    if (isFirstTimeInit) {
+      isFirstTimeInit = false;
 
       // try {
       //   media = new Media(App.class.getResource("/sounds/Alex_Ryder.mp3").toURI().toString());
@@ -43,14 +42,9 @@ public class WitnessHumanRoomController extends ChatController {
     return "WitnessHuman";
   }
 
-  public static void resetState() {
-    isFirstTimeInit = true;
-  }
-
   @Override
   public void reset() {
     super.reset();
-    WitnessHumanRoomController.resetState();
 
     if (mediaPlayerWelcome != null) {
       mediaPlayerWelcome.stop();

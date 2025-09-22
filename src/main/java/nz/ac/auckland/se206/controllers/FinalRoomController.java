@@ -21,8 +21,8 @@ public class FinalRoomController implements ControllerInterface {
   @FXML private Label question;
   @FXML private Label cannotMakeVerdict;
 
-  private static String verdict = "You have run out of time";
-  private static boolean choiceMade = false;
+  private String verdict = "You have run out of time";
+  private boolean choiceMade = false;
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
@@ -30,11 +30,6 @@ public class FinalRoomController implements ControllerInterface {
     if (timeRemaining <= 0 && App.isFinalScene && !choiceMade) {
       onChoice();
     }
-  }
-
-  public static void resetState() {
-    verdict = "You have run out of time";
-    choiceMade = false;
   }
 
   public void onEntry() {
@@ -80,7 +75,8 @@ public class FinalRoomController implements ControllerInterface {
     timerLabel.setVisible(true);
     textFinal.setVisible(false);
     btnReplay.setVisible(true);
-    FinalRoomController.resetState();
+    verdict = "You have run out of time";
+    choiceMade = false;
   }
 
   public String getSystemPrompt() {

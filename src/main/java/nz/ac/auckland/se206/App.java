@@ -107,6 +107,7 @@ public class App extends Application {
     }
 
     isFinalScene = false;
+    context.reset();
     stopTimer();
 
     scene.setRoot(SceneManager.getUiRoot(AppUi.COURTROOM));
