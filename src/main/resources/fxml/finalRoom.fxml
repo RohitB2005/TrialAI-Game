@@ -18,7 +18,7 @@
       <Button fx:id="btnGuilty" layoutX="73.0" layoutY="582.0" mnemonicParsing="false" onAction="#onGuiltyButton" prefHeight="30.0" prefWidth="85.0" styleClass="button2" text="Guilty" />
       <Button fx:id="btnInnocent" layoutX="642.0" layoutY="582.0" mnemonicParsing="false" onAction="#onInnocentButton" prefHeight="30.0" prefWidth="85.0" styleClass="button1" text="Not-Guilty" />
       <Button fx:id="btnReturn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReturn" text="Return" />
-      <Label layoutX="102.0" layoutY="517.0" prefHeight="56.0" prefWidth="596.0" styleClass="Label1" text="Is Sentinal-12 guilty of violating the law and Ai code of ethics?" textAlignment="CENTER" underline="true" />
+      <Label fx:id="question" layoutX="102.0" layoutY="517.0" prefHeight="56.0" prefWidth="596.0" styleClass="Label1" text="Is Sentinal-12 guilty of violating the law and Ai code of ethics?" textAlignment="CENTER" underline="true" />
       <Label fx:id="timerLabel" layoutX="288.0" layoutY="580.0" prefHeight="35.0" prefWidth="204.0" text="10 seconds" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="24.0" />
@@ -30,5 +30,10 @@
          </font>
       </TextArea>
       <Button fx:id="btnReplay" layoutX="710.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReplay" text="Replay" visible="false" />
+      <Label fx:id="cannotMakeVerdict" layoutX="194.0" layoutY="524.0" prefHeight="146.0" prefWidth="411.0" text="Game Over, you cannot make a verdict!!" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

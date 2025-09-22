@@ -18,6 +18,8 @@ public class FinalRoomController implements ControllerInterface {
   @FXML private Button btnReplay;
   @FXML private Label timerLabel;
   @FXML private TextArea textFinal;
+  @FXML private Label question;
+  @FXML private Label cannotMakeVerdict;
 
   private static String verdict = "You have run out of time";
   private static boolean choiceMade = false;
@@ -43,7 +45,15 @@ public class FinalRoomController implements ControllerInterface {
       btnInnocent.setVisible(true);
       btnReturn.setVisible(false);
       btnReplay.setVisible(false);
+      question.setVisible(true);
     }
+
+    boolean canMakeVerdict = ChatController.allParticipantsContacted();
+    btnGuilty.setDisable(!canMakeVerdict);
+    btnInnocent.setDisable(!canMakeVerdict);
+    timerLabel.setVisible(canMakeVerdict);
+    question.setVisible(canMakeVerdict);
+    cannotMakeVerdict.setVisible(!canMakeVerdict);
   }
 
   @FXML
