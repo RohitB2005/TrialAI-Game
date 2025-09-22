@@ -3,37 +3,44 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FinalRoomController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FinalRoomController">
    <children>
-      <ImageView fitHeight="564.0" fitWidth="434.0" layoutX="188.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="559.0" fitWidth="438.0" layoutX="6.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Sentinal-12.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnGuilty" layoutX="73.0" layoutY="582.0" mnemonicParsing="false" onAction="#onGuiltyButton" prefHeight="30.0" prefWidth="85.0" styleClass="button2" text="Guilty" />
-      <Button fx:id="btnInnocent" layoutX="642.0" layoutY="582.0" mnemonicParsing="false" onAction="#onInnocentButton" prefHeight="30.0" prefWidth="85.0" styleClass="button1" text="Not-Guilty" />
-      <Button fx:id="btnReturn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReturn" text="Return" />
-      <Label fx:id="question" layoutX="102.0" layoutY="517.0" prefHeight="56.0" prefWidth="596.0" styleClass="Label1" text="Is Sentinal-12 guilty of violating the law and Ai code of ethics?" textAlignment="CENTER" underline="true" />
+      <Button fx:id="btnGuilty" layoutX="25.0" layoutY="668.0" mnemonicParsing="false" onAction="#onGuiltyButton" prefHeight="30.0" prefWidth="85.0" styleClass="button2" text="Guilty" />
+      <Button fx:id="btnInnocent" layoutX="136.0" layoutY="669.0" mnemonicParsing="false" onAction="#onInnocentButton" prefHeight="30.0" prefWidth="85.0" styleClass="button1" text="Not-Guilty" />
+      <Button fx:id="btnReturn" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" onAction="#onReturn" text="Return" />
+      <Label fx:id="question" layoutX="454.0" layoutY="82.0" prefHeight="56.0" prefWidth="591.0" styleClass="Label1" text="Is Sentinal-12 guilty of violating the law and Ai code of ethics?" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
       <TextArea fx:id="textFinal" editable="false" layoutX="58.0" layoutY="282.0" prefHeight="342.0" prefWidth="677.0" styleClass="Label2" visible="false" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </TextArea>
-      <Button fx:id="btnReplay" layoutX="710.0" layoutY="14.0" mnemonicParsing="false" onAction="#onReplay" text="Replay" />
-      <Label fx:id="cannotMakeVerdict" layoutX="194.0" layoutY="524.0" prefHeight="146.0" prefWidth="411.0" text="Game Over, you cannot make a verdict!!" textAlignment="CENTER" textFill="RED">
+      <Button fx:id="btnReplay" layoutX="985.0" layoutY="16.0" mnemonicParsing="false" onAction="#onReplay" text="Replay" />
+      <Label fx:id="cannotMakeVerdict" layoutX="547.0" layoutY="216.0" prefHeight="70.0" prefWidth="411.0" text="Game Over, you cannot make a verdict!!" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="timerLabel" layoutX="347.0" layoutY="580.0" prefHeight="35.0" prefWidth="204.0" text="1:00" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="timerLabel" layoutX="126.0" layoutY="17.0" prefHeight="35.0" prefWidth="68.0" text="1:00" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
+      <TextArea fx:id="areaDisplayText" editable="false" layoutX="460.0" layoutY="161.0" prefHeight="368.0" prefWidth="588.0" wrapText="true" />
+      <TextField fx:id="areaInputText" layoutX="460.0" layoutY="547.0" onKeyPressed="#onEnterPressed" prefHeight="56.0" prefWidth="589.0" />
+      <Button fx:id="btnSend" layoutX="983.0" layoutY="613.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="37.0" prefWidth="68.0" styleClass="button1" text="Send" />
    </children>
 </Pane>
