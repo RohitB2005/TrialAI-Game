@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -106,5 +108,22 @@ public class FinalRoomController extends ChatController {
     runGpt(msg);
 
     onChoice();
+  }
+
+  @FXML
+  private void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
+    if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
+      onSendMessage(null);
+    }
+  }
+
+  @FXML
+  // appends a chat message to the display area with appropriate formatting based on who sent it
+  protected void appendChatMessage(ChatMessage msg) {
+    if (msg.getRole().equals("user")) {
+      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
+    } else if (msg.getRole().equals("assistant")) {
+      areaDisplayText.appendText(msg.getContent() + "\n\n");
+    }
   }
 }
