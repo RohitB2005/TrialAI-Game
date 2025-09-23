@@ -34,7 +34,7 @@ public class ChatController implements ControllerInterface {
 
   // Tracking which participants have been contacted
   // Static so it persists across room switches
-  protected static Set<String> contactedParticipants = new HashSet<>();
+  public static Set<String> contactedParticipants = new HashSet<>();
 
   @FXML protected TextArea areaDisplayText;
   @FXML protected TextField areaInputText;
@@ -182,13 +182,10 @@ public class ChatController implements ControllerInterface {
       return;
     }
     areaInputText.clear();
-
-    // Track that this participant has been contacted
     String participantId = getParticipantId();
     if (!participantId.equals("unknown")) {
       contactedParticipants.add(participantId);
     }
-
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);

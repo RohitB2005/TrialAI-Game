@@ -11,7 +11,8 @@ public class SceneManager {
     WITNESSAI,
     WITNESSHUMAN,
     TRIALAI,
-    FINALROOM
+    FINALROOM,
+    FLASHBACK
   }
 
   // Maps to hold scene roots and their corresponding controllers
@@ -61,6 +62,8 @@ public class SceneManager {
         return "trialAiRoom";
       case FINALROOM:
         return "finalRoom";
+      case FLASHBACK:
+        return "flashback";
       // Add more cases as needed for other scenes
       default:
         throw new IllegalArgumentException("Unknown AppUi: " + appUi);
