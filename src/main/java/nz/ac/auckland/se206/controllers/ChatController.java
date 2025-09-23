@@ -168,7 +168,7 @@ public class ChatController implements ControllerInterface {
 
   @FXML
   private void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
-    if (event.getCode() == KeyCode.ENTER) {
+    if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
       onSendMessage(null);
     }
   }
