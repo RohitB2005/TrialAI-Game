@@ -94,6 +94,7 @@ public class FinalRoomController extends ChatController {
     btnReturn.setVisible(false);
     btnSend.setVisible(false);
     btnSend.setDisable(true);
+    areaInputText.setDisable(true);
     choiceMade = true;
     App.stopTimer();
   }
