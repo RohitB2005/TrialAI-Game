@@ -21,5 +21,10 @@
             <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" />
          </children>
       </VBox>
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" text="5:00" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
