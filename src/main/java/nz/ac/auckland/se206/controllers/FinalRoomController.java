@@ -6,9 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -16,16 +13,13 @@ import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class FinalRoomController extends ChatController {
 
-  @FXML private Button btnGuilty;
-  @FXML private Button btnInnocent;
   @FXML private Button btnReturn;
   @FXML private Button btnReplay;
+  @FXML private Button btnSend;
   @FXML private Label timerLabel;
-  @FXML private TextArea textFinal;
   @FXML private Label question;
   @FXML private Label cannotMakeVerdict;
 
-  private String verdict = "You have run out of time";
   private boolean choiceMade = false;
 
   public void updateTimer(int timeRemaining) {
@@ -37,22 +31,21 @@ public class FinalRoomController extends ChatController {
   }
 
   public void onEntry() {
+    // Disable return button if in final scene timer
     if (App.isFinalScene) {
-      textFinal.setVisible(false);
-      timerLabel.setVisible(true);
-      btnGuilty.setVisible(true);
-      btnInnocent.setVisible(true);
       btnReturn.setVisible(false);
-      btnReplay.setVisible(true);
-      question.setVisible(true);
     }
 
+    // Checks if player can make a verdict when time runs out
     boolean canMakeVerdict = ChatController.allParticipantsContacted();
-    btnGuilty.setDisable(!canMakeVerdict);
-    btnInnocent.setDisable(!canMakeVerdict);
     timerLabel.setVisible(canMakeVerdict);
     question.setVisible(canMakeVerdict);
     cannotMakeVerdict.setVisible(!canMakeVerdict);
+    btnSend.setVisible(canMakeVerdict);
+    if (!canMakeVerdict) {
+      ChatMessage msg = new ChatMessage("system", "You did not gather enough information to make a verdict. You can restart the game to try again.");
+      appendChatMessage(msg);
+    }
   }
 
   @FXML
@@ -60,26 +53,25 @@ public class FinalRoomController extends ChatController {
     App.resetGame();
   }
 
+  // logic for when the player has sent their final message or the timer has run out
+  // disables the input box and send button and stops the timer
   private void onChoice() {
-    textFinal.setText(getVerdict() + "\n\n" + getPrompt());
-    textFinal.setVisible(true);
     timerLabel.setVisible(false);
-    btnGuilty.setVisible(false);
-    btnInnocent.setVisible(false);
     btnReturn.setVisible(false);
-    btnReplay.setVisible(true);
+    btnSend.setVisible(false);
+    btnSend.setDisable(true);
     choiceMade = true;
     App.stopTimer();
   }
 
+
+
   @Override
   public void reset() {
-    btnGuilty.setVisible(true);
-    btnInnocent.setVisible(true);
     timerLabel.setVisible(true);
-    textFinal.setVisible(false);
-    btnReplay.setVisible(true);
-    verdict = "You have run out of time";
+    btnReturn.setVisible(true);
+    btnSend.setVisible(true);
+    btnSend.setDisable(false);
     choiceMade = false;
   }
 
@@ -88,29 +80,12 @@ public class FinalRoomController extends ChatController {
     return PromptEngineering.getPrompt("finalroom.txt");
   }
 
-  @FXML
-  private void onGuiltyButton() {
-    verdict = "Your Verdict is Correct";
-    onChoice();
-  }
-
-  @FXML
-  private void onInnocentButton() {
-    verdict = "Your Verdict is Incorrect";
-    onChoice();
-  }
-
-  private String getVerdict() {
-    return verdict;
-  }
-
-  // logicfor pushing return button
+  // logic for pushing return button
   @FXML
   protected void onReturn(ActionEvent event) throws IOException {
     Button clickedbtn = (Button) event.getSource();
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "courtroom");
-    App.isFinalScene = false; // Set the final scene flag
   }
 
   @FXML
@@ -121,25 +96,15 @@ public class FinalRoomController extends ChatController {
     }
     areaInputText.clear();
 
+    ChatMessage prompt = new ChatMessage("system", getSystemPrompt());
+    chatCompletionRequest.addMessage(prompt);
+
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);
-  }
 
-  @FXML
-  private void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
-    if (event.getCode() == KeyCode.ENTER) {
-      onSendMessage(null);
-    }
-  }
+    onChoice();
 
-  @FXML
-  // appends a chat message to the display area with appropriate formatting based on who sent it
-  protected void appendChatMessage(ChatMessage msg) {
-    if (msg.getRole().equals("user")) {
-      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
-    } else if (msg.getRole().equals("assistant")) {
-      areaDisplayText.appendText(msg.getContent() + "\n\n");
-    }
+
   }
 }

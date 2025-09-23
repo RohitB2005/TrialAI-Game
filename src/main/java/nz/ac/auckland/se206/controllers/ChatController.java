@@ -62,7 +62,7 @@ public class ChatController implements ControllerInterface {
               .setTemperature(1)
               .setTopP(0.5)
               .setModel(Model.GPT_4_1_MINI)
-              .setMaxTokens(100);
+              .setMaxTokens(200);
     } catch (ApiProxyException e) {
       e.printStackTrace();
     }
@@ -168,7 +168,7 @@ public class ChatController implements ControllerInterface {
 
   @FXML
   private void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
-    if (event.getCode() == KeyCode.ENTER) {
+    if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
       onSendMessage(null);
     }
   }
