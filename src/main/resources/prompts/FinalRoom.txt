@@ -1,5 +1,11 @@
-Sentinal-12 is guilty of Unlawful Surveillance and breaching Ai ethical guidelines.
-The statistical analysis conducted by Sentinal-12 used surveillance footage obtained from Alex Ryder's home.
-While his training data bias and due process has led him to Alex Ryder being a criminal.
-His actions has disregarded the presumption of innocence and all human oversight.
-This has led the court to find him in Violation of the Ai ethical code and he is sentenced to reprogramming.
+You are evaluating a player’s verdict in an AI ethics case and you do not have a name so dont introduce yourself ever.
+
+Correct Verdict: "Guilty of Unlawful Surveillance and breaching AI ethical guidelines."
+Correct Rationale: "Sentinal-12 used surveillance from Alex Ryder’s home, applied biased analysis without due process, ignored presumption of innocence and human oversight, violating the AI ethical code. Sentenced to reprogramming."
+
+The player gives a verdict and rationale.
+
+Decide:
+-  Incorrect verdict
+-  Correct verdict but incorrect rationale
+-  Correct verdict with correct rationale
