@@ -34,7 +34,7 @@ public class ChatController implements ControllerInterface {
 
   // Tracking which participants have been contacted
   // Static so it persists across room switches
-  protected static Set<String> contactedParticipants = new HashSet<>();
+  public static Set<String> contactedParticipants = new HashSet<>();
 
   @FXML protected TextArea areaDisplayText;
   @FXML protected TextField areaInputText;
@@ -156,9 +156,9 @@ public class ChatController implements ControllerInterface {
 
   // method to check if all participants have been contacted
   public static boolean allParticipantsContacted() {
-    return contactedParticipants.contains("WitnessAi")
-        && contactedParticipants.contains("WitnessHuman")
-        && contactedParticipants.contains("TrialAi");
+    return contactedParticipants.contains("witnessAi")
+        && contactedParticipants.contains("witnessHuman")
+        && contactedParticipants.contains("trialAi");
   }
 
   // method to get list of contacted participants (for debugging/UI purposes)
@@ -182,12 +182,6 @@ public class ChatController implements ControllerInterface {
       return;
     }
     areaInputText.clear();
-
-    // Track that this participant has been contacted
-    String participantId = getParticipantId();
-    if (!participantId.equals("unknown")) {
-      contactedParticipants.add(participantId);
-    }
 
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);

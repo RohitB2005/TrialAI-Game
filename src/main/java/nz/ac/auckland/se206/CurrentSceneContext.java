@@ -4,6 +4,7 @@ import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
 import nz.ac.auckland.se206.states.ChatState;
 import nz.ac.auckland.se206.states.CourtroomState;
 import nz.ac.auckland.se206.states.FinalState;
+import nz.ac.auckland.se206.states.FlashbackState;
 import nz.ac.auckland.se206.states.GameState;
 
 /**
@@ -19,15 +20,16 @@ public class CurrentSceneContext {
   private GameState chatWitnessAi;
   private GameState chatWitnessHuman;
   private GameState chatTrialAi;
+  private GameState flashback;
 
   /** Loads all the game states for the different scenes and sets courtroom to default. */
   public CurrentSceneContext() {
-
     this.courtroom = new CourtroomState();
     this.finalRoom = new FinalState();
     this.chatWitnessAi = new ChatState(AppUi.WITNESSAI);
     this.chatWitnessHuman = new ChatState(AppUi.WITNESSHUMAN);
     this.chatTrialAi = new ChatState(AppUi.TRIALAI);
+    this.flashback = new FlashbackState();
     this.currentState = courtroom; // Initial state
     this.previousState = null;
     currentState.onEnter();
@@ -57,7 +59,6 @@ public class CurrentSceneContext {
     if (currentState != previousState) {
       currentState.onEnter();
     }
-    
   }
 
   // triggers the pulse method for the current state
@@ -78,6 +79,8 @@ public class CurrentSceneContext {
         return chatWitnessHuman;
       case "TRIALAI":
         return chatTrialAi;
+      case "FLASHBACK":
+        return flashback;
       default:
         throw new IllegalArgumentException("Unknown scene: " + scene);
     }

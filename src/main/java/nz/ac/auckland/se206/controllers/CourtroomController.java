@@ -49,8 +49,18 @@ public class CourtroomController implements ControllerInterface {
   @FXML
   private void handleRegionClicked(MouseEvent event) throws IOException {
     Region clickedRegion = (Region) event.getSource();
+    String participantId = clickedRegion.getId();
     Scene scene = clickedRegion.getScene();
-    App.openScene(scene, clickedRegion.getId());
+
+    if (ChatController.getContactedParticipants().contains(participantId)) {
+      App.openScene(scene, participantId);
+    } else {
+      ChatController.contactedParticipants.add(participantId);
+      FlashbackController flashbackController =
+          (FlashbackController) SceneManager.getController(SceneManager.AppUi.FLASHBACK);
+      flashbackController.setupFlashback(participantId);
+      App.openScene(scene, "flashback");
+    }
   }
 
   public void onEntry() {

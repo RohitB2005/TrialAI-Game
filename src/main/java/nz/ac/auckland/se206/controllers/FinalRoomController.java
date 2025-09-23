@@ -43,7 +43,11 @@ public class FinalRoomController extends ChatController {
     cannotMakeVerdict.setVisible(!canMakeVerdict);
     btnSend.setVisible(canMakeVerdict);
     if (!canMakeVerdict) {
-      ChatMessage msg = new ChatMessage("system", "You did not gather enough information to make a verdict. You can restart the game to try again.");
+      ChatMessage msg =
+          new ChatMessage(
+              "system",
+              "You did not gather enough information to make a verdict. You can restart the game to"
+                  + " try again.");
       appendChatMessage(msg);
     }
   }
@@ -63,8 +67,6 @@ public class FinalRoomController extends ChatController {
     choiceMade = true;
     App.stopTimer();
   }
-
-
 
   @Override
   public void reset() {
@@ -96,7 +98,7 @@ public class FinalRoomController extends ChatController {
     }
     areaInputText.clear();
 
-    ChatMessage prompt = new ChatMessage("system", getSystemPrompt());
+    ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
 
     ChatMessage msg = new ChatMessage("user", message);
@@ -104,7 +106,5 @@ public class FinalRoomController extends ChatController {
     runGpt(msg);
 
     onChoice();
-
-
   }
 }
