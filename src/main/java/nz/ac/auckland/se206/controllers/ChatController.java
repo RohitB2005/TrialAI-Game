@@ -187,11 +187,6 @@ public class ChatController implements ControllerInterface {
     String participantId = getParticipantId();
     if (!participantId.equals("unknown")) {
       contactedParticipants.add(participantId);
-      System.out.println(
-          "DEBUG: Contacted participants: "
-              + contactedParticipants
-              + " | All contacted: "
-              + allParticipantsContacted());
     }
 
     ChatMessage msg = new ChatMessage("user", message);

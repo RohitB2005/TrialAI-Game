@@ -75,8 +75,9 @@ public class FinalRoomController extends ChatController {
     choiceMade = false;
   }
 
-  public String getSystemPrompt() {
-    return PromptEngineering.getPrompt("FinalRoom.txt");
+  @Override
+  public String getPrompt() {
+    return PromptEngineering.getPrompt("finalroom.txt");
   }
 
   // logic for pushing return button
@@ -103,5 +104,7 @@ public class FinalRoomController extends ChatController {
     runGpt(msg);
 
     onChoice();
+
+
   }
 }
