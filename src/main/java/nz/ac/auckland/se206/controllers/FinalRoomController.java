@@ -18,11 +18,14 @@ public class FinalRoomController extends ChatController {
   @FXML private Button btnReturn;
   @FXML private Button btnReplay;
   @FXML private Button btnSend;
+  @FXML private Button btnGuilty;
+  @FXML private Button btnInnocent;
   @FXML private Label timerLabel;
   @FXML private Label question;
   @FXML private Label cannotMakeVerdict;
 
   private boolean choiceMade = false;
+  private String verdict = "";
 
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
@@ -54,9 +57,34 @@ public class FinalRoomController extends ChatController {
     }
   }
 
+  @Override
+  public String getName() {
+    return "Verdict";
+  }
+
   @FXML
   private void onReplay() {
     App.resetGame();
+  }
+
+  @FXML
+  private void onGuilty() {
+    verdict = "i find the Sentinel-12 guilty of all charges.";
+    btnGuilty.setDisable(true);
+    btnInnocent.setVisible(false);
+    ChatMessage msg = new ChatMessage("system", "give reasoning for why the ai is guilty");
+    appendChatMessage(msg);
+    btnSend.setDisable(false);
+  }
+
+  @FXML
+  private void onInnocent() {
+    verdict = "i find the Sentinel-12 innocent of all charges.";
+    btnInnocent.setDisable(true);
+    btnGuilty.setVisible(false);
+    ChatMessage msg = new ChatMessage("system", "give reasoning for why the ai is innocent");
+    appendChatMessage(msg);
+    btnSend.setDisable(false);
   }
 
   // logic for when the player has sent their final message or the timer has run out
@@ -103,7 +131,7 @@ public class FinalRoomController extends ChatController {
     ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
 
-    ChatMessage msg = new ChatMessage("user", message);
+    ChatMessage msg = new ChatMessage("user", verdict + " " + message);
     appendChatMessage(msg);
     runGpt(msg);
 
