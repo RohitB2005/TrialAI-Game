@@ -47,7 +47,11 @@ public class FinalRoomController extends ChatController {
     question.setVisible(canMakeVerdict);
     cannotMakeVerdict.setVisible(!canMakeVerdict);
     btnSend.setVisible(canMakeVerdict);
+
     if (!canMakeVerdict) {
+      btnInnocent.setDisable(true);
+      btnGuilty.setDisable(true);
+      areaInputText.setDisable(true);
       ChatMessage msg =
           new ChatMessage(
               "system",
@@ -153,6 +157,8 @@ public class FinalRoomController extends ChatController {
       areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
     } else if (msg.getRole().equals("assistant")) {
       areaDisplayText.appendText(msg.getContent() + "\n\n");
+    } else if (msg.getRole().equals("system")) {
+      areaDisplayText.appendText("System: " + msg.getContent() + "\n\n");
     }
   }
 }
