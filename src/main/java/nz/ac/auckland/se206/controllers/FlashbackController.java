@@ -28,6 +28,7 @@ public class FlashbackController implements ControllerInterface {
   @FXML private Label flashbackText;
   @FXML private Button btnNext;
   @FXML private Button btnContinue;
+  @FXML private Label timerLabel;
 
   private List<FlashbackSlide> slides = new ArrayList<>();
   private int currentSlideIndex = 0;
@@ -118,5 +119,9 @@ public class FlashbackController implements ControllerInterface {
   }
 
   @Override
-  public void updateTimer(int timeRemaining) {}
+  public void updateTimer(int timeRemaining) {
+    if (timerLabel != null) {
+      timerLabel.setText(App.formatTime(timeRemaining));
+    }
+  }
 }

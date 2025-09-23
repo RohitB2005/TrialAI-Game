@@ -27,7 +27,11 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="timerLabel" layoutX="29.0" layoutY="657.0" prefHeight="35.0" prefWidth="68.0" text="1:00" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="timerLabel" 
+       layoutX="39.0" 
+       layoutY="662.0" 
+       text="5:00" 
+       style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;">
          <font>
             <Font size="24.0" />
          </font>

@@ -23,5 +23,7 @@ public class FlashbackState implements GameState {
   }
 
   @Override
-  public void onPulse(int timeRemaining) {}
+  public void onPulse(int timeRemaining) {
+    controller.updateTimer(timeRemaining);
+  }
 }
