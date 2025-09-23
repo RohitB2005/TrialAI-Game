@@ -156,9 +156,9 @@ public class ChatController implements ControllerInterface {
 
   // method to check if all participants have been contacted
   public static boolean allParticipantsContacted() {
-    return contactedParticipants.contains("witnessAi")
-        && contactedParticipants.contains("witnessHuman")
-        && contactedParticipants.contains("trialAi");
+    return contactedParticipants.contains("WitnessAi")
+        && contactedParticipants.contains("WitnessHuman")
+        && contactedParticipants.contains("TrialAi");
   }
 
   // method to get list of contacted participants (for debugging/UI purposes)
@@ -182,7 +182,10 @@ public class ChatController implements ControllerInterface {
       return;
     }
     areaInputText.clear();
-
+    String participantId = getParticipantId();
+    if (!participantId.equals("unknown")) {
+      contactedParticipants.add(participantId);
+    }
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);

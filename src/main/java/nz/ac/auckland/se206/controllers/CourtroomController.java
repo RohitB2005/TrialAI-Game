@@ -2,6 +2,8 @@ package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ import nz.ac.auckland.se206.App;
  */
 public class CourtroomController implements ControllerInterface {
 
+  private static Set<String> viewedFlashbacks = new HashSet<>();
   private static boolean isFirstTimeInit = true;
 
   @FXML private Button btnGuess;
@@ -52,10 +55,10 @@ public class CourtroomController implements ControllerInterface {
     String participantId = clickedRegion.getId();
     Scene scene = clickedRegion.getScene();
 
-    if (ChatController.getContactedParticipants().contains(participantId)) {
+    if (viewedFlashbacks.contains(participantId)) {
       App.openScene(scene, participantId);
     } else {
-      ChatController.contactedParticipants.add(participantId);
+      viewedFlashbacks.add(participantId);
       FlashbackController flashbackController =
           (FlashbackController) SceneManager.getController(SceneManager.AppUi.FLASHBACK);
       flashbackController.setupFlashback(participantId);
@@ -95,5 +98,6 @@ public class CourtroomController implements ControllerInterface {
   public void reset() {
     btnFinalRoom.setDisable(true);
     isFirstTimeInit = true;
+    viewedFlashbacks.clear();
   }
 }
