@@ -120,6 +120,9 @@ public class FinalRoomController extends ChatController {
     }
     areaInputText.clear();
 
+    ChatMessage prompt = new ChatMessage("system", getSystemPrompt());
+    chatCompletionRequest.addMessage(prompt);
+
     ChatMessage msg = new ChatMessage("user", message);
     appendChatMessage(msg);
     runGpt(msg);
