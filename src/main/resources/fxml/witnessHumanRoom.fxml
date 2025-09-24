@@ -56,6 +56,11 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </ImageView>
-      <Label fx:id="label" layoutX="736.0" layoutY="680.0" prefHeight="53.0" prefWidth="206.0" text="This bag looks suspicous" textFill="RED" />
+      <Label fx:id="labelCount" layoutX="390.0" layoutY="669.0" prefHeight="40.0" prefWidth="151.0" text="Label" visible="false" />
+      <Label fx:id="label" layoutX="714.0" layoutY="630.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="This bag looks suspicous...">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
