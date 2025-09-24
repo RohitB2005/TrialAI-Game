@@ -45,6 +45,7 @@ public class TrialAiRoomController extends ChatController {
   private int score = 0;
   private boolean alexArrested = false;
   private int scene = 0;
+  private List<Button> buttons;
 
   // initializes the linked list of images for the flashback sequence
   @FXML
@@ -58,6 +59,16 @@ public class TrialAiRoomController extends ChatController {
     flashbacks.add(image3);
     imageFlashback1.setImage(flashbacks.get(0));
     imageFlashback1.setVisible(false);
+    buttons = new ArrayList<>();
+    buttons.add(btnLeftArrest);
+    buttons.add(btnLeftObserve);
+    buttons.add(btnDownRightArrest);
+    buttons.add(btnDownRightObserve);
+    buttons.add(btnUpArrest);
+    buttons.add(btnUpObserve);
+    buttons.add(btnDownArrest);
+    buttons.add(btnDownObserve);
+
   }
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
@@ -104,28 +115,28 @@ public class TrialAiRoomController extends ChatController {
     switch (btnId) {
       case "btnLeftArrest":
         btnLeftObserve.setVisible(false);
-        updateButtonStyle(clickedbtn);
+        updateButtonStyle(clickedbtn, true);
         break;
       case "btnLeftObserve":
         btnLeftArrest.setVisible(false);
-        updateButtonStyle(clickedbtn);
+        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownRightArrest":
         btnDownRightObserve.setVisible(false);
-        updateButtonStyle(clickedbtn);
+        updateButtonStyle(clickedbtn, true);
+        score = score + 20;
         break;
       case "btnDownRightObserve":
         btnDownRightArrest.setVisible(false);
-        updateButtonStyle(clickedbtn);
+        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownArrest":
         btnDownObserve.setVisible(false);
-        score = score + 20;
+        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownObserve":
         btnDownArrest.setVisible(false);
-        updateButtonStyle(clickedbtn);
-        score = score + 20;
+        updateButtonStyle(clickedbtn, true);
         break;
       case "btnUpArrest":
         minigame("arrest");
@@ -150,9 +161,13 @@ public class TrialAiRoomController extends ChatController {
     }
   }
 
-  private void updateButtonStyle(Button clickedbtn) {
+  private void updateButtonStyle(Button clickedbtn, boolean answer) {
         clickedbtn.getStyleClass().remove("button3");
-        clickedbtn.getStyleClass().add("button4");
+        if (answer) {
+          clickedbtn.getStyleClass().add("button4");
+        } else {
+          clickedbtn.getStyleClass().add("button5");
+        }
         clickedbtn.setDisable(true);
       }
 
@@ -167,11 +182,11 @@ public class TrialAiRoomController extends ChatController {
     } else {
       if (action.equals("arrest")) {
         btnUpObserve.setVisible(false);
-        updateButtonStyle(btnUpArrest);
+        updateButtonStyle(btnUpArrest, true);
         alexArrested = true;
       } else {
         btnUpArrest.setVisible(false);
-        updateButtonStyle(btnUpObserve);
+        updateButtonStyle(btnUpObserve, false);
         alexArrested = false;
       }
     }
@@ -184,14 +199,9 @@ public class TrialAiRoomController extends ChatController {
   @FXML 
   public void onSurvey() {
     btnSurvey.setVisible(false);
-    btnLeftArrest.setVisible(true);
-    btnLeftObserve.setVisible(true);
-    btnDownRightArrest.setVisible(true);
-    btnDownRightObserve.setVisible(true);
-    btnUpArrest.setVisible(true);
-    btnUpObserve.setVisible(true);
-    btnDownArrest.setVisible(true);
-    btnDownObserve.setVisible(true);
+    for (Button btn : buttons) {
+      btn.setVisible(true);
+    }
     labelSecurity.setText("choose to arrest or observe the suspects");
     labelScene.setVisible(true);
   }
@@ -221,5 +231,22 @@ public class TrialAiRoomController extends ChatController {
     if (mediaPlayerWelcome != null) {
       mediaPlayerWelcome.stop();
     }
+    imageFlashback1.setVisible(false);
+    btnSurvey.setVisible(true);
+    for (Button btn : buttons) {
+      btn.setVisible(false);
+      btn.setDisable(false);
+      btn.getStyleClass().remove("button4");
+      btn.getStyleClass().remove("button5");
+      btn.getStyleClass().add("button3");
+    }
+    labelSecurity.setText("City Security Level: 0%");
+    labelSecurity.setTextFill(javafx.scene.paint.Color.BLACK);
+    labelScene.setVisible(false);
+    imageCount = 0;
+    score = 0;
+    alexArrested = false;
+    scene = 0;
+
   }
 }

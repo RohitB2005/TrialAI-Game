@@ -38,13 +38,26 @@
   -fx-font-family:  "'Roboto Mono', monospace";
 }
 
-.button4 {
+.button5 {
   -fx-background-color:  black;
   -fx-opacity: 1;
   -fx-border-color:  #ff0000;
   -fx-border-width: 2px;
   -fx-border-radius: 5px;
   -fx-text-fill: #ff0000;
+  -fx-padding: 8px 16px;
+  -fx-font-size: 14px;
+  -fx-cursor: hand;
+  -fx-font-family:  "'Roboto Mono', monospace";
+}
+
+.button4 {
+  -fx-background-color:  rgb(243, 243, 243);
+  -fx-opacity: 1;
+  -fx-border-color:  #4c00ff;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #1900ff;
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
