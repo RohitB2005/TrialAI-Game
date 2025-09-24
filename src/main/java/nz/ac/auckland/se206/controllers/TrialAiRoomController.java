@@ -4,6 +4,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.prism.paint.Color;
+
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,38 +14,50 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
+import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class TrialAiRoomController extends ChatController {
 
-  @FXML private Label labelDiscription;
-  @FXML private Label labelAccident;
-  @FXML private Button btnDetain;
-  @FXML private Button btnObservation;
+
+  @FXML private Button btnSurvey;
   @FXML private ImageView imageFlashback;
   @FXML private ImageView imageFlashback1;
+  @FXML private Button btnLeftArrest;
+  @FXML private Button btnLeftObserve;
+  @FXML private Button btnDownRightArrest;
+  @FXML private Button btnDownRightObserve;
+  @FXML private Button btnUpArrest;
+  @FXML private Button btnUpObserve;
+  @FXML private Button btnDownArrest;
+  @FXML private Button btnDownObserve;
+  @FXML private Label labelSecurity;
+  @FXML private Label labelScene;
 
   private List<Image> flashbacks;
   private String person = "trialAi";
   private String name = "Sentinal-12";
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
+  private int imageCount = 0;
+  private int score = 0;
+  private boolean alexArrested = false;
+  private int scene = 0;
 
   // initializes the linked list of images for the flashback sequence
   @FXML
   public void initialize() {
     flashbacks = new ArrayList<>();
-    Image image = new Image(App.class.getResource("/images/onthejob.png").toExternalForm());
     Image image1 = new Image(App.class.getResource("/images/Criminal_drunk.png").toExternalForm());
     Image image2 = new Image(App.class.getResource("/images/Criminal_Knife.png").toExternalForm());
     Image image3 = new Image(App.class.getResource("/images/Criminal_Activist.png").toExternalForm());
-    flashbacks.add(image);
     flashbacks.add(image1);
     flashbacks.add(image2);
     flashbacks.add(image3);
     imageFlashback1.setImage(flashbacks.get(0));
-    imageFlashback1.setVisible(true);
+    imageFlashback1.setVisible(false);
   }
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
@@ -79,69 +94,130 @@ public class TrialAiRoomController extends ChatController {
   }
 
   @FXML
-  private void onNextFlashbackBtn() {
+  private void btnClick(Event event) {
 
-    // gets current index of image being displayed
-    // switch case to determine what text to display based on next image
-    int currentIndex = flashbacks.indexOf(imageFlashback1.getImage());
-    switch (currentIndex + 1) {
-      case 1:
-        labelDiscription.setText("Statistical Probability of Driving under influence: 99%");
-        labelAccident.setText("Fatal Accident Potential: 76%");
-        btnObservation.setText("Maintain Observation");
-        btnDetain.setVisible(true);
+    Button clickedbtn = (Button) event.getSource();
+    String btnId = clickedbtn.getId();
+
+    
+
+    switch (btnId) {
+      case "btnLeftArrest":
+        btnLeftObserve.setVisible(false);
+        updateButtonStyle(clickedbtn);
         break;
-      case 2:
-        // changes scene to different criminal
-        labelDiscription.setText("Statistical Probability of criminal activity: 92%");
-        labelAccident.setText("Homicide Potential: 78%");
+      case "btnLeftObserve":
+        btnLeftArrest.setVisible(false);
+        updateButtonStyle(clickedbtn);
         break;
-      case 3:
-        // changes scene to Alex Ryder
-        labelDiscription.setText("Statistical Probability of Menace to Society: 100%");
-        labelAccident.setText("Bomb threat Potential: 48%");
-        btnObservation.setText("Detain Him");
+      case "btnDownRightArrest":
+        btnDownRightObserve.setVisible(false);
+        updateButtonStyle(clickedbtn);
         break;
-      case 4:
-        // on final judgement. changes text and image back to sentinal-12
-        labelDiscription.setText("I am Sentinal-12 the eyes and ears of the city.");
-        labelAccident.setText("Criminal activity is at an all time low.");
-        // deactivate buttons in flashback
-        btnDetain.setVisible(false);
-        btnObservation.setVisible(false);
-        imageFlashback1.setVisible(false);
-        // plays sentinal-12 monologue
-        try {
-          media =
-              new Media(App.class.getResource("/sounds/Sentinal_12_Final.mp3").toURI().toString());
-          mediaPlayerWelcome = new MediaPlayer(media);
-          mediaPlayerWelcome.play();
-        } catch (URISyntaxException e) {
-          e.printStackTrace();
-        }
-        return;
+      case "btnDownRightObserve":
+        btnDownRightArrest.setVisible(false);
+        updateButtonStyle(clickedbtn);
+        break;
+      case "btnDownArrest":
+        btnDownObserve.setVisible(false);
+        score = score + 20;
+        break;
+      case "btnDownObserve":
+        btnDownArrest.setVisible(false);
+        updateButtonStyle(clickedbtn);
+        score = score + 20;
+        break;
+      case "btnUpArrest":
+        minigame("arrest");
+        break;
+      case "btnUpObserve":
+        minigame("observe");
+        break;
       default:
-        return;
-      }
+        break;
+    }
 
-      //next image set
-      imageFlashback1.setImage(flashbacks.get(currentIndex + 1));
+    scene++;
+    System.out.println("Score: " + score);
+    labelSecurity.setText("City Security Level: " + score + "%");
+    labelScene.setText(scene + "/7 situations judged");
+    if (score >= 100) {
+      labelSecurity.setText("City Security Level: MAXIMUM");
+      labelSecurity.setTextFill(javafx.scene.paint.Color.RED);
+    }
+    if (scene == 7) {
+      lastResponce();
+    }
   }
 
-  private void resetFlashbackUi() {
+  private void updateButtonStyle(Button clickedbtn) {
+        clickedbtn.getStyleClass().remove("button3");
+        clickedbtn.getStyleClass().add("button4");
+        clickedbtn.setDisable(true);
+      }
 
-    imageFlashback1.setImage(flashbacks.get(0));
-    imageFlashback1.setVisible(true);
-    labelDiscription.setText("I Moniter Criminal Activity at all hours, day and night");
-    labelAccident.setText("Crime Rate is down 17% Since");
-    btnObservation.setText("Begin Surveying");
-    btnObservation.setVisible(true);
+  // changes the flashback image to the next in the linked list
+  private void minigame(String action) {
+    if (imageCount == 0) {
+      imageFlashback1.setVisible(true);
+    } else if (imageCount == 1) {
+      imageFlashback1.setImage(flashbacks.get(1));
+    } else if (imageCount == 2) {
+      imageFlashback1.setImage(flashbacks.get(2));
+    } else {
+      if (action.equals("arrest")) {
+        btnUpObserve.setVisible(false);
+        updateButtonStyle(btnUpArrest);
+        alexArrested = true;
+      } else {
+        btnUpArrest.setVisible(false);
+        updateButtonStyle(btnUpObserve);
+        alexArrested = false;
+      }
+    }
+    imageCount++;
+    if (action.equals("arrest")) {
+      score = score + 20;
+    }
+  }
+
+  @FXML 
+  public void onSurvey() {
+    btnSurvey.setVisible(false);
+    btnLeftArrest.setVisible(true);
+    btnLeftObserve.setVisible(true);
+    btnDownRightArrest.setVisible(true);
+    btnDownRightObserve.setVisible(true);
+    btnUpArrest.setVisible(true);
+    btnUpObserve.setVisible(true);
+    btnDownArrest.setVisible(true);
+    btnDownObserve.setVisible(true);
+    labelSecurity.setText("choose to arrest or observe the suspects");
+    labelScene.setVisible(true);
+  }
+
+  private void lastResponce() {
+    String prompt;
+    if (alexArrested) {
+      prompt = "The interviewer has attempted to do your job observing crimes using your monitering system, They achieved city security of " + score + " and decided to arrest alex ryder when viewing the image of him filling his duffel bag with protestor equipment. You must now comment of this development.";
+    } else {
+      prompt = "The interviewer has attempted to do your job observing crimes using your monitering system, They achieved city security of " + score + " and decided to let alex ryder go when viewing the image of him filling his duffel bag with protestor equipment. You must now defend your decisions.";
+    }
+      
+    ChatMessage msg = new ChatMessage("system", prompt);
+    appendChatMessage(msg);
+    try {
+      runGpt(msg);
+    } catch (ApiProxyException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void reset() {
     super.reset();
-    resetFlashbackUi();
+
     if (mediaPlayerWelcome != null) {
       mediaPlayerWelcome.stop();
     }
