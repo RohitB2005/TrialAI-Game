@@ -166,7 +166,7 @@ public class FlashbackController implements ControllerInterface {
 
     KeyFrame keyFrame =
         new KeyFrame(
-            Duration.millis(35),
+            Duration.millis(25),
             event -> {
               flashbackText.setText(
                   flashbackText.getText() + text.charAt(flashbackText.getText().length()));
