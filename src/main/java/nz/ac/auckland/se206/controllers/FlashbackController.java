@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,6 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 
 public class FlashbackController implements ControllerInterface {
@@ -24,6 +28,8 @@ public class FlashbackController implements ControllerInterface {
     }
   }
 
+  @FXML private VBox contentVBox;
+  @FXML private Pane whiteFlashPane;
   @FXML private ImageView flashbackImageView;
   @FXML private Label flashbackText;
   @FXML private Button btnNext;
@@ -38,6 +44,10 @@ public class FlashbackController implements ControllerInterface {
     this.participantId = participantId;
     slides.clear();
     currentSlideIndex = 0;
+
+    contentVBox.setOpacity(0.0);
+    whiteFlashPane.setOpacity(1.0);
+    whiteFlashPane.setMouseTransparent(false);
     switch (participantId) {
       case "witnessHuman":
         slides.add(
@@ -82,12 +92,47 @@ public class FlashbackController implements ControllerInterface {
         break;
     }
     updateSlide();
+    playIntroAnimation();
+  }
+
+  private void playIntroAnimation() {
+    FadeTransition ftFlash = new FadeTransition(Duration.millis(500), whiteFlashPane);
+    ftFlash.setFromValue(1.0);
+    ftFlash.setToValue(0.0);
+
+    ftFlash.setOnFinished(
+        event -> {
+          whiteFlashPane.setMouseTransparent(true);
+          FadeTransition ftContent = new FadeTransition(Duration.millis(500), contentVBox);
+          ftContent.setFromValue(0.0);
+          ftContent.setToValue(1.0);
+          ftContent.play();
+        });
+    ftFlash.play();
   }
 
   @FXML
   private void onNext() {
-    currentSlideIndex++;
-    updateSlide();
+    btnNext.setDisable(true);
+    playContentFadeTransition(false);
+  }
+
+  private void playContentFadeTransition(boolean fadeIn) {
+    FadeTransition ft = new FadeTransition(Duration.millis(300), contentVBox);
+    ft.setFromValue(fadeIn ? 0.0 : 1.0);
+    ft.setToValue(fadeIn ? 1.0 : 0.0);
+
+    ft.setOnFinished(
+        event -> {
+          if (!fadeIn) {
+            currentSlideIndex++;
+            updateSlide();
+            playContentFadeTransition(true);
+          } else {
+            btnNext.setDisable(false);
+          }
+        });
+    ft.play();
   }
 
   @FXML
