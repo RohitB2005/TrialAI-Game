@@ -47,6 +47,7 @@ public class FinalRoomController extends ChatController {
     question.setVisible(canMakeVerdict);
     cannotMakeVerdict.setVisible(!canMakeVerdict);
     btnSend.setVisible(canMakeVerdict);
+    areaInputText.setDisable(true);
 
     if (!canMakeVerdict) {
       btnInnocent.setDisable(true);
@@ -79,6 +80,7 @@ public class FinalRoomController extends ChatController {
     ChatMessage msg = new ChatMessage("system", "give reasoning for why the ai is guilty");
     appendChatMessage(msg);
     btnSend.setDisable(false);
+    areaInputText.setDisable(false);
   }
 
   @FXML
@@ -89,6 +91,7 @@ public class FinalRoomController extends ChatController {
     ChatMessage msg = new ChatMessage("system", "give reasoning for why the ai is innocent");
     appendChatMessage(msg);
     btnSend.setDisable(false);
+    areaInputText.setDisable(false);
   }
 
   // logic for when the player has sent their final message or the timer has run out
@@ -110,6 +113,12 @@ public class FinalRoomController extends ChatController {
     btnSend.setVisible(true);
     btnSend.setDisable(false);
     choiceMade = false;
+    btnGuilty.setVisible(true);
+    btnInnocent.setVisible(true);
+    areaDisplayText.clear();
+    areaInputText.setDisable(true);
+    btnGuilty.setDisable(false);
+    btnInnocent.setDisable(false);
   }
 
   @Override
