@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -36,6 +38,7 @@ public class FlashbackController implements ControllerInterface {
   @FXML private Button btnContinue;
   @FXML private Label timerLabel;
 
+  private Timeline typingAnimation;
   private List<FlashbackSlide> slides = new ArrayList<>();
   private int currentSlideIndex = 0;
   private String participantId;
@@ -53,32 +56,40 @@ public class FlashbackController implements ControllerInterface {
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alex1.png").toExternalForm()),
-                "As an avid activist, I attended a protest a few days ago and to my shock, the AI"
-                    + " detained me."));
+                "The protest was passionate, things getting tense. We were only exercising our"
+                    + " rights, when out of nowhere, I was detained and singled out."));
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alex2.png").toExternalForm()),
-                "Little did I know, due to news of my detainment, my boss fired me from my job."));
+                "It flagged me as a 'high-threat instigator.' That label is a permanent mark on my"
+                    + " record. Because of that, I lost my job despite committing no crime."));
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alex3.png").toExternalForm()),
-                "I'll never trust one of those things again, it ruined my life!"));
+                "Its decision ruined my life, I shouldn't be reprimanded for what some machine"
+                    + " thinks I was gonna do!"));
         break;
       case "witnessAi":
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha1.png").toExternalForm()),
-                "My sensor logs from the incident are clear. I recorded all relevant data, showing"
-                    + " an Anomaly in Sentinel's programming."));
+                "I have analyzed the defendant AI's telemetry from the incident. It"
+                    + " cross-referenced the subject's biometrics—elevated heart rate and stress"
+                    + " indicators—with crowd-wide sentiment analysis that showed rising"
+                    + " aggression."));
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha2.png").toExternalForm()),
-                "Investigating further, an error was discovered in the source code for the ethics"
-                    + " measuring function."));
+                "The critical flaw was in its predictive model. The subject's profile matched a"
+                    + " 'high-threat instigator' profile with 92% confidence, but this profile was"
+                    + " built on outdated and biased training data from riots, not peaceful"
+                    + " protests."));
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha3.png").toExternalForm()),
-                "I determined that a clear ethics violation was detected in Sentinel's actions."));
+                "Therefore, while the defendant acted consistently with its programming, its"
+                    + " programming was based on a corrupted premise. The action was logical, but"
+                    + " the data was not impartial."));
         break;
       case "trialAi":
         slides.add(
@@ -135,6 +146,26 @@ public class FlashbackController implements ControllerInterface {
     ft.play();
   }
 
+  private void animateText(String text) {
+    if (typingAnimation != null) {
+      typingAnimation.stop();
+    }
+    flashbackText.setText("");
+    typingAnimation = new Timeline();
+    typingAnimation.setCycleCount(text.length());
+
+    KeyFrame keyFrame =
+        new KeyFrame(
+            Duration.millis(35),
+            event -> {
+              flashbackText.setText(
+                  flashbackText.getText() + text.charAt(flashbackText.getText().length()));
+            });
+
+    typingAnimation.getKeyFrames().add(keyFrame);
+    typingAnimation.play();
+  }
+
   @FXML
   private void onContinue(ActionEvent event) throws IOException {
     Button btn = (Button) event.getSource();
@@ -144,7 +175,7 @@ public class FlashbackController implements ControllerInterface {
 
   private void updateSlide() {
     flashbackImageView.setImage(slides.get(currentSlideIndex).image);
-    flashbackText.setText(slides.get(currentSlideIndex).text);
+    animateText(slides.get(currentSlideIndex).text);
 
     if (currentSlideIndex == slides.size() - 1) {
       btnNext.setVisible(false);

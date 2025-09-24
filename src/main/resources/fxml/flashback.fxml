@@ -14,7 +14,7 @@
          <children>
          <Label text="[FLASHBACK SCENE]" style="-fx-font-family: 'Roboto Mono', monospace; -fx-font-size: 24px; -fx-text-fill: #00BFFF; -fx-effect: dropshadow(gaussian, rgba(0, 191, 255, 0.7), 15, 0.0, 0, 0); -fx-padding: 0 0 10px 0;" />
             <ImageView fx:id="flashbackImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="flashbackText" text="Flashback description will go here." textFill="WHITE">
+            <Label fx:id="flashbackText" text="Flashback description will go here." textFill="WHITE" wrapText = "true" prefWidth="600.0">
                <font>
                   <Font name="Consolas" size="18.0" />
                </font>
