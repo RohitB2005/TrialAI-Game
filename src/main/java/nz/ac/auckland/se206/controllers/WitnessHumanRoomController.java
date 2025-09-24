@@ -1,7 +1,14 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
+import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class WitnessHumanRoomController extends ChatController {
@@ -10,6 +17,12 @@ public class WitnessHumanRoomController extends ChatController {
   private String name = "Alex Ryder";
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
+
+  @FXML private ImageView viewSpraycan;
+  @FXML private ImageView viewBandanna;
+  @FXML private ImageView viewGun;
+  @FXML private Region regionBag;
+  @FXML private Label label;
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
@@ -49,5 +62,51 @@ public class WitnessHumanRoomController extends ChatController {
     if (mediaPlayerWelcome != null) {
       mediaPlayerWelcome.stop();
     }
+    viewSpraycan.setVisible(false);
+    viewBandanna.setVisible(false);
+    viewGun.setVisible(false);
+    regionBag.setCursor(javafx.scene.Cursor.HAND);
+    label.setVisible(true);
+  }
+
+  @FXML
+  public void onBagClick(MouseEvent event) throws ApiProxyException {
+    double parentX = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
+    double parentY = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+    if (!viewSpraycan.isVisible()) {  
+      viewSpraycan.setVisible(true);
+      viewSpraycan.setLayoutX(parentX - 30);
+      viewSpraycan.setLayoutY(parentY - 40);
+    } else if (!viewBandanna.isVisible()) {
+      viewBandanna.setVisible(true);
+      viewBandanna.setLayoutX(parentX - 30);
+      viewBandanna.setLayoutY(parentY - 40);
+    } else if (!viewGun.isVisible()) {
+      viewGun.setVisible(true);
+      viewGun.setLayoutX(parentX - 30);
+      viewGun.setLayoutY(parentY - 40);
+      regionBag.setCursor(null);
+      label.setVisible(false);
+      ChatMessage msg =
+          new ChatMessage(
+              "system",
+              "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you must now defend yourself over why they were there on the day you wer areested");
+      appendChatMessage(msg);
+      runGpt(msg);
+    } 
+  }
+
+  @FXML
+  public void onDrag(MouseEvent event) {
+    ImageView draggedImage = (ImageView) event.getSource();
+    double parentX = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
+    double parentY = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+    if (draggedImage == viewGun) {
+      draggedImage.setLayoutX(parentX - 80);
+      draggedImage.setLayoutY(parentY - 30);
+      return;
+    }
+    draggedImage.setLayoutX(parentX - 50);
+    draggedImage.setLayoutY(parentY - 80);
   }
 }
