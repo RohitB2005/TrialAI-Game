@@ -23,6 +23,7 @@ public class WitnessHumanRoomController extends ChatController {
   @FXML private ImageView viewGun;
   @FXML private Region regionBag;
   @FXML private Label label;
+  @FXML private Label labelCount;
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
@@ -67,6 +68,7 @@ public class WitnessHumanRoomController extends ChatController {
     viewGun.setVisible(false);
     regionBag.setCursor(javafx.scene.Cursor.HAND);
     label.setVisible(true);
+    labelCount.setVisible(false);
   }
 
   @FXML
@@ -77,14 +79,18 @@ public class WitnessHumanRoomController extends ChatController {
       viewSpraycan.setVisible(true);
       viewSpraycan.setLayoutX(parentX - 30);
       viewSpraycan.setLayoutY(parentY - 40);
+      labelCount.setVisible(true);
+      labelCount.setText("1/3 found");
     } else if (!viewBandanna.isVisible()) {
       viewBandanna.setVisible(true);
       viewBandanna.setLayoutX(parentX - 30);
       viewBandanna.setLayoutY(parentY - 40);
+      labelCount.setText("2/3 found");
     } else if (!viewGun.isVisible()) {
       viewGun.setVisible(true);
       viewGun.setLayoutX(parentX - 30);
       viewGun.setLayoutY(parentY - 40);
+      labelCount.setText("3/3 found");
       regionBag.setCursor(null);
       label.setVisible(false);
       ChatMessage msg =
