@@ -4,24 +4,27 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FlashbackController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FlashbackController">
    <children>
-      <VBox alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
+      <VBox fx:id="contentVBox" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
          <children>
+         <Label text="[FLASHBACK SCENE]" style="-fx-font-family: 'Roboto Mono', monospace; -fx-font-size: 24px; -fx-text-fill: #00BFFF; -fx-effect: dropshadow(gaussian, rgba(0, 191, 255, 0.7), 15, 0.0, 0, 0); -fx-padding: 0 0 10px 0;" />
             <ImageView fx:id="flashbackImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="flashbackText" text="Flashback description will go here." textFill="WHITE">
+            <Label fx:id="flashbackText" text="Flashback description will go here." textFill="WHITE" wrapText = "true" prefWidth="600.0">
                <font>
                   <Font name="Consolas" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#onNext" text="Next" />
-            <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" />
+            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#onNext" text="Next" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
+            <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
          </children>
       </VBox>
-      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" text="5:00" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;">
+      <Pane fx:id="whiteFlashPane" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
          <font>
             <Font size="20.0" />
          </font>
