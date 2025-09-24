@@ -94,12 +94,22 @@ public class FlashbackController implements ControllerInterface {
       case "trialAi":
         slides.add(
             new FlashbackSlide(
-                new Image(App.class.getResource("/images/Alpha1.png").toExternalForm()),
-                "I analyzed 4.7 million data points in 0.02 seconds."));
+                new Image(App.class.getResource("/images/Sentinel1.png").toExternalForm()),
+                "TRAINING DATA LOG: Ingesting historical data from Case File 7B: Urban Riot."
+                    + " Objective: Identify reliable precursors to civic violence and property"
+                    + " destruction."));
         slides.add(
             new FlashbackSlide(
-                new Image(App.class.getResource("/images/Alpha1.png").toExternalForm()),
-                "My decision was the most logical outcome to minimize overall risk."));
+                new Image(App.class.getResource("/images/Sentinel2.png").toExternalForm()),
+                "Pattern identified: Rapid forward movement combined with agitated vocalizations"
+                    + " and rigid, sign-like object correlates with a 94% probability of assault"
+                    + " on law enforcement."));
+        slides.add(
+            new FlashbackSlide(
+                new Image(App.class.getResource("/images/Sentinel3.png").toExternalForm()),
+                "PATTERN MATCH CONFIRMED: Subject 'Alex Ryder' displays three key"
+                    + " precursors. Threat probability elevated to 92%. Action required to uphold"
+                    + " primary safety directive. Detainment imminent."));
         break;
     }
     updateSlide();
