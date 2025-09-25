@@ -155,6 +155,7 @@ public class ChatController implements ControllerInterface {
     } else if (msg.getRole().equals("assistant")) {
       areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
     }
+    areaDisplayText.setScrollTop(Double.MAX_VALUE); // scrolls to bottom
   }
 
   // overridden in flashback controllers to provide the appropriate prompt
