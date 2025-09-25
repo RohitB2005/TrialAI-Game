@@ -14,9 +14,9 @@
    <children>
       <TextArea fx:id="areaDisplayText" editable="false" layoutX="715.0" prefHeight="499.0" prefWidth="365.0" wrapText="true" />
       <TextField fx:id="areaInputText" layoutX="715.0" layoutY="499.0" onKeyPressed="#onEnterPressed" onKeyReleased="#onKeyRelease" prefHeight="25.0" prefWidth="315.0" />
-      <ImageView fitHeight="634.0" fitWidth="443.0" pickOnBounds="true">
+      <ImageView fitHeight="532.0" fitWidth="443.0" pickOnBounds="true">
          <image>
-            <Image url="@../images/AlphaMemory.png" />
+            <Image url="@../../../../../../../../../Downloads/Gemini_Generated_Image_kwpkwkkwpkwkkwpk.png" />
          </image>
       </ImageView>
       <Button fx:id="btnSend" layoutX="1030.0" layoutY="499.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
