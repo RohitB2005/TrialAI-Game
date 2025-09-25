@@ -5,8 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
+import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class WitnessHumanRoomController extends ChatController {
@@ -28,13 +31,20 @@ public class WitnessHumanRoomController extends ChatController {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
 
-      // try {
-      //   media = new Media(App.class.getResource("/sounds/Alex_Ryder.mp3").toURI().toString());
-      //   mediaPlayerWelcome = new MediaPlayer(media);
-      //   mediaPlayerWelcome.play();
-      // } catch (URISyntaxException e) {
-      //   e.printStackTrace();
-      // }
+      try {
+        media = new Media(App.class.getResource("/sounds/Alex_Ryder.mp3").toURI().toString());
+        mediaPlayerWelcome = new MediaPlayer(media);
+
+        // Wait for the MediaPlayer to be ready before playing
+        mediaPlayerWelcome.setOnReady(
+            () -> {
+              mediaPlayerWelcome.play();
+            });
+
+      } catch (Exception e) {
+        System.err.println("Error loading Alex_Ryder.mp3: " + e.getMessage());
+      }
+
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now Alex Ryder again, the human victim, you may make a comment on what the"
