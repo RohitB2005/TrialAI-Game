@@ -13,10 +13,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
+import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class WitnessAiRoomController extends ChatController {
@@ -71,13 +74,20 @@ public class WitnessAiRoomController extends ChatController {
   public String getPrompt() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
-      // try {
-      //   media = new Media(App.class.getResource("/sounds/Alpha.mp3").toURI().toString());
-      //   mediaPlayerWelcome = new MediaPlayer(media);
-      //   mediaPlayerWelcome.play();
-      // } catch (URISyntaxException e) {
-      //   e.printStackTrace();
-      // }
+
+      try {
+        media = new Media(App.class.getResource("/sounds/Alpha.mp3").toURI().toString());
+        mediaPlayerWelcome = new MediaPlayer(media);
+
+        // Wait for the MediaPlayer to be ready before playing
+        mediaPlayerWelcome.setOnReady(
+            () -> {
+              mediaPlayerWelcome.play();
+            });
+
+      } catch (Exception e) {
+        System.err.println("Error loading Alpha.mp3.mp3: " + e.getMessage());
+      }
       areaInputText.requestFocus();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {

@@ -44,7 +44,7 @@ public class WitnessHumanRoomController extends ChatController {
       } catch (Exception e) {
         System.err.println("Error loading Alex_Ryder.mp3: " + e.getMessage());
       }
-
+      areaInputText.requestFocus();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now Alex Ryder again, the human victim, you may make a comment on what the"

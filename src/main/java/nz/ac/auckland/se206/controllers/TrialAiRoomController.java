@@ -83,7 +83,7 @@ public class TrialAiRoomController extends ChatController {
       // } catch (URISyntaxException e) {
       //   e.printStackTrace();
       // }
-
+      areaInputText.requestFocus();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
