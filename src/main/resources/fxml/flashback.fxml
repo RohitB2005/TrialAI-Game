@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FlashbackController">
    <children>
-      <VBox fx:id="contentVBox" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
+      <VBox fx:id="contentVbox" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
          <children>
          <Label text="[FLASHBACK SCENE]" style="-fx-font-family: 'Roboto Mono', monospace; -fx-font-size: 24px; -fx-text-fill: #00BFFF; -fx-effect: dropshadow(gaussian, rgba(0, 191, 255, 0.7), 15, 0.0, 0, 0); -fx-padding: 0 0 10px 0;" />
             <ImageView fx:id="flashbackImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
@@ -19,7 +19,7 @@
                   <Font name="Consolas" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#onNext" text="Next" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
+            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#handleNext" text="Next" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
             <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
          </children>
       </VBox>
