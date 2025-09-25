@@ -14,6 +14,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest.Model;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionResult;
@@ -42,6 +44,8 @@ public class ChatController implements ControllerInterface {
   @FXML private Button btnReturn;
   @FXML private Label timerLabel;
 
+  protected Media media;
+  protected MediaPlayer mediaPlayerWelcome;
   protected boolean isFirstTimeInit = true;
 
   // initializes the chat controller, setting up the chat completion request if it is first time
@@ -195,6 +199,9 @@ public class ChatController implements ControllerInterface {
   // logic for pushing return button
   @FXML
   protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
+    if (mediaPlayerWelcome != null) {
+      mediaPlayerWelcome.stop();
+    }
     Button btn = (Button) event.getSource();
     Scene scene = btn.getScene();
     App.openScene(scene, "courtRoom");
