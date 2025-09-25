@@ -9,9 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
+import nz.ac.auckland.apiproxy.config.ApiProxyConfig;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
+import nz.ac.auckland.apiproxy.tts.TextToSpeechRequest;
+import nz.ac.auckland.apiproxy.tts.TextToSpeechResult;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
+import nz.ac.auckland.se206.speech.TextToSpeech;
 
 public class FinalRoomController extends ChatController {
 
@@ -181,8 +185,36 @@ public class FinalRoomController extends ChatController {
       areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
     } else if (msg.getRole().equals("assistant")) {
       areaDisplayText.appendText(msg.getContent() + "\n\n");
+
+      // Play "Thanks for playing" audio after AI response in final room
+      if (choiceMade) {
+        playEndGameAudio();
+      }
     } else if (msg.getRole().equals("system")) {
       areaDisplayText.appendText("System: " + msg.getContent() + "\n\n");
+    }
+  }
+
+  /** Plays the "Thanks for playing" audio using TTS after the final AI response */
+  private void playEndGameAudio() {
+    try {
+      System.out.println("Playing 'Thanks for playing' using TTS");
+
+      // Create TTS request to get the audio URL
+      ApiProxyConfig config = ApiProxyConfig.readConfig();
+      TextToSpeechRequest ttsRequest = new TextToSpeechRequest(config);
+      ttsRequest
+          .setText("Thank you for playing")
+          .setProvider(TextToSpeechRequest.Provider.GOOGLE)
+          .setVoice(TextToSpeechRequest.Voice.GOOGLE_EN_US_STANDARD_H);
+
+      TextToSpeechResult ttsResult = ttsRequest.execute();
+      String audioUrl = ttsResult.getAudioUrl();
+      System.out.println(audioUrl);
+
+      TextToSpeech.speak("Thank you for playing");
+    } catch (Exception e) {
+      System.err.println("Error playing TTS audio: " + e.getMessage());
     }
   }
 }
