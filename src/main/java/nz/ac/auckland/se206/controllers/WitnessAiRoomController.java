@@ -23,16 +23,16 @@ public class WitnessAiRoomController extends ChatController {
 
   private String person = "witnessAi";
   private String name = "Alpha-Ai";
-  private int xVelocity = 0;
-  private int yVelocity = 0;
+  private int horizontalVelocity = 0;
+  private int verticalVelocity = 0;
   private List<Rectangle> platforms;
   private Image playerImage;
   private int tileSize = 16;
   private int restCount = 0;
   private boolean playerDead = false;
   private int deathCount = 0;
-  private int platform1XVelocity = 1;
-  private int platform2XVelocity = -1;
+  private int platform1HorizontalVelocity = 1;
+  private int platform2HorizontalVelocity = -1;
   private Boolean hasWon = false;
 
   @FXML private ImageView player;
@@ -48,8 +48,11 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
 
+  // initialize sets all required fields for the scene when opened
   @FXML
   void initialize() {
+
+    // create list to store all platforms in game, then add each of them
     platforms = new ArrayList<>();
     platforms.add(rectPlatform1);
     platforms.add(rectPlatform2);
@@ -59,6 +62,8 @@ public class WitnessAiRoomController extends ChatController {
     platforms.add(rect4);
     platforms.add(rect5);
     platforms.add(rect6);
+
+    // sets player image and timer cycles logic
     areaInputText.requestFocus();
     playerImage = new Image(getClass().getResourceAsStream("/images/Player.png"));
     setImage();
@@ -96,10 +101,15 @@ public class WitnessAiRoomController extends ChatController {
     return "WitnessAi";
   }
 
+  // custom reset logic for this specific scene with relevant parameters
   @Override
   public void reset() {
+
+    // call on interface reset
     super.reset();
 
+    // reset visibility of buttons and positions of platforms and character, similar to initialise
+    // but for replays
     btnStart.setVisible(true);
     btnStart.setText("Begin Infiltration");
     playerDead = false;
@@ -109,14 +119,17 @@ public class WitnessAiRoomController extends ChatController {
     timer.stop();
     rectPlatform1.setX(5);
     rectPlatform2.setX(195);
-    platform1XVelocity = 1;
-    platform2XVelocity = -1;
+    platform1HorizontalVelocity = 1;
+    platform2HorizontalVelocity = -1;
+
+    // reset deaths and label text, as well as boolean statuses associated with game
     deathCount = 0;
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(false);
     hasWon = false;
   }
 
+  // logic for starting the memory game and initialising fields needed
   @FXML
   private void onStart() {
     btnStart.setVisible(false);
@@ -124,50 +137,61 @@ public class WitnessAiRoomController extends ChatController {
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
       timer.play();
     }
+
+    // set position, health status, as well as velocity and other parameters to start game
     playerDead = false;
     player.setX(20);
     player.setY(675);
     player.setVisible(true);
-    xVelocity = 0;
-    yVelocity = 0;
+    horizontalVelocity = 0;
+    verticalVelocity = 0;
     restCount = 0;
+
+    // text and image included in memory
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(true);
     setImage();
   }
 
+  // set logic for controls in the memory game
   @Override
   @FXML
   protected void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     super.onEnterPressed(event);
     switch (event.getCode()) {
+
+      // up sets positive vertical velocity, down is negative, right is positive horizontal
+      // velocity, left is negative
       case UP:
-        yVelocity = -4;
+        verticalVelocity = -4;
         break;
       case DOWN:
-        yVelocity = 4;
+        verticalVelocity = 4;
         break;
       case LEFT:
-        xVelocity = -4;
+        horizontalVelocity = -4;
         break;
       case RIGHT:
-        xVelocity = 4;
+        horizontalVelocity = 4;
         break;
       default:
         break;
     }
   }
 
+  // tracks key pressed for memory game and sets velocity
   @FXML
   private void onKeyRelease(KeyEvent event) {
+
+    // initialise horizontal velocity for X directions, vertical velocity for Y
     switch (event.getCode()) {
       case UP:
       case DOWN:
-        yVelocity = 0;
+        verticalVelocity = 0;
         break;
       case LEFT:
       case RIGHT:
-        xVelocity = 0;
+        horizontalVelocity = 0;
         break;
       default:
         break;
@@ -178,8 +202,8 @@ public class WitnessAiRoomController extends ChatController {
     if (playerDead) {
       return;
     }
-    player.setX(player.getX() + xVelocity);
-    player.setY(player.getY() + yVelocity);
+    player.setX(player.getX() + horizontalVelocity);
+    player.setY(player.getY() + verticalVelocity);
 
     if (player.getY() < 20) {
       // Player reached the top, win condition
@@ -206,8 +230,8 @@ public class WitnessAiRoomController extends ChatController {
 
     // Check for collisions with platforms
     if (player.getX() < 1 || player.getX() > 235 || player.getY() < 1 || player.getY() > 680) {
-      player.setX(player.getX() - xVelocity);
-      player.setY(player.getY() - yVelocity);
+      player.setX(player.getX() - horizontalVelocity);
+      player.setY(player.getY() - verticalVelocity);
     }
 
     for (Rectangle platform : platforms) {
@@ -220,8 +244,11 @@ public class WitnessAiRoomController extends ChatController {
     }
   }
 
+  // method to set the image based on its pixel position
   private void setImage() {
     if (!playerDead) {
+
+      // use pixel reader when a player is alive to set image
       restCount = (restCount + 1) % 32;
       if (restCount % 8 == 0) {
         WritableImage img =
@@ -234,6 +261,8 @@ public class WitnessAiRoomController extends ChatController {
         player.setImage(img);
       }
     } else {
+
+      // check number of deaths and set image and fields based on that
       deathCount++;
       if (deathCount == 1 || deathCount == 11) {
         WritableImage img =
@@ -245,6 +274,8 @@ public class WitnessAiRoomController extends ChatController {
                 tileSize);
         player.setImage(img);
       } else if (deathCount > 20) {
+
+        // reset logic for game
         player.setVisible(false);
         timer.stop();
         deathCount = 0;
@@ -254,19 +285,19 @@ public class WitnessAiRoomController extends ChatController {
 
   private void movePlatforms() {
     // Move platform 1
-    rectPlatform1.setX(rectPlatform1.getX() + platform1XVelocity);
+    rectPlatform1.setX(rectPlatform1.getX() + platform1HorizontalVelocity);
     if (rectPlatform1.getX() > 195) {
-      platform1XVelocity = -1;
+      platform1HorizontalVelocity = -1;
     } else if (rectPlatform1.getX() < 5) {
-      platform1XVelocity = 1;
+      platform1HorizontalVelocity = 1;
     }
 
     // Move platform 2
-    rectPlatform2.setX(rectPlatform2.getX() + platform2XVelocity);
+    rectPlatform2.setX(rectPlatform2.getX() + platform2HorizontalVelocity);
     if (rectPlatform2.getX() > 195) {
-      platform2XVelocity = -1;
+      platform2HorizontalVelocity = -1;
     } else if (rectPlatform2.getX() < 5) {
-      platform2XVelocity = 1;
+      platform2HorizontalVelocity = 1;
     }
   }
 
@@ -281,6 +312,7 @@ public class WitnessAiRoomController extends ChatController {
               }));
 
   @FXML
+  @Override
   protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
     super.onReturn(event);
     timer.stop();

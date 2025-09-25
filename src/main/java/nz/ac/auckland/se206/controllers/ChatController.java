@@ -60,6 +60,8 @@ public class ChatController implements ControllerInterface {
   // initialize a chat completion request, contains the logic to set the specific LLM parameters
   public void initializeChatCompletionRequest() throws ApiProxyException {
     try {
+
+      // generate request with specific tokens, TopP, model used, etc
       ApiProxyConfig config = ApiProxyConfig.readConfig();
       chatCompletionRequest =
           new ChatCompletionRequest(config)
@@ -69,6 +71,8 @@ public class ChatController implements ControllerInterface {
               .setModel(Model.GPT_4_1_MINI)
               .setMaxTokens(200);
     } catch (ApiProxyException e) {
+
+      // debugging info for errors
       e.printStackTrace();
     }
   }

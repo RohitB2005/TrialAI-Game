@@ -55,10 +55,14 @@ public class WitnessHumanRoomController extends ChatController {
   // simple reset calls on interface and sets visibility of memoru components
   @Override
   public void reset() {
+
+    // calls on interface to implement reset, then sets visibility of needed components
     super.reset();
     viewSpraycan.setVisible(false);
     viewBandanna.setVisible(false);
     viewGun.setVisible(false);
+
+    // set a custom cursor on hover and labels visibility
     regionBag.setCursor(javafx.scene.Cursor.HAND);
     label.setVisible(true);
     labelCount.setVisible(false);
