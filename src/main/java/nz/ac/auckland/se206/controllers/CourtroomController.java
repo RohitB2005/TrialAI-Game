@@ -39,6 +39,9 @@ public class CourtroomController implements ControllerInterface {
   @FXML
   public void initialize() throws URISyntaxException {
     btnFinalRoom.setDisable(true);
+
+    // Play welcome audio on first entry
+    playWelcomeAudio();
   }
 
   @Override
@@ -68,16 +71,6 @@ public class CourtroomController implements ControllerInterface {
     }
   }
 
-  public void handleEntry() {
-    if (isFirstTimeInit) {
-      // media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
-      // mediaPlayerWelcome = new MediaPlayer(media);
-      // mediaPlayerWelcome.play();
-      isFirstTimeInit = false;
-      btnFinalRoom.setDisable(true);
-    }
-  }
-
   @FXML
   private void onExitBtn() {
     javafx.application.Platform.exit();
@@ -99,7 +92,37 @@ public class CourtroomController implements ControllerInterface {
   @Override
   public void reset() {
     btnFinalRoom.setDisable(true);
-    isFirstTimeInit = true;
+    isFirstTimeInit = true; // This ensures audio will play again after reset
     viewedFlashbacks.clear();
+
+    // Stop current audio if playing
+    if (mediaPlayerWelcome != null) {
+      mediaPlayerWelcome.stop();
+    }
+
+    // Play welcome audio after reset
+    playWelcomeAudio();
+  }
+
+  // Method to play welcome audio
+  public void playWelcomeAudio() {
+    if (isFirstTimeInit) {
+      try {
+        media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
+        mediaPlayerWelcome = new MediaPlayer(media);
+
+        // Wait for MediaPlayer to be ready before playing
+        mediaPlayerWelcome.setOnReady(
+            () -> {
+              mediaPlayerWelcome.play();
+            });
+
+        isFirstTimeInit = false;
+
+      } catch (Exception e) {
+        System.err.println("Error loading Welcome.mp3: " + e.getMessage());
+        e.printStackTrace();
+      }
+    }
   }
 }
