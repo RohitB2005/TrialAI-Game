@@ -167,6 +167,7 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
+  @Override
   protected void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
       onSendMessage(null);

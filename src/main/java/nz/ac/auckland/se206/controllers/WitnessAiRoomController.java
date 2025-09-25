@@ -23,16 +23,16 @@ public class WitnessAiRoomController extends ChatController {
 
   private String person = "witnessAi";
   private String name = "Alpha-Ai";
-  private int xVelocity = 0;
-  private int yVelocity = 0;
+  private int horizontalVelocity = 0;
+  private int verticalVelocity = 0;
   private List<Rectangle> platforms;
   private Image playerImage;
   private int tileSize = 16;
   private int restCount = 0;
   private boolean playerDead = false;
   private int deathCount = 0;
-  private int platform1XVelocity = 1;
-  private int platform2XVelocity = -1;
+  private int platform1HorizontalVelocity = 1;
+  private int platform2HorizontalVelocity = -1;
   private Boolean hasWon = false;
 
   @FXML private ImageView player;
@@ -109,8 +109,8 @@ public class WitnessAiRoomController extends ChatController {
     timer.stop();
     rectPlatform1.setX(5);
     rectPlatform2.setX(195);
-    platform1XVelocity = 1;
-    platform2XVelocity = -1;
+    platform1HorizontalVelocity = 1;
+    platform2HorizontalVelocity = -1;
     deathCount = 0;
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(false);
@@ -128,8 +128,8 @@ public class WitnessAiRoomController extends ChatController {
     player.setX(20);
     player.setY(675);
     player.setVisible(true);
-    xVelocity = 0;
-    yVelocity = 0;
+    horizontalVelocity = 0;
+    verticalVelocity = 0;
     restCount = 0;
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(true);
@@ -142,16 +142,16 @@ public class WitnessAiRoomController extends ChatController {
     super.onEnterPressed(event);
     switch (event.getCode()) {
       case UP:
-        yVelocity = -4;
+        verticalVelocity = -4;
         break;
       case DOWN:
-        yVelocity = 4;
+        verticalVelocity = 4;
         break;
       case LEFT:
-        xVelocity = -4;
+        horizontalVelocity = -4;
         break;
       case RIGHT:
-        xVelocity = 4;
+        horizontalVelocity = 4;
         break;
       default:
         break;
@@ -163,11 +163,11 @@ public class WitnessAiRoomController extends ChatController {
     switch (event.getCode()) {
       case UP:
       case DOWN:
-        yVelocity = 0;
+        verticalVelocity = 0;
         break;
       case LEFT:
       case RIGHT:
-        xVelocity = 0;
+        horizontalVelocity = 0;
         break;
       default:
         break;
@@ -178,8 +178,8 @@ public class WitnessAiRoomController extends ChatController {
     if (playerDead) {
       return;
     }
-    player.setX(player.getX() + xVelocity);
-    player.setY(player.getY() + yVelocity);
+    player.setX(player.getX() + horizontalVelocity);
+    player.setY(player.getY() + verticalVelocity);
 
     if (player.getY() < 20) {
       // Player reached the top, win condition
@@ -206,8 +206,8 @@ public class WitnessAiRoomController extends ChatController {
 
     // Check for collisions with platforms
     if (player.getX() < 1 || player.getX() > 235 || player.getY() < 1 || player.getY() > 680) {
-      player.setX(player.getX() - xVelocity);
-      player.setY(player.getY() - yVelocity);
+      player.setX(player.getX() - horizontalVelocity);
+      player.setY(player.getY() - verticalVelocity);
     }
 
     for (Rectangle platform : platforms) {
@@ -254,19 +254,19 @@ public class WitnessAiRoomController extends ChatController {
 
   private void movePlatforms() {
     // Move platform 1
-    rectPlatform1.setX(rectPlatform1.getX() + platform1XVelocity);
+    rectPlatform1.setX(rectPlatform1.getX() + platform1HorizontalVelocity);
     if (rectPlatform1.getX() > 195) {
-      platform1XVelocity = -1;
+      platform1HorizontalVelocity = -1;
     } else if (rectPlatform1.getX() < 5) {
-      platform1XVelocity = 1;
+      platform1HorizontalVelocity = 1;
     }
 
     // Move platform 2
-    rectPlatform2.setX(rectPlatform2.getX() + platform2XVelocity);
+    rectPlatform2.setX(rectPlatform2.getX() + platform2HorizontalVelocity);
     if (rectPlatform2.getX() > 195) {
-      platform2XVelocity = -1;
+      platform2HorizontalVelocity = -1;
     } else if (rectPlatform2.getX() < 5) {
-      platform2XVelocity = 1;
+      platform2HorizontalVelocity = 1;
     }
   }
 
@@ -281,6 +281,7 @@ public class WitnessAiRoomController extends ChatController {
               }));
 
   @FXML
+  @Override
   protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
     super.onReturn(event);
     timer.stop();
