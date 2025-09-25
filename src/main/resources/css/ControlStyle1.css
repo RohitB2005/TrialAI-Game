@@ -58,6 +58,19 @@
   -fx-font-family: "'Roboto Mono', monospace";
 }
 
+.gamePane {
+  -fx-background-color: black;
+  -fx-opacity: 1;
+  -fx-border-color: #ff0000;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #ff0000;
+  -fx-padding: 8px 16px;
+  -fx-font-size: 14px;
+  -fx-cursor: default;
+  -fx-font-family: "'Roboto Mono', monospace";
+}
+
 .button4 {
   -fx-background-color: rgb(243, 243, 243);
   -fx-opacity: 1;
@@ -68,6 +81,18 @@
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
+  -fx-font-family: "'Roboto Mono', monospace";
+}
+
+.labelFinalStyle {
+  -fx-background-color: transparent;
+  -fx-border-color: #00bfff;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #00bfff;
+  -fx-padding: 8px 16px;
+  -fx-font-size: 14px;
+  -fx-cursor: default;
   -fx-font-family: "'Roboto Mono', monospace";
 }
 
