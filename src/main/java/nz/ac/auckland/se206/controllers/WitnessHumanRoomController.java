@@ -52,6 +52,7 @@ public class WitnessHumanRoomController extends ChatController {
     return "WitnessHuman";
   }
 
+  // simple reset calls on interface and sets visibility of memoru components
   @Override
   public void reset() {
     super.reset();
@@ -63,12 +64,15 @@ public class WitnessHumanRoomController extends ChatController {
     labelCount.setVisible(false);
   }
 
+  // logic for clicking bag for items in memory
   @FXML
   public void onBagClick(MouseEvent event) throws ApiProxyException {
     double parentX =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
     double parentY =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+
+    // if statement to set position and visibility of spray can, increment indicator
     if (!viewSpraycan.isVisible()) {
       viewSpraycan.setVisible(true);
       viewSpraycan.setLayoutX(parentX - 30);
@@ -76,17 +80,23 @@ public class WitnessHumanRoomController extends ChatController {
       labelCount.setVisible(true);
       labelCount.setText("1/3 found");
     } else if (!viewBandanna.isVisible()) {
+
+      // set visibility and position of bandana next, increment count
       viewBandanna.setVisible(true);
       viewBandanna.setLayoutX(parentX - 30);
       viewBandanna.setLayoutY(parentY - 40);
       labelCount.setText("2/3 found");
     } else if (!viewGun.isVisible()) {
+
+      // final item gun taken from bag, position and visibility set
       viewGun.setVisible(true);
       viewGun.setLayoutX(parentX - 30);
       viewGun.setLayoutY(parentY - 40);
       labelCount.setText("3/3 found");
       regionBag.setCursor(null);
       label.setVisible(false);
+
+      // append new message to chat and send to LLM as prompt to provide further context
       ChatMessage msg =
           new ChatMessage(
               "system",
@@ -98,6 +108,7 @@ public class WitnessHumanRoomController extends ChatController {
     }
   }
 
+  // draggable animation for items in memory
   @FXML
   public void onDrag(MouseEvent event) {
     ImageView draggedImage = (ImageView) event.getSource();
@@ -105,6 +116,8 @@ public class WitnessHumanRoomController extends ChatController {
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
     double parentY =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+
+    // set positions of separate images
     if (draggedImage == viewGun) {
       draggedImage.setLayoutX(parentX - 80);
       draggedImage.setLayoutY(parentY - 30);

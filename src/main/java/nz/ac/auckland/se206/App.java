@@ -106,16 +106,19 @@ public class App extends Application {
     return String.format("%02d:%02d", minutes, seconds);
   }
 
+  // master game reset command logic
   public static void resetGame() {
     System.out.println("DEBUG: MASTER RESET INITIATED IN APP.JAVA");
     for (ControllerInterface controller : SceneManager.getAllControllers()) {
       controller.reset();
     }
 
+    // resets context and timer
     isFinalScene = false;
     context.reset();
     stopTimer();
 
+    // set new scene, context and restart timer
     scene.setRoot(SceneManager.getUiRoot(AppUi.COURTROOM));
     context.setCurrentScene("courtRoom");
     startTimer(300);

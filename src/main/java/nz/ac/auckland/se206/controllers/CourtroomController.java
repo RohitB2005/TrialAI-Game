@@ -56,6 +56,7 @@ public class CourtroomController implements ControllerInterface {
     String participantId = clickedRegion.getId();
     Scene scene = clickedRegion.getScene();
 
+    // initializes flashback scene and opens it for each character
     if (viewedFlashbacks.contains(participantId)) {
       App.openScene(scene, participantId);
     } else {

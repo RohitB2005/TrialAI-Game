@@ -43,16 +43,22 @@ public class FlashbackController implements ControllerInterface {
   private int currentSlideIndex = 0;
   private String participantId;
 
+  // method begins flashback slideshow sequence
   public void initializeFlashback(String participantId) {
     this.participantId = participantId;
     slides.clear();
     currentSlideIndex = 0;
 
+    // setting the introductory transition logic
     contentVbox.setOpacity(0.0);
     whiteFlashPane.setOpacity(1.0);
     whiteFlashPane.setMouseTransparent(false);
+
+    // switch statement creating flashback slides with custom images and captions
     switch (participantId) {
       case "witnessHuman":
+
+        // human witness 3 slides showing flashback, including captions
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alex1.png").toExternalForm()),
@@ -70,6 +76,8 @@ public class FlashbackController implements ControllerInterface {
                     + " thinks I was gonna do!"));
         break;
       case "witnessAi":
+
+        // ai witness 3 slides with flashback, including custom subtitles
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha1.png").toExternalForm()),
@@ -92,6 +100,8 @@ public class FlashbackController implements ControllerInterface {
                     + " the data was not impartial."));
         break;
       case "trialAi":
+
+        // alpha flashback with 3 slides and personalised text
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Sentinel1.png").toExternalForm()),
@@ -112,15 +122,19 @@ public class FlashbackController implements ControllerInterface {
                     + " primary safety directive. Detainment imminent."));
         break;
     }
+
+    // update to next slide with transition animation
     updateSlide();
     playIntroAnimation();
   }
 
+  // plays introductory animation for flashback start
   private void playIntroAnimation() {
     FadeTransition ftFlash = new FadeTransition(Duration.millis(500), whiteFlashPane);
     ftFlash.setFromValue(1.0);
     ftFlash.setToValue(0.0);
 
+    // set and play white flash event for animation transition
     ftFlash.setOnFinished(
         event -> {
           whiteFlashPane.setMouseTransparent(true);
@@ -138,11 +152,13 @@ public class FlashbackController implements ControllerInterface {
     playContentFadeTransition(false);
   }
 
+  // plays transition animation for slide switching and opening slides
   private void playContentFadeTransition(boolean fadeIn) {
     FadeTransition ft = new FadeTransition(Duration.millis(300), contentVbox);
     ft.setFromValue(fadeIn ? 0.0 : 1.0);
     ft.setToValue(fadeIn ? 1.0 : 0.0);
 
+    // increment slide index and update slide with transition
     ft.setOnFinished(
         event -> {
           if (!fadeIn) {
@@ -156,6 +172,7 @@ public class FlashbackController implements ControllerInterface {
     ft.play();
   }
 
+  // animation for text to appear as a typing transition
   private void animateText(String text) {
     if (typingAnimation != null) {
       typingAnimation.stop();
@@ -164,6 +181,7 @@ public class FlashbackController implements ControllerInterface {
     typingAnimation = new Timeline();
     typingAnimation.setCycleCount(text.length());
 
+    // sets keyframe delay for text appearing
     KeyFrame keyFrame =
         new KeyFrame(
             Duration.millis(25),
@@ -183,10 +201,12 @@ public class FlashbackController implements ControllerInterface {
     App.openScene(scene, this.participantId);
   }
 
+  // updates flashback image with included transition
   private void updateSlide() {
     flashbackImageView.setImage(slides.get(currentSlideIndex).image);
     animateText(slides.get(currentSlideIndex).text);
 
+    // sets visibility of button based on current slides index
     if (currentSlideIndex == slides.size() - 1) {
       btnNext.setVisible(false);
       btnContinue.setVisible(true);

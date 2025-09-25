@@ -66,8 +66,11 @@ public class CurrentSceneContext {
     currentState.onPulse(timeRemaining);
   }
 
+  // retrieves state of scene currently being viewed
   private GameState getState(String scene) {
     scene = scene.toUpperCase();
+
+    // switch statement returns scene identifier based on string received
     switch (scene) {
       case "COURTROOM":
         return courtroom;
