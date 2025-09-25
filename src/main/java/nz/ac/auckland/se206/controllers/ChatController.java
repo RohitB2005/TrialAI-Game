@@ -38,6 +38,13 @@ public class ChatController implements ControllerInterface {
   // Static so it persists across room switches
   public static Set<String> contactedParticipants = new HashSet<>();
 
+  // method to check if all participants have been contacted
+  public static boolean allParticipantsContacted() {
+    return contactedParticipants.contains("WitnessAi")
+        && contactedParticipants.contains("WitnessHuman")
+        && contactedParticipants.contains("TrialAi");
+  }
+
   @FXML protected TextArea areaDisplayText;
   @FXML protected TextField areaInputText;
   @FXML private Button btnSend;
@@ -96,7 +103,6 @@ public class ChatController implements ControllerInterface {
     try {
       initializeChatCompletionRequest();
     } catch (ApiProxyException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
@@ -148,16 +154,6 @@ public class ChatController implements ControllerInterface {
     return "RoomController";
   }
 
-  // appends a chat message to the display area with appropriate formatting based on who sent it
-  protected void appendChatMessage(ChatMessage msg) {
-    if (msg.getRole().equals("user")) {
-      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
-    } else if (msg.getRole().equals("assistant")) {
-      areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
-    }
-    areaDisplayText.setScrollTop(Double.MAX_VALUE); // scrolls to bottom
-  }
-
   // overridden in flashback controllers to provide the appropriate prompt
   public String getPrompt() {
     return "No prompt set";
@@ -167,13 +163,6 @@ public class ChatController implements ControllerInterface {
   // overridden in each specific room controller
   public String getParticipantId() {
     return "unknown";
-  }
-
-  // method to check if all participants have been contacted
-  public static boolean allParticipantsContacted() {
-    return contactedParticipants.contains("WitnessAi")
-        && contactedParticipants.contains("WitnessHuman")
-        && contactedParticipants.contains("TrialAi");
   }
 
   @FXML
@@ -213,5 +202,15 @@ public class ChatController implements ControllerInterface {
     Button btn = (Button) event.getSource();
     Scene scene = btn.getScene();
     App.openScene(scene, "courtRoom");
+  }
+
+  // appends a chat message to the display area with appropriate formatting based on who sent it
+  protected void appendChatMessage(ChatMessage msg) {
+    if (msg.getRole().equals("user")) {
+      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
+    } else if (msg.getRole().equals("assistant")) {
+      areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
+    }
+    areaDisplayText.setScrollTop(Double.MAX_VALUE); // scrolls to bottom
   }
 }
