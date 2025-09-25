@@ -30,7 +30,7 @@ public class FlashbackController implements ControllerInterface {
     }
   }
 
-  @FXML private VBox contentVBox;
+  @FXML private VBox contentVbox;
   @FXML private Pane whiteFlashPane;
   @FXML private ImageView flashbackImageView;
   @FXML private Label flashbackText;
@@ -43,12 +43,12 @@ public class FlashbackController implements ControllerInterface {
   private int currentSlideIndex = 0;
   private String participantId;
 
-  public void setupFlashback(String participantId) {
+  public void initializeFlashback(String participantId) {
     this.participantId = participantId;
     slides.clear();
     currentSlideIndex = 0;
 
-    contentVBox.setOpacity(0.0);
+    contentVbox.setOpacity(0.0);
     whiteFlashPane.setOpacity(1.0);
     whiteFlashPane.setMouseTransparent(false);
     switch (participantId) {
@@ -124,7 +124,7 @@ public class FlashbackController implements ControllerInterface {
     ftFlash.setOnFinished(
         event -> {
           whiteFlashPane.setMouseTransparent(true);
-          FadeTransition ftContent = new FadeTransition(Duration.millis(500), contentVBox);
+          FadeTransition ftContent = new FadeTransition(Duration.millis(500), contentVbox);
           ftContent.setFromValue(0.0);
           ftContent.setToValue(1.0);
           ftContent.play();
@@ -133,13 +133,13 @@ public class FlashbackController implements ControllerInterface {
   }
 
   @FXML
-  private void onNext() {
+  private void handleNext() {
     btnNext.setDisable(true);
     playContentFadeTransition(false);
   }
 
   private void playContentFadeTransition(boolean fadeIn) {
-    FadeTransition ft = new FadeTransition(Duration.millis(300), contentVBox);
+    FadeTransition ft = new FadeTransition(Duration.millis(300), contentVbox);
     ft.setFromValue(fadeIn ? 0.0 : 1.0);
     ft.setToValue(fadeIn ? 1.0 : 0.0);
 

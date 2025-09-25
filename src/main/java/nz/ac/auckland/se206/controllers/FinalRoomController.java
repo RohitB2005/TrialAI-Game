@@ -27,6 +27,7 @@ public class FinalRoomController extends ChatController {
   private boolean choiceMade = false;
   private String verdict = "";
 
+  @Override
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(App.formatTime(timeRemaining));
@@ -35,7 +36,7 @@ public class FinalRoomController extends ChatController {
     }
   }
 
-  public void onEntry() {
+  public void handleEntry() {
     // Disable return button if in final scene timer
     if (App.isFinalScene) {
       btnReturn.setVisible(false);
@@ -68,12 +69,12 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
-  private void onReplay() {
+  private void handleReplay() {
     App.resetGame();
   }
 
   @FXML
-  private void onGuilty() {
+  private void handleGuilty() {
     verdict = "i find the Sentinel-12 guilty of all charges.";
     btnGuilty.setDisable(true);
     btnInnocent.setVisible(false);
@@ -84,7 +85,7 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
-  private void onInnocent() {
+  private void handleInnocent() {
     verdict = "i find the Sentinel-12 innocent of all charges.";
     btnInnocent.setDisable(true);
     btnGuilty.setVisible(false);
@@ -128,6 +129,7 @@ public class FinalRoomController extends ChatController {
 
   // logic for pushing return button
   @FXML
+  @Override
   protected void onReturn(ActionEvent event) throws IOException {
     Button clickedbtn = (Button) event.getSource();
     Scene scene = clickedbtn.getScene();
@@ -135,6 +137,7 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
+  @Override
   protected void onSendMessage(ActionEvent event) throws ApiProxyException, IOException {
     String message = areaInputText.getText().trim();
     if (message.isEmpty()) {
@@ -160,6 +163,7 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
+  @Override
   // appends a chat message to the display area with appropriate formatting based on who sent it
   protected void appendChatMessage(ChatMessage msg) {
     if (msg.getRole().equals("user")) {

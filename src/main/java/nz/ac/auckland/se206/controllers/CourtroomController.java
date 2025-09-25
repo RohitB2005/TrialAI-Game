@@ -41,6 +41,7 @@ public class CourtroomController implements ControllerInterface {
     btnFinalRoom.setDisable(true);
   }
 
+  @Override
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(App.formatTime(timeRemaining));
@@ -61,12 +62,12 @@ public class CourtroomController implements ControllerInterface {
       viewedFlashbacks.add(participantId);
       FlashbackController flashbackController =
           (FlashbackController) SceneManager.getController(SceneManager.AppUi.FLASHBACK);
-      flashbackController.setupFlashback(participantId);
+      flashbackController.initializeFlashback(participantId);
       App.openScene(scene, "flashback");
     }
   }
 
-  public void onEntry() {
+  public void handleEntry() {
     if (isFirstTimeInit) {
       // media = new Media(App.class.getResource("/sounds/Welcome.mp3").toURI().toString());
       // mediaPlayerWelcome = new MediaPlayer(media);

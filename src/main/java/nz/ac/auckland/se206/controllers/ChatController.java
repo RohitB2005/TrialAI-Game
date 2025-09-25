@@ -68,6 +68,7 @@ public class ChatController implements ControllerInterface {
     }
   }
 
+  @Override
   public void updateTimer(int timeRemaining) {
     // Update the timer display in the UI
     timerLabel.setText(App.formatTime(timeRemaining));

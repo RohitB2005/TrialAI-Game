@@ -1,11 +1,7 @@
 package nz.ac.auckland.se206.controllers;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.prism.paint.Color;
-
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +16,6 @@ import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class TrialAiRoomController extends ChatController {
-
 
   @FXML private Button btnSurvey;
   @FXML private ImageView imageFlashback;
@@ -53,7 +48,8 @@ public class TrialAiRoomController extends ChatController {
     flashbacks = new ArrayList<>();
     Image image1 = new Image(App.class.getResource("/images/Criminal_drunk.png").toExternalForm());
     Image image2 = new Image(App.class.getResource("/images/Criminal_Knife.png").toExternalForm());
-    Image image3 = new Image(App.class.getResource("/images/Criminal_Activist.png").toExternalForm());
+    Image image3 =
+        new Image(App.class.getResource("/images/Criminal_Activist.png").toExternalForm());
     flashbacks.add(image1);
     flashbacks.add(image2);
     flashbacks.add(image3);
@@ -68,7 +64,6 @@ public class TrialAiRoomController extends ChatController {
     buttons.add(btnUpObserve);
     buttons.add(btnDownArrest);
     buttons.add(btnDownObserve);
-
   }
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
@@ -105,12 +100,10 @@ public class TrialAiRoomController extends ChatController {
   }
 
   @FXML
-  private void btnClick(Event event) {
+  private void onDecisionBtnClick(Event event) {
 
     Button clickedbtn = (Button) event.getSource();
     String btnId = clickedbtn.getId();
-
-    
 
     switch (btnId) {
       case "btnLeftArrest":
@@ -162,14 +155,14 @@ public class TrialAiRoomController extends ChatController {
   }
 
   private void updateButtonStyle(Button clickedbtn, boolean answer) {
-        clickedbtn.getStyleClass().remove("button3");
-        if (answer) {
-          clickedbtn.getStyleClass().add("button4");
-        } else {
-          clickedbtn.getStyleClass().add("button5");
-        }
-        clickedbtn.setDisable(true);
-      }
+    clickedbtn.getStyleClass().remove("button3");
+    if (answer) {
+      clickedbtn.getStyleClass().add("button4");
+    } else {
+      clickedbtn.getStyleClass().add("button5");
+    }
+    clickedbtn.setDisable(true);
+  }
 
   // changes the flashback image to the next in the linked list
   private void minigame(String action) {
@@ -196,8 +189,8 @@ public class TrialAiRoomController extends ChatController {
     }
   }
 
-  @FXML 
-  public void onSurvey() {
+  @FXML
+  private void onSurvey() {
     btnSurvey.setVisible(false);
     for (Button btn : buttons) {
       btn.setVisible(true);
@@ -209,11 +202,21 @@ public class TrialAiRoomController extends ChatController {
   private void lastResponce() {
     String prompt;
     if (alexArrested) {
-      prompt = "The interviewer has attempted to do your job observing crimes using your monitering system, They achieved city security of " + score + " and decided to arrest alex ryder when viewing the image of him filling his duffel bag with protestor equipment. You must now comment of this development.";
+      prompt =
+          "The interviewer has attempted to do your job observing crimes using your monitering"
+              + " system, They achieved city security of "
+              + score
+              + " and decided to arrest alex ryder when viewing the image of him filling his duffel"
+              + " bag with protestor equipment. You must now comment of this development.";
     } else {
-      prompt = "The interviewer has attempted to do your job observing crimes using your monitering system, They achieved city security of " + score + " and decided to let alex ryder go when viewing the image of him filling his duffel bag with protestor equipment. You must now defend your decisions.";
+      prompt =
+          "The interviewer has attempted to do your job observing crimes using your monitering"
+              + " system, They achieved city security of "
+              + score
+              + " and decided to let alex ryder go when viewing the image of him filling his duffel"
+              + " bag with protestor equipment. You must now defend your decisions.";
     }
-      
+
     ChatMessage msg = new ChatMessage("system", prompt);
     appendChatMessage(msg);
     try {
@@ -247,6 +250,5 @@ public class TrialAiRoomController extends ChatController {
     score = 0;
     alexArrested = false;
     scene = 0;
-
   }
 }
