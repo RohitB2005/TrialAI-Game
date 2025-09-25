@@ -32,7 +32,7 @@ public class FinalRoomController extends ChatController {
     // Update the timer display in the UI
     timerLabel.setText(App.formatTime(timeRemaining));
     if (timeRemaining <= 0 && App.isFinalScene && !choiceMade) {
-      onChoice();
+      onChoiceSelected();
     }
   }
 
@@ -69,12 +69,12 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
-  private void handleReplay() {
+  private void onReplayClicked() {
     App.resetGame();
   }
 
   @FXML
-  private void handleGuilty() {
+  private void onGuiltyClicked() {
     verdict = "i find the Sentinel-12 guilty of all charges.";
     btnGuilty.setDisable(true);
     btnInnocent.setVisible(false);
@@ -85,7 +85,7 @@ public class FinalRoomController extends ChatController {
   }
 
   @FXML
-  private void handleInnocent() {
+  private void onInnocentClicked() {
     verdict = "i find the Sentinel-12 innocent of all charges.";
     btnInnocent.setDisable(true);
     btnGuilty.setVisible(false);
@@ -97,7 +97,7 @@ public class FinalRoomController extends ChatController {
 
   // logic for when the player has sent their final message or the timer has run out
   // disables the input box and send button and stops the timer
-  private void onChoice() {
+  private void onChoiceSelected() {
     timerLabel.setVisible(false);
     btnReturn.setVisible(false);
     btnSend.setVisible(false);
@@ -152,7 +152,7 @@ public class FinalRoomController extends ChatController {
     appendChatMessage(msg);
     runGpt(msg);
 
-    onChoice();
+    onChoiceSelected();
   }
 
   @FXML

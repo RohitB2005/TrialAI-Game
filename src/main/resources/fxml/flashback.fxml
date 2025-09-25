@@ -19,7 +19,7 @@
                   <Font name="Consolas" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#handleNext" text="Next" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
+            <Button fx:id="btnNext" mnemonicParsing="false" onAction="#onNextClicked" text="Next" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
             <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" style="-fx-background-color: transparent; -fx-border-color: #00BFFF; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-text-fill: #00BFFF; -fx-font-family: 'Roboto Mono', monospace; -fx-padding: 8px 16px; -fx-cursor: hand;" />
          </children>
       </VBox>

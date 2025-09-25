@@ -133,7 +133,7 @@ public class FlashbackController implements ControllerInterface {
   }
 
   @FXML
-  private void handleNext() {
+  private void onNextClicked() {
     btnNext.setDisable(true);
     playContentFadeTransition(false);
   }

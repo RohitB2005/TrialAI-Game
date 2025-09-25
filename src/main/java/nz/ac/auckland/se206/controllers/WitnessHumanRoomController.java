@@ -73,9 +73,11 @@ public class WitnessHumanRoomController extends ChatController {
 
   @FXML
   public void onBagClick(MouseEvent event) throws ApiProxyException {
-    double parentX = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
-    double parentY = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
-    if (!viewSpraycan.isVisible()) {  
+    double parentX =
+        viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
+    double parentY =
+        viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+    if (!viewSpraycan.isVisible()) {
       viewSpraycan.setVisible(true);
       viewSpraycan.setLayoutX(parentX - 30);
       viewSpraycan.setLayoutY(parentY - 40);
@@ -96,17 +98,21 @@ public class WitnessHumanRoomController extends ChatController {
       ChatMessage msg =
           new ChatMessage(
               "system",
-              "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you must now defend yourself over why they were there on the day you wer areested");
+              "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you"
+                  + " must now defend yourself over why they were there on the day you wer"
+                  + " areested");
       appendChatMessage(msg);
       runGpt(msg);
-    } 
+    }
   }
 
   @FXML
   public void onDrag(MouseEvent event) {
     ImageView draggedImage = (ImageView) event.getSource();
-    double parentX = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
-    double parentY = viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
+    double parentX =
+        viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
+    double parentY =
+        viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
     if (draggedImage == viewGun) {
       draggedImage.setLayoutX(parentX - 80);
       draggedImage.setLayoutY(parentY - 30);
