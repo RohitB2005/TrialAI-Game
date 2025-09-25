@@ -176,11 +176,6 @@ public class ChatController implements ControllerInterface {
         && contactedParticipants.contains("TrialAi");
   }
 
-  // method to get list of contacted participants (for debugging/UI purposes)
-  public static Set<String> getContactedParticipants() {
-    return new HashSet<>(contactedParticipants);
-  }
-
   @FXML
   protected void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
