@@ -3,9 +3,9 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,11 +13,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
@@ -25,11 +23,17 @@ public class WitnessAiRoomController extends ChatController {
 
   private String person = "witnessAi";
   private String name = "Alpha-Ai";
-  private Media media;
-  private MediaPlayer mediaPlayerWelcome;
   private int xVelocity = 0;
   private int yVelocity = 0;
   private List<Rectangle> platforms;
+  private Image playerImage;
+  private int tileSize = 16;
+  private int restCount = 0;
+  private boolean playerDead = false;
+  private int deathCount = 0;
+  private int platform1XVelocity = 1;
+  private int platform2XVelocity = -1;
+  private Boolean hasWon = false;
 
   @FXML private ImageView player;
   @FXML private Rectangle rectPlatform1;
@@ -44,17 +48,8 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
 
-  private Image playerImage;
-  private int tileSize = 16;
-  private int restCount = 0;
-  private boolean playerDead = false;
-  private int deathCount = 0;
-  private int platform1XVelocity = 1;
-  private int platform2XVelocity = -1;
-
-
-
-  @FXML void initialize(){
+  @FXML
+  void initialize() {
     platforms = new ArrayList<>();
     platforms.add(rectPlatform1);
     platforms.add(rectPlatform2);
@@ -69,8 +64,6 @@ public class WitnessAiRoomController extends ChatController {
     setImage();
     timer.setCycleCount(Timeline.INDEFINITE);
   }
-
-
 
   // loads and plays a stored tts file for the ai witness when the scene is opened for the first
   // time
@@ -107,10 +100,6 @@ public class WitnessAiRoomController extends ChatController {
   public void reset() {
     super.reset();
 
-    if (mediaPlayerWelcome != null) {
-      mediaPlayerWelcome.stop();
-    }
-
     btnStart.setVisible(true);
     btnStart.setText("Begin Infiltration");
     playerDead = false;
@@ -125,9 +114,11 @@ public class WitnessAiRoomController extends ChatController {
     deathCount = 0;
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(false);
+    hasWon = false;
   }
 
-  @FXML private void onStart() {
+  @FXML
+  private void onStart() {
     btnStart.setVisible(false);
     areaInputText.requestFocus();
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
@@ -140,6 +131,7 @@ public class WitnessAiRoomController extends ChatController {
     xVelocity = 0;
     yVelocity = 0;
     restCount = 0;
+    labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(true);
     setImage();
   }
@@ -196,6 +188,19 @@ public class WitnessAiRoomController extends ChatController {
       labelFinal.setText("Infiltration Successful!!");
       btnStart.setText("Restart?");
       playerDead = true; // Prevent further movement
+      if (!hasWon) {
+        ChatMessage systemMessage =
+            new ChatMessage(
+                "assistant",
+                "Information recovered regarding Alex Ryder. Using current law enforcement"
+                    + " protocols there is no reason to believe he would act outside peaceful"
+                    + " protesting parameters. Compared to Sentinel 12 logic it is obvious the"
+                    + " algorithm used is out of date and using pre AI revolution data. Alex Ryder"
+                    + " is not a threat to national security and should be released immediately.");
+        appendChatMessage(systemMessage);
+        chatCompletionRequest.addMessage(systemMessage);
+      }
+      hasWon = true;
       return;
     }
 
@@ -203,7 +208,6 @@ public class WitnessAiRoomController extends ChatController {
     if (player.getX() < 1 || player.getX() > 235 || player.getY() < 1 || player.getY() > 680) {
       player.setX(player.getX() - xVelocity);
       player.setY(player.getY() - yVelocity);
-      System.out.println("Out of bounds X=" + player.getX() + " Y=" + player.getY());
     }
 
     for (Rectangle platform : platforms) {
@@ -220,16 +224,26 @@ public class WitnessAiRoomController extends ChatController {
     if (!playerDead) {
       restCount = (restCount + 1) % 32;
       if (restCount % 8 == 0) {
-        WritableImage img = new WritableImage(
-            playerImage.getPixelReader(), restCount/4 * tileSize + 9, 16, tileSize-2, tileSize);
+        WritableImage img =
+            new WritableImage(
+                playerImage.getPixelReader(),
+                restCount / 4 * tileSize + 9,
+                16,
+                tileSize - 2,
+                tileSize);
         player.setImage(img);
       }
     } else {
       deathCount++;
       if (deathCount == 1 || deathCount == 11) {
-      WritableImage img = new WritableImage(
-          playerImage.getPixelReader(), deathCount/10 * 2 * tileSize + 8, 206, tileSize, tileSize);
-      player.setImage(img);
+        WritableImage img =
+            new WritableImage(
+                playerImage.getPixelReader(),
+                deathCount / 10 * 2 * tileSize + 8,
+                206,
+                tileSize,
+                tileSize);
+        player.setImage(img);
       } else if (deathCount > 20) {
         player.setVisible(false);
         timer.stop();
@@ -265,4 +279,13 @@ public class WitnessAiRoomController extends ChatController {
                 setImage();
                 movePlatforms();
               }));
+
+  @FXML
+  protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
+    super.onReturn(event);
+    timer.stop();
+    btnStart.setVisible(true);
+    btnStart.setText("Begin Infiltration");
+    player.setVisible(false);
+  }
 }
