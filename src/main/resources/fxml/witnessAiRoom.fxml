@@ -28,18 +28,19 @@
       </Label>
       <Pane layoutX="440.0" prefHeight="720.0" prefWidth="275.0" styleClass="button5">
          <children>
-            <Rectangle fx:id="rect5" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="75.0" layoutY="522.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle fx:id="rect6" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutY="603.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle fx:id="rect4" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="155.0" layoutX="75.0" layoutY="367.0" stroke="BLACK" strokeType="INSIDE" width="29.0" />
-            <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="4.0" layoutY="282.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="155.0" layoutX="171.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="29.0" />
-            <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="75.0" layoutY="193.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle fx:id="rectPlatform1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="4.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
-            <Rectangle fx:id="rectPlatform2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="200.0" layoutY="61.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
-            <Label layoutX="45.0" layoutY="14.0" prefHeight="40.0" prefWidth="185.0" styleClass="button3" text="Sentinel 12 logic center" textAlignment="CENTER" />
+            <Rectangle fx:id="rect5" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="75.0" layoutY="516.0" stroke="RED" strokeType="INSIDE" width="200.0" />
+            <Rectangle fx:id="rect6" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutY="606.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Rectangle fx:id="rect4" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="155.0" layoutX="75.0" layoutY="376.0" stroke="TRANSPARENT" strokeType="INSIDE" width="29.0" />
+            <Rectangle fx:id="rect2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="4.0" layoutY="282.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+            <Rectangle fx:id="rect3" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="155.0" layoutX="175.0" layoutY="297.0" stroke="TRANSPARENT" strokeType="INSIDE" width="29.0" />
+            <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="75.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" width="122.0" />
+            <Rectangle fx:id="rectPlatform1" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" layoutX="3.0" layoutY="74.0" stroke="BLACK" strokeType="INSIDE" width="75.0" x="5.0" y="110.0" />
+            <Rectangle fx:id="rectPlatform2" arcHeight="5.0" arcWidth="5.0" fill="#ff1f1f" height="30.0" stroke="BLACK" strokeType="INSIDE" width="75.0" x="195.0" y="61.0" />
+            <Label fx:id="labelFinal" layoutX="45.0" layoutY="14.0" prefHeight="40.0" prefWidth="185.0" styleClass="button3" text="Sentinel 12 logic center" textAlignment="CENTER" />
             <ImageView fx:id="player" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" x="20.0" y="675.0" />
             <Button fx:id="btnStart" layoutX="53.0" layoutY="642.0" mnemonicParsing="false" onAction="#onStart" prefHeight="30.0" prefWidth="157.0" styleClass="button3" text="Begin Infiltration" />
          </children>
       </Pane>
+      <Label fx:id="labelInstructions" focusTraversable="false" layoutX="222.0" layoutY="642.0" prefHeight="70.0" prefWidth="213.0" styleClass="button4" text="Use ArrowKeys to move. Reach The Logic Center." textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
 </Pane>

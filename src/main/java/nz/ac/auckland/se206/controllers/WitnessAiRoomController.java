@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -40,9 +41,16 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Rectangle rect5;
   @FXML private Rectangle rect6;
   @FXML private Button btnStart;
+  @FXML private Label labelFinal;
+  @FXML private Label labelInstructions;
+
   private Image playerImage;
   private int tileSize = 16;
   private int restCount = 0;
+  private boolean playerDead = false;
+  private int deathCount = 0;
+  private int platform1XVelocity = 1;
+  private int platform2XVelocity = -1;
 
 
 
@@ -102,6 +110,21 @@ public class WitnessAiRoomController extends ChatController {
     if (mediaPlayerWelcome != null) {
       mediaPlayerWelcome.stop();
     }
+
+    btnStart.setVisible(true);
+    btnStart.setText("Begin Infiltration");
+    playerDead = false;
+    player.setX(20);
+    player.setY(675);
+    player.setVisible(false);
+    timer.stop();
+    rectPlatform1.setX(5);
+    rectPlatform2.setX(195);
+    platform1XVelocity = 1;
+    platform2XVelocity = -1;
+    deathCount = 0;
+    labelFinal.setText("Sentinel 12 Logic Centre");
+    labelInstructions.setVisible(false);
   }
 
   @FXML private void onStart() {
@@ -110,6 +133,14 @@ public class WitnessAiRoomController extends ChatController {
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
       timer.play();
     }
+    playerDead = false;
+    player.setX(20);
+    player.setY(675);
+    player.setVisible(true);
+    xVelocity = 0;
+    yVelocity = 0;
+    restCount = 0;
+    labelInstructions.setVisible(true);
     setImage();
   }
 
@@ -133,9 +164,6 @@ public class WitnessAiRoomController extends ChatController {
       default:
         break;
     }
-    if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
-      timer.play();
-    }
   }
 
   @FXML
@@ -155,9 +183,21 @@ public class WitnessAiRoomController extends ChatController {
   }
 
   private void movePlayer() {
-    setImage();
+    if (playerDead) {
+      return;
+    }
     player.setX(player.getX() + xVelocity);
     player.setY(player.getY() + yVelocity);
+
+    if (player.getY() < 20) {
+      // Player reached the top, win condition
+      timer.stop();
+      btnStart.setVisible(true);
+      labelFinal.setText("Infiltration Successful!!");
+      btnStart.setText("Restart?");
+      playerDead = true; // Prevent further movement
+      return;
+    }
 
     // Check for collisions with platforms
     if (player.getX() < 1 || player.getX() > 235 || player.getY() < 1 || player.getY() > 680) {
@@ -168,24 +208,51 @@ public class WitnessAiRoomController extends ChatController {
 
     for (Rectangle platform : platforms) {
       if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-        player.setX(player.getX() - xVelocity);
-        player.setY(player.getY() - yVelocity);
-        System.out.println("Collision detected with platform");
+        playerDead = true;
+        btnStart.setVisible(true);
+        btnStart.setText("You Died! Restart?");
         break;
       }
     }
   }
 
   private void setImage() {
-    if (xVelocity == 0) {
+    if (!playerDead) {
       restCount = (restCount + 1) % 32;
+      if (restCount % 8 == 0) {
+        WritableImage img = new WritableImage(
+            playerImage.getPixelReader(), restCount/4 * tileSize + 9, 16, tileSize-2, tileSize);
+        player.setImage(img);
+      }
     } else {
-      restCount = 0;
-    }
-    if (restCount % 8 == 0) {
+      deathCount++;
+      if (deathCount == 1 || deathCount == 11) {
       WritableImage img = new WritableImage(
-          playerImage.getPixelReader(), restCount/4 * tileSize + 8, 16, tileSize, tileSize);
+          playerImage.getPixelReader(), deathCount/10 * 2 * tileSize + 8, 206, tileSize, tileSize);
       player.setImage(img);
+      } else if (deathCount > 20) {
+        player.setVisible(false);
+        timer.stop();
+        deathCount = 0;
+      }
+    }
+  }
+
+  private void movePlatforms() {
+    // Move platform 1
+    rectPlatform1.setX(rectPlatform1.getX() + platform1XVelocity);
+    if (rectPlatform1.getX() > 195) {
+      platform1XVelocity = -1;
+    } else if (rectPlatform1.getX() < 5) {
+      platform1XVelocity = 1;
+    }
+
+    // Move platform 2
+    rectPlatform2.setX(rectPlatform2.getX() + platform2XVelocity);
+    if (rectPlatform2.getX() > 195) {
+      platform2XVelocity = -1;
+    } else if (rectPlatform2.getX() < 5) {
+      platform2XVelocity = 1;
     }
   }
 
@@ -193,5 +260,9 @@ public class WitnessAiRoomController extends ChatController {
       new Timeline(
           new KeyFrame(
               Duration.millis(16), // roughly 60 FPS
-              event -> movePlayer()));
+              event -> {
+                movePlayer();
+                setImage();
+                movePlatforms();
+              }));
 }
