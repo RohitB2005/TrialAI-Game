@@ -16,6 +16,7 @@ public class ChatState implements GameState {
     controller = (ChatController) SceneManager.getController(ui);
   }
 
+  // logic to use prompt to send message to llm
   @Override
   public void onEnter() {
     try {

@@ -45,16 +45,22 @@ public class TrialAiRoomController extends ChatController {
   // initializes the linked list of images for the flashback sequence
   @FXML
   public void initialize() {
+
+    // create list to store flashback images and create image objects
     flashbacks = new ArrayList<>();
     Image image1 = new Image(App.class.getResource("/images/Criminal_drunk.png").toExternalForm());
     Image image2 = new Image(App.class.getResource("/images/Criminal_Knife.png").toExternalForm());
     Image image3 =
         new Image(App.class.getResource("/images/Criminal_Activist.png").toExternalForm());
+
+    // add images to flashbacks array
     flashbacks.add(image1);
     flashbacks.add(image2);
     flashbacks.add(image3);
     imageFlashback1.setImage(flashbacks.get(0));
     imageFlashback1.setVisible(false);
+
+    // create buttons as an array list to select actions
     buttons = new ArrayList<>();
     buttons.add(btnLeftArrest);
     buttons.add(btnLeftObserve);
@@ -99,12 +105,14 @@ public class TrialAiRoomController extends ChatController {
     return "TrialAi";
   }
 
+  // selects decision with event to record answer
   @FXML
   private void onDecisionBtnClick(Event event) {
 
     Button clickedbtn = (Button) event.getSource();
     String btnId = clickedbtn.getId();
 
+    // switch statement to determine answer and set styles
     switch (btnId) {
       case "btnLeftArrest":
         btnLeftObserve.setVisible(false);
@@ -115,6 +123,8 @@ public class TrialAiRoomController extends ChatController {
         updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownRightArrest":
+
+        // update score for correct answer
         btnDownRightObserve.setVisible(false);
         updateButtonStyle(clickedbtn, true);
         score = score + 20;
@@ -141,10 +151,13 @@ public class TrialAiRoomController extends ChatController {
         break;
     }
 
+    // print text for scores and security level
     scene++;
     System.out.println("Score: " + score);
     labelSecurity.setText("City Security Level: " + score + "%");
     labelScene.setText(scene + "/7 situations judged");
+
+    // special case for max security level obtained
     if (score >= 100) {
       labelSecurity.setText("City Security Level: MAXIMUM");
       labelSecurity.setTextFill(javafx.scene.paint.Color.RED);
@@ -166,6 +179,8 @@ public class TrialAiRoomController extends ChatController {
 
   // changes the flashback image to the next in the linked list
   private void minigame(String action) {
+
+    // choose flashback slide based on image count
     if (imageCount == 0) {
       imageFlashback1.setVisible(true);
     } else if (imageCount == 1) {
@@ -173,6 +188,8 @@ public class TrialAiRoomController extends ChatController {
     } else if (imageCount == 2) {
       imageFlashback1.setImage(flashbacks.get(2));
     } else {
+
+      // sets observe and arrest buttons based on choices
       if (action.equals("arrest")) {
         btnUpObserve.setVisible(false);
         updateButtonStyle(btnUpArrest, true);
@@ -183,6 +200,8 @@ public class TrialAiRoomController extends ChatController {
         alexArrested = false;
       }
     }
+
+    // increment image count and score
     imageCount++;
     if (action.equals("arrest")) {
       score = score + 20;
@@ -199,6 +218,7 @@ public class TrialAiRoomController extends ChatController {
     labelScene.setVisible(true);
   }
 
+  // adjusts prompt based on users actions taken
   private void lastResponce() {
     String prompt;
     if (alexArrested) {
@@ -217,16 +237,17 @@ public class TrialAiRoomController extends ChatController {
               + " bag with protestor equipment. You must now defend your decisions.";
     }
 
+    // sends message to LLM
     ChatMessage msg = new ChatMessage("system", prompt);
     appendChatMessage(msg);
     try {
       runGpt(msg);
     } catch (ApiProxyException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
 
+  // reset includes the logic to reset all required parameters and buttons in this scene
   @Override
   public void reset() {
     super.reset();
@@ -243,6 +264,8 @@ public class TrialAiRoomController extends ChatController {
       btn.getStyleClass().remove("button5");
       btn.getStyleClass().add("button3");
     }
+
+    // reset values, scores and booleans here
     labelSecurity.setText("City Security Level: 0%");
     labelSecurity.setTextFill(javafx.scene.paint.Color.BLACK);
     labelScene.setVisible(false);

@@ -53,6 +53,7 @@ public class ChatController implements ControllerInterface {
     }
   }
 
+  // initialize a chat completion request, contains the logic to set the specific LLM parameters
   public void initializeChatCompletionRequest() throws ApiProxyException {
     try {
       ApiProxyConfig config = ApiProxyConfig.readConfig();
@@ -106,6 +107,8 @@ public class ChatController implements ControllerInterface {
 
     Task<Void> backgroundTask =
         new Task<>() {
+
+          // logic to fetch message and send request, then append chat messages
           @Override
           protected Void call() {
             try {
@@ -115,6 +118,8 @@ public class ChatController implements ControllerInterface {
               Platform.runLater(
                   () -> {
                     appendChatMessage(result.getChatMessage());
+
+                    // disable buttons while waiting for message
                     btnSend.setDisable(false);
                     btnReturn.setDisable(false);
                   });
@@ -182,6 +187,9 @@ public class ChatController implements ControllerInterface {
     if (message.isEmpty()) {
       return;
     }
+
+    // clears text area and save participant contacted history
+    // send user message to LLM and append to textarea
     areaInputText.clear();
     String participantId = getParticipantId();
     if (!participantId.equals("unknown")) {

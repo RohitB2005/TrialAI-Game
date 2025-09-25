@@ -73,6 +73,7 @@ public class FinalRoomController extends ChatController {
     App.resetGame();
   }
 
+  // selects guilty verdict on guilty button click, and sends a message to prompt for reasoning
   @FXML
   private void onGuiltyClicked() {
     verdict = "i find the Sentinel-12 guilty of all charges.";
@@ -84,6 +85,7 @@ public class FinalRoomController extends ChatController {
     areaInputText.setDisable(false);
   }
 
+  // selects not guilty verdict on innocent button click, sending message prompting for reasons
   @FXML
   private void onInnocentClicked() {
     verdict = "i find the Sentinel-12 innocent of all charges.";
@@ -98,6 +100,8 @@ public class FinalRoomController extends ChatController {
   // logic for when the player has sent their final message or the timer has run out
   // disables the input box and send button and stops the timer
   private void onChoiceSelected() {
+
+    // disables visibility of select buttons and enables others after choice made
     timerLabel.setVisible(false);
     btnReturn.setVisible(false);
     btnSend.setVisible(false);
@@ -107,11 +111,14 @@ public class FinalRoomController extends ChatController {
     App.stopTimer();
   }
 
+  // reset method to reset all specific buttons and labels in scene on replay
   @Override
   public void reset() {
     timerLabel.setVisible(true);
     btnReturn.setVisible(true);
     btnSend.setVisible(true);
+
+    // set button visibility and choice made status
     btnSend.setDisable(false);
     choiceMade = false;
     btnGuilty.setVisible(true);
@@ -136,6 +143,7 @@ public class FinalRoomController extends ChatController {
     App.openScene(scene, "courtroom");
   }
 
+  // logic to send a chatCompletionRequest and run the GPT model with given prompt
   @FXML
   @Override
   protected void onSendMessage(ActionEvent event) throws ApiProxyException, IOException {
@@ -145,6 +153,7 @@ public class FinalRoomController extends ChatController {
     }
     areaInputText.clear();
 
+    // adds messages for user and system to chat
     ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
 
