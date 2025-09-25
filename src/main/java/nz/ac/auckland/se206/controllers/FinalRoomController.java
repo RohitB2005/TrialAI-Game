@@ -83,6 +83,7 @@ public class FinalRoomController extends ChatController {
     appendChatMessage(msg);
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
+    btnReturn.setVisible(false);
   }
 
   // selects not guilty verdict on innocent button click, sending message prompting for reasons
@@ -95,6 +96,7 @@ public class FinalRoomController extends ChatController {
     appendChatMessage(msg);
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
+    btnReturn.setVisible(false);
   }
 
   // logic for when the player has sent their final message or the timer has run out
