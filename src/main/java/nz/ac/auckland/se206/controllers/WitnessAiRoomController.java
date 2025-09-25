@@ -51,6 +51,16 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
 
+  private Timeline timer =
+      new Timeline(
+          new KeyFrame(
+              Duration.millis(16), // roughly 60 FPS
+              event -> {
+                movePlayer();
+                setImage();
+                movePlatforms();
+              }));
+
   // initialize sets all required fields for the scene when opened
   @FXML
   void initialize() {
@@ -311,19 +321,12 @@ public class WitnessAiRoomController extends ChatController {
     }
   }
 
-  private Timeline timer =
-      new Timeline(
-          new KeyFrame(
-              Duration.millis(16), // roughly 60 FPS
-              event -> {
-                movePlayer();
-                setImage();
-                movePlatforms();
-              }));
-
+  // method handles logic for returning to room
   @FXML
   @Override
   protected void onReturn(ActionEvent event) throws ApiProxyException, IOException {
+
+    // call interface with master return method, then set required components' visibility
     super.onReturn(event);
     timer.stop();
     btnStart.setVisible(true);
