@@ -79,6 +79,8 @@ public class FinalRoomController extends ChatController {
     verdict = "I find the Sentinel-12 guilty of all charges.";
     btnGuilty.setDisable(true);
     btnInnocent.setVisible(false);
+
+    // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
     appendChatMessage(msg);
     btnSend.setDisable(false);
@@ -92,6 +94,8 @@ public class FinalRoomController extends ChatController {
     verdict = "I find the Sentinel-12 innocent of all charges.";
     btnInnocent.setDisable(true);
     btnGuilty.setVisible(false);
+
+    // initialise chat message from system and append the message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
     appendChatMessage(msg);
     btnSend.setDisable(false);

@@ -48,8 +48,11 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
 
+  // initialize sets all required fields for the scene when opened
   @FXML
   void initialize() {
+
+    // create list to store all platforms in game, then add each of them
     platforms = new ArrayList<>();
     platforms.add(rectPlatform1);
     platforms.add(rectPlatform2);
@@ -59,6 +62,8 @@ public class WitnessAiRoomController extends ChatController {
     platforms.add(rect4);
     platforms.add(rect5);
     platforms.add(rect6);
+
+    // sets player image and timer cycles logic
     areaInputText.requestFocus();
     playerImage = new Image(getClass().getResourceAsStream("/images/Player.png"));
     setImage();
@@ -96,10 +101,15 @@ public class WitnessAiRoomController extends ChatController {
     return "WitnessAi";
   }
 
+  // custom reset logic for this specific scene with relevant parameters
   @Override
   public void reset() {
+
+    // call on interface reset
     super.reset();
 
+    // reset visibility of buttons and positions of platforms and character, similar to initialise
+    // but for replays
     btnStart.setVisible(true);
     btnStart.setText("Begin Infiltration");
     playerDead = false;
@@ -111,12 +121,15 @@ public class WitnessAiRoomController extends ChatController {
     rectPlatform2.setX(195);
     platform1HorizontalVelocity = 1;
     platform2HorizontalVelocity = -1;
+
+    // reset deaths and label text, as well as boolean statuses associated with game
     deathCount = 0;
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(false);
     hasWon = false;
   }
 
+  // logic for starting the memory game and initialising fields needed
   @FXML
   private void onStart() {
     btnStart.setVisible(false);
@@ -124,6 +137,8 @@ public class WitnessAiRoomController extends ChatController {
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
       timer.play();
     }
+
+    // set position, health status, as well as velocity and other parameters to start game
     playerDead = false;
     player.setX(20);
     player.setY(675);
@@ -131,16 +146,22 @@ public class WitnessAiRoomController extends ChatController {
     horizontalVelocity = 0;
     verticalVelocity = 0;
     restCount = 0;
+
+    // text and image included in memory
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(true);
     setImage();
   }
 
+  // set logic for controls in the memory game
   @Override
   @FXML
   protected void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     super.onEnterPressed(event);
     switch (event.getCode()) {
+
+      // up sets positive vertical velocity, down is negative, right is positive horizontal
+      // velocity, left is negative
       case UP:
         verticalVelocity = -4;
         break;
@@ -158,8 +179,11 @@ public class WitnessAiRoomController extends ChatController {
     }
   }
 
+  // tracks key pressed for memory game and sets velocity
   @FXML
   private void onKeyRelease(KeyEvent event) {
+
+    // initialise horizontal velocity for X directions, vertical velocity for Y
     switch (event.getCode()) {
       case UP:
       case DOWN:
@@ -220,8 +244,11 @@ public class WitnessAiRoomController extends ChatController {
     }
   }
 
+  // method to set the image based on its pixel position
   private void setImage() {
     if (!playerDead) {
+
+      // use pixel reader when a player is alive to set image
       restCount = (restCount + 1) % 32;
       if (restCount % 8 == 0) {
         WritableImage img =
@@ -234,6 +261,8 @@ public class WitnessAiRoomController extends ChatController {
         player.setImage(img);
       }
     } else {
+
+      // check number of deaths and set image and fields based on that
       deathCount++;
       if (deathCount == 1 || deathCount == 11) {
         WritableImage img =
@@ -245,6 +274,8 @@ public class WitnessAiRoomController extends ChatController {
                 tileSize);
         player.setImage(img);
       } else if (deathCount > 20) {
+
+        // reset logic for game
         player.setVisible(false);
         timer.stop();
         deathCount = 0;

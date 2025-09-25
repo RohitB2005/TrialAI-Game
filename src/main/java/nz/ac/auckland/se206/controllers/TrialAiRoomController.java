@@ -217,7 +217,10 @@ public class TrialAiRoomController extends ChatController {
   // adjusts prompt based on users actions taken
   private void lastResponce() {
     String prompt;
+
     if (alexArrested) {
+
+      // human arrest case, shows agreement with defendant and prompt generated
       prompt =
           "The interviewer has attempted to do your job observing crimes using your monitering"
               + " system, They achieved city security of "
@@ -225,6 +228,8 @@ public class TrialAiRoomController extends ChatController {
               + " and decided to arrest alex ryder when viewing the image of him filling his duffel"
               + " bag with protestor equipment. You must now comment of this development.";
     } else {
+
+      // human not arrested case, disagreement with defendant and prompt generated
       prompt =
           "The interviewer has attempted to do your job observing crimes using your monitering"
               + " system, They achieved city security of "
