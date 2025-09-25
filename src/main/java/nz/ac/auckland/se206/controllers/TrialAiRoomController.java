@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -34,8 +32,6 @@ public class TrialAiRoomController extends ChatController {
   private List<Image> flashbacks;
   private String person = "trialAi";
   private String name = "Sentinal-12";
-  private Media media;
-  private MediaPlayer mediaPlayerWelcome;
   private int imageCount = 0;
   private int score = 0;
   private boolean alexArrested = false;
@@ -230,10 +226,6 @@ public class TrialAiRoomController extends ChatController {
   @Override
   public void reset() {
     super.reset();
-
-    if (mediaPlayerWelcome != null) {
-      mediaPlayerWelcome.stop();
-    }
     imageFlashback1.setVisible(false);
     btnSurvey.setVisible(true);
     for (Button btn : buttons) {

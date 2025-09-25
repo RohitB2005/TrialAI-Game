@@ -5,8 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
@@ -15,8 +13,6 @@ public class WitnessHumanRoomController extends ChatController {
 
   private String person = "witnessHuman";
   private String name = "Alex Ryder";
-  private Media media;
-  private MediaPlayer mediaPlayerWelcome;
 
   @FXML private ImageView viewSpraycan;
   @FXML private ImageView viewBandanna;
@@ -59,10 +55,6 @@ public class WitnessHumanRoomController extends ChatController {
   @Override
   public void reset() {
     super.reset();
-
-    if (mediaPlayerWelcome != null) {
-      mediaPlayerWelcome.stop();
-    }
     viewSpraycan.setVisible(false);
     viewBandanna.setVisible(false);
     viewGun.setVisible(false);
