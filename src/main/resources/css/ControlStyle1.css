@@ -5,63 +5,95 @@
 .root {
   -fx-font-size: 12pt;
   -fx-font-family: "Tahoma";
-  -fx-base: #DFB951;
-  -fx-background: #A78732;
-  -fx-focus-color: #B6A678;
+  -fx-base: #dfb951;
+  -fx-background: #a78732;
+  -fx-focus-color: #b6a678;
+}
+
+/* Apply hand cursor to all buttons by default */
+.button {
+  -fx-cursor: hand;
 }
 
 .button1 {
   -fx-text-fill: #006464;
-  -fx-background-color: #DFB951;
+  -fx-background-color: #dfb951;
   -fx-border-radius: 20;
   -fx-background-radius: 20;
   -fx-padding: 5;
+  -fx-cursor: hand;
 }
 
 .button2 {
   -fx-text-fill: #c10000;
-  -fx-background-color: #DFB951;
+  -fx-background-color: #dfb951;
   -fx-border-radius: 20;
   -fx-background-radius: 20;
   -fx-padding: 5;
+  -fx-cursor: hand;
 }
 
 .button3 {
-  -fx-background-color:  transparent;
-  -fx-border-color:  #00Bfff;
+  -fx-background-color: transparent;
+  -fx-border-color: #00bfff;
   -fx-border-width: 2px;
   -fx-border-radius: 5px;
-  -fx-text-fill: #00BFFF;
+  -fx-text-fill: #00bfff;
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
-  -fx-font-family:  "'Roboto Mono', monospace";
+  -fx-font-family: "'Roboto Mono', monospace";
 }
 
 .button5 {
-  -fx-background-color:  black;
+  -fx-background-color: black;
   -fx-opacity: 1;
-  -fx-border-color:  #ff0000;
+  -fx-border-color: #ff0000;
   -fx-border-width: 2px;
   -fx-border-radius: 5px;
   -fx-text-fill: #ff0000;
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
-  -fx-font-family:  "'Roboto Mono', monospace";
+  -fx-font-family: "'Roboto Mono', monospace";
+}
+
+.gamePane {
+  -fx-background-color: black;
+  -fx-opacity: 1;
+  -fx-border-color: #ff0000;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #ff0000;
+  -fx-padding: 8px 16px;
+  -fx-font-size: 14px;
+  -fx-cursor: default;
+  -fx-font-family: "'Roboto Mono', monospace";
 }
 
 .button4 {
-  -fx-background-color:  rgb(243, 243, 243);
+  -fx-background-color: rgb(243, 243, 243);
   -fx-opacity: 1;
-  -fx-border-color:  #4c00ff;
+  -fx-border-color: #4c00ff;
   -fx-border-width: 2px;
   -fx-border-radius: 5px;
   -fx-text-fill: #1900ff;
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
-  -fx-font-family:  "'Roboto Mono', monospace";
+  -fx-font-family: "'Roboto Mono', monospace";
+}
+
+.labelFinalStyle {
+  -fx-background-color: transparent;
+  -fx-border-color: #00bfff;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: #00bfff;
+  -fx-padding: 8px 16px;
+  -fx-font-size: 14px;
+  -fx-cursor: default;
+  -fx-font-family: "'Roboto Mono', monospace";
 }
 
 .Label1 {
