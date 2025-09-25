@@ -8,14 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.config.ApiProxyConfig;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
-import nz.ac.auckland.apiproxy.tts.TextToSpeechRequest;
-import nz.ac.auckland.apiproxy.tts.TextToSpeechResult;
 import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
-import nz.ac.auckland.se206.speech.TextToSpeech;
 
 public class FinalRoomController extends ChatController {
 
@@ -200,26 +198,17 @@ public class FinalRoomController extends ChatController {
     }
   }
 
-  /** Plays the "Thanks for playing" audio using TTS after the final AI response */
+  /** Plays the "Thanks for playing" audio using an MP3 file after the final AI response */
   private void playEndGameAudio() {
     try {
-      System.out.println("Playing 'Thanks for playing' using TTS");
+      System.out.println("Playing 'Thanks for playing' using MP3");
 
-      // Create TTS request to get the audio URL
-      ApiProxyConfig config = ApiProxyConfig.readConfig();
-      TextToSpeechRequest ttsRequest = new TextToSpeechRequest(config);
-      ttsRequest
-          .setText("Thank you for playing")
-          .setProvider(TextToSpeechRequest.Provider.GOOGLE)
-          .setVoice(TextToSpeechRequest.Voice.GOOGLE_EN_US_STANDARD_H);
-
-      TextToSpeechResult ttsResult = ttsRequest.execute();
-      String audioUrl = ttsResult.getAudioUrl();
-      System.out.println(audioUrl);
-
-      TextToSpeech.speak("Thank you for playing");
+      // Load and play the final MP3 file
+      Media media = new Media(App.class.getResource("/sounds/endAudio.mp3").toURI().toString());
+      MediaPlayer mediaPlayer = new MediaPlayer(media);
+      mediaPlayer.play();
     } catch (Exception e) {
-      System.err.println("Error playing TTS audio: " + e.getMessage());
+      System.err.println("Error playing MP3 audio: " + e.getMessage());
     }
   }
 }
