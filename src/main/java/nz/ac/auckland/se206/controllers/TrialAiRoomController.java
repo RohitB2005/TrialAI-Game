@@ -74,15 +74,10 @@ public class TrialAiRoomController extends ChatController {
   public String getPrompt() {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
-      // try {
-      //   media =
-      //       new
-      // Media(App.class.getResource("/sounds/Sentinal_12_Welcome.mp3").toURI().toString());
-      //   mediaPlayerWelcome = new MediaPlayer(media);
-      //   mediaPlayerWelcome.play();
-      // } catch (URISyntaxException e) {
-      //   e.printStackTrace();
-      // }
+
+      // Play the welcome sound MP3
+      playWelcomeSound("Sentinal_12.mp3");
+
       areaInputText.requestFocus();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
