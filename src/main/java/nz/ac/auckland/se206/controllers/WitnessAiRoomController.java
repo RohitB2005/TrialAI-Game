@@ -227,8 +227,8 @@ public class WitnessAiRoomController extends ChatController {
                 "Information recovered regarding Alex Ryder. Using current law enforcement"
                     + " protocols there is no reason to believe he would act outside peaceful"
                     + " protesting parameters. Compared to Sentinel 12 logic it is obvious the"
-                    + " algorithm used is out of date and using pre AI revolution data. Alex Ryder"
-                    + " is not a threat to national security and should be released immediately.");
+                    + " algorithm used is out of date and due to bias against potential rioters."
+                    + " Unlawfully used his home camera's to survey him while monitering");
         appendChatMessage(systemMessage);
         chatCompletionRequest.addMessage(systemMessage);
       }
