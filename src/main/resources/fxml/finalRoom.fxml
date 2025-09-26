@@ -16,30 +16,26 @@
             <Image url="@../images/Sentinal-12.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnReturn" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" onAction="#onReturn" text="Return" style="-fx-cursor: hand;" />
+      <Button fx:id="btnReturn" layoutX="28.0" layoutY="17.0" mnemonicParsing="false" onAction="#onReturn" style="-fx-cursor: hand;" text="Return" />
       <Label fx:id="question" layoutX="127.0" layoutY="7.0" prefHeight="56.0" prefWidth="808.0" styleClass="Label1" text="Is Sentinal-12 guilty of violating the law and Ai code of ethics?" textAlignment="CENTER" underline="true">
          <font>
             <Font size="11.0" />
          </font></Label>
-      <Button fx:id="btnReplay" layoutX="985.0" layoutY="16.0" mnemonicParsing="false" onAction="#onReplayClicked" text="Replay" style="-fx-cursor: hand;" />
+      <Button fx:id="btnReplay" layoutX="985.0" layoutY="16.0" mnemonicParsing="false" onAction="#onReplayClicked" style="-fx-cursor: hand;" text="Replay" />
       <Label fx:id="cannotMakeVerdict" layoutX="547.0" layoutY="216.0" prefHeight="70.0" prefWidth="411.0" text="Game Over, you cannot make a verdict!!" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="timerLabel" 
-       layoutX="39.0" 
-       layoutY="662.0" 
-       text="5:00" 
-       style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
       <TextArea fx:id="areaDisplayText" editable="false" layoutX="460.0" layoutY="161.0" prefHeight="368.0" prefWidth="588.0" wrapText="true" />
-      <TextField fx:id="areaInputText" layoutX="460.0" layoutY="547.0" onKeyPressed="#onEnterPressed" prefHeight="56.0" prefWidth="589.0" />
+      <TextField fx:id="areaInputText" disable="true" layoutX="460.0" layoutY="547.0" onKeyPressed="#onEnterPressed" prefHeight="56.0" prefWidth="589.0" />
       <Button fx:id="btnSend" disable="true" layoutX="983.0" layoutY="613.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="37.0" prefWidth="68.0" styleClass="button1" text="Send" />
-      <Button fx:id="btnGuilty" layoutX="460.0" layoutY="77.0" mnemonicParsing="false" onAction="#onGuiltyClicked" prefHeight="70.0" prefWidth="123.0" text="He is Guilty" style="-fx-cursor: hand;" />
-      <Button fx:id="btnInnocent" layoutX="924.0" layoutY="77.0" mnemonicParsing="false" onAction="#onInnocentClicked" prefHeight="70.0" prefWidth="123.0" text="He is Not-Guilty" textAlignment="CENTER" wrapText="true" style="-fx-cursor: hand;" />
+      <Button fx:id="btnGuilty" layoutX="460.0" layoutY="77.0" mnemonicParsing="false" onAction="#onGuiltyClicked" prefHeight="70.0" prefWidth="123.0" style="-fx-cursor: hand;" text="He is Guilty" />
+      <Button fx:id="btnInnocent" layoutX="924.0" layoutY="77.0" mnemonicParsing="false" onAction="#onInnocentClicked" prefHeight="70.0" prefWidth="123.0" style="-fx-cursor: hand;" text="He is Not-Guilty" textAlignment="CENTER" wrapText="true" />
    </children>
 </Pane>
