@@ -50,7 +50,6 @@ public class FinalRoomController extends ChatController {
     question.setVisible(canMakeVerdict);
     cannotMakeVerdict.setVisible(!canMakeVerdict);
     btnSend.setVisible(canMakeVerdict);
-    areaInputText.setDisable(true);
 
     if (!canMakeVerdict) {
       btnInnocent.setDisable(true);
