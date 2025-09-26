@@ -90,8 +90,11 @@ public class ChatController implements ControllerInterface {
     timerLabel.setText(App.formatTime(timeRemaining));
   }
 
+  // reset logic for the chat controller with required parameters
   @Override
   public void reset() {
+
+    // clears the text area with multiple checks
     if (areaDisplayText != null) {
       areaDisplayText.clear();
     }
@@ -101,6 +104,8 @@ public class ChatController implements ControllerInterface {
     contactedParticipants.clear();
     isFirstTimeInit = true;
     try {
+
+      // create chat completion request, exception for debugging
       initializeChatCompletionRequest();
     } catch (ApiProxyException e) {
       e.printStackTrace();
@@ -212,5 +217,25 @@ public class ChatController implements ControllerInterface {
       areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
     }
     areaDisplayText.setScrollTop(Double.MAX_VALUE); // scrolls to bottom
+  }
+
+  // helper method to be shared between characters for welcome sounds
+  protected void playWelcomeSound(String soundFileName) {
+    try {
+      // constucts filepath for sound names
+      String soundPath = "/sounds/" + soundFileName;
+      media = new Media(App.class.getResource(soundPath).toURI().toString());
+      mediaPlayerWelcome = new MediaPlayer(media);
+
+      // wait for the MediaPlayer to be ready before playing
+      mediaPlayerWelcome.setOnReady(
+          () -> {
+            mediaPlayerWelcome.play();
+          });
+
+    } catch (Exception e) {
+      // debug and error case accounted for
+      System.err.println("Error loading " + soundFileName + ": " + e.getMessage());
+    }
   }
 }
