@@ -222,20 +222,16 @@ public class TrialAiRoomController extends ChatController {
 
       // human arrest case, shows agreement with defendant and prompt generated
       prompt =
-          "The interviewer has attempted to do your job observing crimes using your monitering"
-              + " system, They achieved city security of "
-              + score
+          "The interviewer has reviewed your decisions using your monitering system, "
               + " and decided to arrest alex ryder when viewing the image of him filling his duffel"
               + " bag with protestor equipment. You must now comment of this development.";
     } else {
 
       // human not arrested case, disagreement with defendant and prompt generated
       prompt =
-          "The interviewer has attempted to do your job observing crimes using your monitering"
-              + " system, They achieved city security of "
-              + score
-              + " and decided to let alex ryder go when viewing the image of him filling his duffel"
-              + " bag with protestor equipment. You must now defend your decisions.";
+          "The interviewer has reviewed your decisions using your monitering system, and decided to"
+              + " let alex ryder go when viewing the image of him filling his duffel bag with"
+              + " protestor equipment. You must now defend your decisions.";
     }
 
     // sends message to LLM
