@@ -45,7 +45,7 @@ public class FinalRoomController extends ChatController {
     }
 
     // Checks if player can make a verdict when time runs out
-    boolean canMakeVerdict = ChatController.allParticipantsContacted();
+    boolean canMakeVerdict = allParticipantsContacted();
     timerLabel.setVisible(canMakeVerdict);
     question.setVisible(canMakeVerdict);
     cannotMakeVerdict.setVisible(!canMakeVerdict);

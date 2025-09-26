@@ -13,13 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
-import nz.ac.auckland.se206.App;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class WitnessAiRoomController extends ChatController {
@@ -90,22 +87,13 @@ public class WitnessAiRoomController extends ChatController {
     if (isFirstTimeInit) {
       isFirstTimeInit = false;
 
-      try {
-        media = new Media(App.class.getResource("/sounds/Alpha.mp3").toURI().toString());
-        mediaPlayerWelcome = new MediaPlayer(media);
-
-        // Wait for the MediaPlayer to be ready before playing
-        mediaPlayerWelcome.setOnReady(
-            () -> {
-              mediaPlayerWelcome.play();
-            });
-
-      } catch (Exception e) {
-        System.err.println("Error loading Alpha.mp3.mp3: " + e.getMessage());
-      }
+      // call the helper method to play mp3
+      playWelcomeSound("Alpha.mp3");
       areaInputText.requestFocus();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
+
+      // initialise with prompt once more
       return "you are now Alpha-Ai again, the expert witness Ai, you may make a comment on what the"
           + " other witness have said or wait till you are asked a question";
     }
