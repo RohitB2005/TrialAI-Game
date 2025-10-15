@@ -11,17 +11,17 @@
 }
 
 .hud-display {
-    -fx-background-color: rgba(0, 56, 71, 0.75); 
-    -fx-background-radius: 8px; /* Slightly softer corners */
-    -fx-border-color: #00bfff; 
-    -fx-border-width: 1px;
-    -fx-border-radius: 8px;
-    -fx-text-fill: #E0E0E0; 
-    
-    -fx-padding: 10px 20px; /* A bit more spacious */
-    -fx-font-size: 16px;
-    -fx-font-family: "'Roboto Mono', monospace";
-    -fx-alignment: center;
+  -fx-background-color: rgba(0, 56, 71, 0.75);
+  -fx-background-radius: 8px; /* Slightly softer corners */
+  -fx-border-color: #00bfff;
+  -fx-border-width: 1px;
+  -fx-border-radius: 8px;
+  -fx-text-fill: #e0e0e0;
+
+  -fx-padding: 10px 20px; /* A bit more spacious */
+  -fx-font-size: 16px;
+  -fx-font-family: "'Roboto Mono', monospace";
+  -fx-alignment: center;
 }
 
 /* Apply hand cursor to all buttons by default */
@@ -62,7 +62,7 @@
 
 .button3:hover {
   -fx-background-color: #00bfff;
-  -fx-text-fill: black;         
+  -fx-text-fill: black;
 }
 
 .button5 {
@@ -142,4 +142,56 @@
   -fx-border-color: white;
   -fx-border-style: dashed;
   -fx-border-width: 2;
+}
+
+/* === Display Chat Area (Read-only, solid grey, cursor fixed) === */
+.textarea-display {
+  -fx-control-inner-background: #555555; /* solid grey */
+  -fx-background-color: #555555; /* solid grey */
+  -fx-text-fill: #66e0ff; /* neon text */
+  -fx-font-family: "'Roboto Mono', monospace";
+  -fx-font-size: 14px;
+  -fx-border-color: #0077aa;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-padding: 10px;
+
+  -fx-focus-color: transparent; /* disable focus highlight */
+  -fx-faint-focus-color: transparent; /* disable faint focus */
+  -fx-cursor: default; /* keep default cursor */
+}
+
+/* === Input Chat Area (Editable, futuristic grey) === */
+.textarea-chat {
+  -fx-control-inner-background: #444444; /* grey interior */
+  -fx-background-color: linear-gradient(to bottom right, #555555, #333333);
+  -fx-text-fill: #00e0ff; /* neon cyan text */
+  -fx-highlight-fill: #00bfff;
+  -fx-highlight-text-fill: black;
+
+  -fx-border-color: #00bfff;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-padding: 10px;
+
+  -fx-font-family: "'Roboto Mono', monospace";
+  -fx-font-size: 14px;
+
+  -fx-effect: dropshadow(three-pass-box, #00bfff, 8, 0.3, 0, 0);
+  -fx-cursor: text;
+  -fx-focus-color: #00bfff; /* only input box glows on focus */
+  -fx-faint-focus-color: transparent;
+  -fx-prompt-text-fill: rgba(0, 191, 255, 0.4);
+}
+
+.textarea-chat:hover {
+  -fx-border-color: #33ffff;
+  -fx-effect: dropshadow(three-pass-box, #33ffff, 10, 0.4, 0, 0);
+}
+
+.textarea-chat:focused {
+  -fx-border-color: #00ffff;
+  -fx-effect: dropshadow(three-pass-box, #00ffff, 12, 0.5, 0, 0);
 }
