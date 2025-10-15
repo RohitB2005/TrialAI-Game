@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
+import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,6 +39,8 @@ public class CourtroomController implements ControllerInterface {
   @FXML private Region witnessAi;
   @FXML private Region witnessHuman;
 
+  @FXML private Label instructionLabel;
+
   @FXML private ImageView humanIndicator;
   @FXML private ImageView defendantIndicator;
   @FXML private ImageView aiIndicator;
@@ -52,6 +57,27 @@ public class CourtroomController implements ControllerInterface {
 
     // Play welcome audio on first entry
     playWelcomeAudio();
+    playInstructionsPopup();
+  }
+
+  private void playInstructionsPopup() {
+    instructionLabel.setOpacity(0);
+    instructionLabel.setScaleX(0.9);
+    instructionLabel.setScaleY(0.9);
+    PauseTransition delay = new PauseTransition(Duration.millis(1500));
+    delay.setOnFinished(
+        event -> {
+          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
+          ft.setToValue(1.0);
+          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
+          st.setToX(1.0);
+          st.setToY(1.0);
+          ft.play();
+          st.play();
+        });
+
+    // Start the initial delay
+    delay.play();
   }
 
   @Override
@@ -160,6 +186,7 @@ public class CourtroomController implements ControllerInterface {
 
     // Play welcome audio after reset
     playWelcomeAudio();
+    playInstructionsPopup();
   }
 
   // Method to play welcome audio
