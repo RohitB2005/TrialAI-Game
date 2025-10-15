@@ -16,15 +16,15 @@
             <Image url="@../images/trial.png" />
          </image>
       </ImageView>
-      <Region fx:id="witnessHuman" layoutX="30.0" layoutY="277.0" onMouseClicked="#handleRegionClicked" prefHeight="323.0" prefWidth="198.0">
+      <Region fx:id="witnessHuman" layoutX="30.0" layoutY="277.0" onMouseClicked="#handleRegionClicked" onMouseEntered="#onCharacterHover" onMouseExited="#onCharacterExit" prefHeight="323.0" prefWidth="198.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Region>
-      <Region fx:id="witnessAi" layoutX="823.0" layoutY="320.0" onMouseClicked="#handleRegionClicked" prefHeight="240.0" prefWidth="191.0">
+      <Region fx:id="witnessAi" layoutX="823.0" layoutY="320.0" onMouseClicked="#handleRegionClicked" onMouseEntered="#onCharacterHover" onMouseExited="#onCharacterExit" prefHeight="240.0" prefWidth="191.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Region>
-      <Region fx:id="trialAi" layoutX="269.0" layoutY="113.0" onMouseClicked="#handleRegionClicked" prefHeight="479.0" prefWidth="317.0">
+      <Region fx:id="trialAi" layoutX="269.0" layoutY="113.0" onMouseClicked="#handleRegionClicked" onMouseEntered="#onCharacterHover" onMouseExited="#onCharacterExit" prefHeight="479.0" prefWidth="317.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Region>
@@ -36,5 +36,20 @@
       <Button fx:id="btnFinalRoom" layoutX="864.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" prefHeight="46.0" prefWidth="120.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" />
       <Button fx:id="btnExit" layoutX="994.0" layoutY="652.0" mnemonicParsing="false" onAction="#onExitBtn" prefHeight="46.0" prefWidth="68.0" style="-fx-cursor: hand;" styleClass="button3" text="Exit" />
       <Label layoutX="281.0" layoutY="659.0" prefHeight="41.0" prefWidth="548.0" styleClass="Label1" text="Select a witness to hear their story." />
+      <ImageView fx:id="humanIndicator" fitHeight="56.0" fitWidth="58.0" layoutX="124.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="defendantIndicator" fitHeight="56.0" fitWidth="58.0" layoutX="400.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="aiIndicator" fitHeight="56.0" fitWidth="58.0" layoutX="892.0" layoutY="264.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
