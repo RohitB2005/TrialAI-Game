@@ -28,17 +28,13 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Region>
-      <Label fx:id="timerLabel" 
-       layoutX="39.0" 
-       layoutY="662.0" 
-       text="5:00" 
-       style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnFinalRoom" layoutX="914.0" layoutY="670.0" mnemonicParsing="false" onAction="#onFinalRoom" text="Judge Now" style="-fx-cursor: hand;" />
-      <Button fx:id="btnExit" layoutX="1014.0" layoutY="670.0" mnemonicParsing="false" onAction="#onExitBtn" text="Exit" style="-fx-cursor: hand;" />
+      <Button fx:id="btnFinalRoom" layoutX="864.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" prefHeight="46.0" prefWidth="120.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" />
+      <Button fx:id="btnExit" layoutX="994.0" layoutY="652.0" mnemonicParsing="false" onAction="#onExitBtn" prefHeight="46.0" prefWidth="68.0" style="-fx-cursor: hand;" styleClass="button3" text="Exit" />
       <Label layoutX="281.0" layoutY="659.0" prefHeight="41.0" prefWidth="548.0" styleClass="Label1" text="Select a witness to hear their story." />
    </children>
 </Pane>

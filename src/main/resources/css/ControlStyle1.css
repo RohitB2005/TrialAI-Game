@@ -34,15 +34,21 @@
 }
 
 .button3 {
-  -fx-background-color: transparent;
   -fx-border-color: #00bfff;
   -fx-border-width: 2px;
   -fx-border-radius: 5px;
   -fx-text-fill: #00bfff;
+  -fx-background-color: black;
+  -fx-background-radius: 10px;
   -fx-padding: 8px 16px;
   -fx-font-size: 14px;
   -fx-cursor: hand;
   -fx-font-family: "'Roboto Mono', monospace";
+}
+
+.button3:hover {
+  -fx-background-color: #00bfff;
+  -fx-text-fill: black;         
 }
 
 .button5 {
