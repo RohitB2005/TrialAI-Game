@@ -108,6 +108,22 @@ public class FinalRoomController extends ChatController {
   // disables the input box and send button and stops the timer
   private void onChoiceSelected() {
 
+    if (choiceMade) {
+      return;
+    }
+    choiceMade = true;
+
+    String text = areaInputText.getText();
+
+    if (!btnSend.isDisable()) {
+      try {
+        submitRationale(text);
+      } catch (ApiProxyException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+
     // disables visibility of select buttons and enables others after choice made
     timerLabel.setVisible(false);
     btnReturn.setVisible(false);
@@ -161,12 +177,7 @@ public class FinalRoomController extends ChatController {
     areaInputText.clear();
 
     // adds messages for user and system to chat
-    ChatMessage prompt = new ChatMessage("system", getPrompt());
-    chatCompletionRequest.addMessage(prompt);
-
-    ChatMessage msg = new ChatMessage("user", verdict + " " + message);
-    appendChatMessage(msg);
-    runGpt(msg);
+    submitRationale(message);
 
     onChoiceSelected();
   }
@@ -209,5 +220,13 @@ public class FinalRoomController extends ChatController {
     } catch (Exception e) {
       System.err.println("Error playing MP3 audio: " + e.getMessage());
     }
+  }
+
+  private void submitRationale(String rationale) throws ApiProxyException {
+    ChatMessage prompt = new ChatMessage("system", getPrompt());
+    chatCompletionRequest.addMessage(prompt);
+    ChatMessage message = new ChatMessage("user", verdict + " " + rationale);
+    appendChatMessage(message);
+    runGpt(message);
   }
 }
