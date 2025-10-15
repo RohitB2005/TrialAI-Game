@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 
@@ -33,7 +34,7 @@ public class FlashbackController implements ControllerInterface {
   @FXML private VBox contentVbox;
   @FXML private Pane whiteFlashPane;
   @FXML private ImageView flashbackImageView;
-  @FXML private Label flashbackText;
+  @FXML private Text flashbackText;
   @FXML private Button btnNext;
   @FXML private Button btnContinue;
   @FXML private Label timerLabel;
