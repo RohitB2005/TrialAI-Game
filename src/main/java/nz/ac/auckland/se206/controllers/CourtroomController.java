@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 
 /**
@@ -31,6 +35,12 @@ public class CourtroomController implements ControllerInterface {
   @FXML private Region trialAi;
   @FXML private Region witnessAi;
   @FXML private Region witnessHuman;
+
+  @FXML private ImageView humanIndicator;
+  @FXML private ImageView defendantIndicator;
+  @FXML private ImageView aiIndicator;
+
+  private TranslateTransition bounceAnimation;
 
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
@@ -81,6 +91,54 @@ public class CourtroomController implements ControllerInterface {
     Button clickedbtn = (Button) event.getSource();
     Scene scene = clickedbtn.getScene();
     App.openScene(scene, "finalRoom");
+  }
+
+  @FXML
+  private void onCharacterHover(MouseEvent event) {
+    Region region = (Region) event.getSource();
+    String regionId = region.getId();
+
+    switch (regionId) {
+      case "witnessHuman":
+        startBounceAnimation(humanIndicator);
+        break;
+      case "trialAi":
+        startBounceAnimation(defendantIndicator);
+        break;
+      case "witnessAi":
+        startBounceAnimation(aiIndicator);
+        break;
+    }
+  }
+
+  @FXML
+  private void onCharacterExit(MouseEvent event) {
+    stopBounceAnimation();
+  }
+
+  private void startBounceAnimation(ImageView indicator) {
+    stopBounceAnimation();
+
+    indicator.setVisible(true);
+
+    bounceAnimation = new TranslateTransition(Duration.millis(600), indicator);
+    bounceAnimation.setFromY(0);
+    bounceAnimation.setToY(-10);
+    bounceAnimation.setAutoReverse(true);
+    bounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
+    bounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
+    bounceAnimation.play();
+  }
+
+  private void stopBounceAnimation() {
+    if (bounceAnimation != null) {
+      bounceAnimation.stop();
+      bounceAnimation.getNode().setTranslateY(0);
+      bounceAnimation = null;
+    }
+    humanIndicator.setVisible(false);
+    defendantIndicator.setVisible(false);
+    aiIndicator.setVisible(false);
   }
 
   public void updateFinalRoomButton() {
