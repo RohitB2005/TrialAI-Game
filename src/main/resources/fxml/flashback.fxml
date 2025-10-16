@@ -9,23 +9,51 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FlashbackController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: black;" 
+            stylesheets="@../css/ControlStyle1.css" 
+            xmlns="http://javafx.com/javafx/24.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="nz.ac.auckland.se206.controllers.FlashbackController">
+
    <children>
-      <VBox fx:id="contentVbox" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
+      <VBox fx:id="contentVbox" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="550.0" prefWidth="700.0" spacing="10.0"
+            AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="25.0">
          <children>
-         <Label style="-fx-font-family: 'Roboto Mono', monospace; -fx-font-size: 24px; -fx-text-fill: #00BFFF; -fx-effect: dropshadow(gaussian, rgba(0, 191, 255, 0.7), 15, 0.0, 0, 0); -fx-padding: 0 0 10px 0;" text="[FLASHBACK SCENE]" />
+            <!-- Flashback Scene Title -->
+            <Label text="[FLASHBACK SCENE]" 
+                   style="-fx-font-family: 'Orbitron'; 
+                          -fx-font-size: 26px; 
+                          -fx-text-fill: #00BFFF; 
+                          -fx-effect: dropshadow(gaussian, rgba(0,191,255,0.8), 18, 0.0, 0, 0);
+                          -fx-padding: 0 0 10px 0;" />
+
+            <!-- Image -->
             <ImageView fx:id="flashbackImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="flashbackText" text="Flashback description will go here." fill="WHITE" textAlignment="LEFT" wrappingWidth="600">
-               <font>
-                  <Font name="Consolas" size="18.0" />
-               </font>
-            </Text>
+
+            <!-- Flashback Narrative Text -->
+            <Text fx:id="flashbackText" text="Flashback description will go here." fill="#A9FFFF" textAlignment="LEFT" wrappingWidth="600"
+                  style="-fx-font-family: 'Orbitron'; 
+                         -fx-font-size: 18px; 
+                         -fx-effect: dropshadow(gaussian, rgba(0,255,255,0.6), 10, 0.0, 0, 0);" />
+
+            <!-- Buttons -->
             <Button fx:id="btnNext" mnemonicParsing="false" onAction="#onNextClicked" text="Next" styleClass="button3" />
             <Button fx:id="btnContinue" mnemonicParsing="false" onAction="#onContinue" text="Enter Memory" visible="false" styleClass="button3" />
          </children>
       </VBox>
-      <Pane fx:id="whiteFlashPane" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
+
+      <!-- Flash effect pane -->
+      <Pane fx:id="whiteFlashPane" style="-fx-background-color: white;"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+      <!-- Timer Label -->
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" 
+             style="-fx-background-color: rgba(0, 0, 0, 0.5);
+                    -fx-padding: 5px 10px;
+                    -fx-background-radius: 8px;
+                    -fx-text-fill: #00E0FF;
+                    -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
