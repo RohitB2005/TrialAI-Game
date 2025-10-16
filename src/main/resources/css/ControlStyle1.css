@@ -193,3 +193,44 @@
   -fx-border-color: #00ffff;
   -fx-effect: dropshadow(three-pass-box, #00ffff, 12, 0.5, 0, 0);
 }
+
+/* === Send Button === */
+.button1 {
+  -fx-background-color: linear-gradient(to bottom right, #555555, #333333);
+  -fx-text-fill: #00e0ff;
+  -fx-font-family: "Orbitron";
+  -fx-font-size: 14px;
+  -fx-border-color: #00bfff;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-padding: 10px 16px;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(three-pass-box, #00bfff, 8, 0.3, 0, 0);
+}
+
+.button1:hover {
+  -fx-border-color: #33ffff;
+  -fx-effect: dropshadow(three-pass-box, #33ffff, 10, 0.4, 0, 0);
+}
+
+/* === Return Button === */
+.button2 {
+  -fx-text-fill: #ff6666; /* soft red text */
+  -fx-background-color: #222222; /* dark base */
+  -fx-border-color: #ff5555; /* soft neon border */
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-padding: 8px 16px;
+  -fx-font-family: "Orbitron";
+  -fx-font-size: 14px;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(three-pass-box, #ff5555, 8, 0.3, 0, 0);
+}
+
+.button2:hover {
+  -fx-background-color: #ff4444; /* hover glow color */
+  -fx-text-fill: black;
+  -fx-effect: dropshadow(three-pass-box, #ff6666, 10, 0.4, 0, 0);
+}

@@ -13,21 +13,16 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.WitnessHumanRoomController">
    <children>
-      <TextArea fx:id="areaDisplayText" editable="false" prefHeight="499.0" prefWidth="365.0" wrapText="true" styleClass="textarea-display" />
-      <TextField fx:id="areaInputText" layoutY="499.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="315.0" PromptText="Type your message..." styleClass="textarea-chat"/>
-      <Button fx:id="btnSend" layoutX="315.0" layoutY="499.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
-      <Button fx:id="btnReturn" layoutX="311.0" layoutY="669.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Return" />
+      <TextArea fx:id="areaDisplayText" editable="false" prefHeight="499.0" prefWidth="365.0" styleClass="textarea-display" wrapText="true" />
+      <TextField fx:id="areaInputText" PromptText="Type your message..." layoutY="499.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="315.0" styleClass="textarea-chat" />
+      <Button fx:id="btnSend" layoutX="315.0" layoutY="499.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="92.0" styleClass="button1" text="Send" />
+      <Button fx:id="btnReturn" layoutX="311.0" layoutY="669.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="42.0" prefWidth="100.0" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Return" />
       <ImageView fitHeight="767.0" fitWidth="540.0" layoutX="568.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/alex_memory.png" />
          </image>
       </ImageView>
-      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" 
-             style="-fx-background-color: rgba(0, 0, 0, 0.5);
-                    -fx-padding: 5px 10px;
-                    -fx-background-radius: 8px;
-                    -fx-text-fill: #00E0FF;
-                    -fx-font-family: 'Orbitron';">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
