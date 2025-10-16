@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.WitnessHumanRoomController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" styleClass="hud-display" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.WitnessHumanRoomController">
    <children>
       <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="808.0" layoutY="8.0" prefHeight="485.0" prefWidth="266.0" styleClass="chat-scroll-pane">
    <content>
@@ -25,20 +25,20 @@
       <Button fx:id="btnReturn" layoutX="311.0" layoutY="669.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Return" />
       <ImageView fitHeight="767.0" fitWidth="540.0" layoutX="568.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/alex_memory.png" />
+            <Image url="@../images/alex_arrested.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="timerLabel" layoutX="38.0" layoutY="664.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Region fx:id="regionBag" layoutX="664.0" layoutY="500.0" onMouseClicked="#onBagClick" prefHeight="200.0" prefWidth="350.0">
+      <Region fx:id="regionBag" layoutX="257.0" layoutY="484.0" onMouseClicked="#onBagClick" onMouseEntered="#onHover" onMouseExited="#onMouseExit" prefHeight="200.0" prefWidth="350.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Region>
-      <ImageView fx:id="viewSpraycan" fitHeight="150.0" fitWidth="100.0" layoutX="800.0" layoutY="550.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="viewSpraycan" fitHeight="150.0" fitWidth="100.0" layoutX="382.0" layoutY="500.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/spraycan.png" />
          </image>
@@ -46,7 +46,7 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="viewBandanna" fitHeight="180.0" fitWidth="120.0" layoutX="810.0" layoutY="560.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="viewBandanna" fitHeight="180.0" fitWidth="120.0" layoutX="382.0" layoutY="485.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/bandanna.png" />
          </image>
@@ -54,7 +54,7 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="viewGun" fitHeight="150.0" fitWidth="120.0" layoutX="810.0" layoutY="560.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="viewGun" fitHeight="150.0" fitWidth="120.0" layoutX="382.0" layoutY="573.0" onMouseDragged="#onDrag" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/handgun.png" />
          </image>
@@ -62,11 +62,15 @@
             <Cursor fx:constant="OPEN_HAND" />
          </cursor>
       </ImageView>
-      <Label fx:id="labelCount" layoutX="390.0" layoutY="669.0" prefHeight="40.0" prefWidth="151.0" text="Label" visible="false" />
-      <Label fx:id="label" layoutX="714.0" layoutY="630.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="This bag looks suspicous...">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
+      <ImageView fx:id="rightArrow" fitHeight="50.0" fitWidth="50.0" layoutX="607.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="leftArrow" fitHeight="50.0" fitWidth="50.0" layoutX="207.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" rotate="270.0" visible="false">
+         <image>
+            <Image url="@../images/arrow.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

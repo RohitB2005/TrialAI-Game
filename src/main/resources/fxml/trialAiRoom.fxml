@@ -21,8 +21,8 @@
 </ScrollPane>
 
       <TextField fx:id="areaInputText" layoutX="808.0" layoutY="499.0" onKeyPressed="#onEnterPressed" prefHeight="59.0" prefWidth="266.0" promptText="Type your message..." styleClass="textarea-chat" />
-      <Button fx:id="btnSend" layoutX="1017.0" layoutY="570.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="25.0" prefWidth="49.0" styleClass="button1" text="Send" />
-      <Button fx:id="btnReturn" layoutX="1008.0" layoutY="676.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="58.0" styleClass="button2" text="Return" />
+      <Button fx:id="btnSend" layoutX="975.0" layoutY="570.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="91.0" styleClass="button1" text="Send" />
+      <Button fx:id="btnReturn" layoutX="975.0" layoutY="676.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="38.0" prefWidth="91.0" styleClass="button2" text="Return" />
       <ImageView fx:id="imageFlashback" fitHeight="725.0" fitWidth="800.0" pickOnBounds="true">
          <image>
             <Image url="@../images/onthejob.png" />
@@ -33,7 +33,7 @@
             <Image url="@../images/Criminal_drunk.png" />
          </image>
       </ImageView>
-      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
