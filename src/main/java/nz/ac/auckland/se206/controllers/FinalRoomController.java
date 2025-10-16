@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -137,6 +135,7 @@ public class FinalRoomController extends ChatController {
   // reset method to reset all specific buttons and labels in scene on replay
   @Override
   public void reset() {
+    super.reset();
     timerLabel.setVisible(true);
     btnReturn.setVisible(true);
     btnSend.setVisible(true);
@@ -146,7 +145,6 @@ public class FinalRoomController extends ChatController {
     choiceMade = false;
     btnGuilty.setVisible(true);
     btnInnocent.setVisible(true);
-    areaDisplayText.clear();
     areaInputText.setDisable(true);
     btnGuilty.setDisable(false);
     btnInnocent.setDisable(false);
@@ -187,38 +185,6 @@ public class FinalRoomController extends ChatController {
   protected void onEnterPressed(KeyEvent event) throws ApiProxyException, IOException {
     if (event.getCode() == KeyCode.ENTER && !btnSend.isDisabled()) {
       onSendMessage(null);
-    }
-  }
-
-  @FXML
-  @Override
-  // appends a chat message to the display area with appropriate formatting based on who sent it
-  protected void appendChatMessage(ChatMessage msg) {
-    if (msg.getRole().equals("user")) {
-      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
-    } else if (msg.getRole().equals("assistant")) {
-      areaDisplayText.appendText(msg.getContent() + "\n\n");
-
-      // Play "Thanks for playing" audio after AI response in final room
-      if (choiceMade) {
-        playEndGameAudio();
-      }
-    } else if (msg.getRole().equals("system")) {
-      areaDisplayText.appendText("System: " + msg.getContent() + "\n\n");
-    }
-  }
-
-  /** Plays the "Thanks for playing" audio using an MP3 file after the final AI response */
-  private void playEndGameAudio() {
-    try {
-      System.out.println("Playing 'Thanks for playing' using MP3");
-
-      // Load and play the final MP3 file
-      Media media = new Media(App.class.getResource("/sounds/endAudio.mp3").toURI().toString());
-      MediaPlayer mediaPlayer = new MediaPlayer(media);
-      mediaPlayer.play();
-    } catch (Exception e) {
-      System.err.println("Error playing MP3 audio: " + e.getMessage());
     }
   }
 
