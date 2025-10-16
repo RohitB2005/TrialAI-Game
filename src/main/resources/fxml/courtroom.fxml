@@ -28,7 +28,12 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Region>
-      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5px 10px; -fx-background-radius: 8px; -fx-text-fill: white;" text="5:00">
+      <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" text="5:00" 
+             style="-fx-background-color: rgba(0, 0, 0, 0.5);
+                    -fx-padding: 5px 10px;
+                    -fx-background-radius: 8px;
+                    -fx-text-fill: #00E0FF;
+                    -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
