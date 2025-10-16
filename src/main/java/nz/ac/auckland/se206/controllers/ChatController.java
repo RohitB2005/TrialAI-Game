@@ -217,7 +217,10 @@ public class ChatController implements ControllerInterface {
     Label messageLabel = new Label();
     messageLabel.setWrapText(true);
     messageLabel.setMaxWidth(230);
+    messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
     messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
+
+    javafx.scene.layout.HBox messageContainer = new javafx.scene.layout.HBox();
 
     switch (msg.getRole()) {
       case "user":
@@ -225,8 +228,9 @@ public class ChatController implements ControllerInterface {
         messageLabel.setStyle(
             messageLabel.getStyle()
                 + "-fx-background-color: linear-gradient(to right, #00bfff, #0077aa); "
-                + "-fx-text-fill: white; -fx-alignment: center-right;");
-        VBox.setMargin(messageLabel, new Insets(0, 0, 0, 40)); // right-align
+                + "-fx-text-fill: white;");
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 0, 0, 40));
         break;
       case "assistant":
         messageLabel.setText(getName() + ": " + msg.getContent());
@@ -234,7 +238,8 @@ public class ChatController implements ControllerInterface {
             messageLabel.getStyle()
                 + "-fx-background-color: rgba(0, 0, 0, 0.6); "
                 + "-fx-text-fill: #00ffff;");
-        VBox.setMargin(messageLabel, new Insets(0, 40, 0, 0)); // left-align
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 40, 0, 0));
         break;
       case "system":
         messageLabel.setText("System: " + msg.getContent());
@@ -242,11 +247,13 @@ public class ChatController implements ControllerInterface {
             messageLabel.getStyle()
                 + "-fx-background-color: #333333; -fx-text-fill: #ffcc00; "
                 + "-fx-font-style: italic;");
-        VBox.setMargin(messageLabel, new Insets(0, 60, 0, 60)); // centered
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 60, 0, 60));
         break;
     }
 
-    chatVBox.getChildren().add(messageLabel);
+    messageContainer.getChildren().add(messageLabel);
+    chatVBox.getChildren().add(messageContainer);
     Platform.runLater(() -> chatScrollPane.setVvalue(1.0)); // auto-scroll
   }
 
