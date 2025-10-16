@@ -16,19 +16,49 @@
 /* === General HUD Display === */
 .hud-display {
   -fx-background-color: rgba(0, 56, 71, 0.75);
-  -fx-background-radius: 8px;
+  -fx-background-radius: 8px; 
   -fx-border-color: #00bfff;
   -fx-border-width: 1px;
   -fx-border-radius: 8px;
   -fx-text-fill: #e0e0e0;
-
-  -fx-padding: 10px 20px;
+  -fx-padding: 10px 20px; 
   -fx-font-size: 16px;
   -fx-font-family: "Orbitron";
   -fx-alignment: center;
 }
 
-/* Apply hand cursor to all buttons by default */
+.chat-bubble {
+    -fx-padding: 10px 15px;
+    -fx-background-radius: 15px;
+    -fx-max-width: 75%; 
+    -fx-font-family: "'Roboto Mono', monospace";
+    -fx-font-size: 14px;
+}
+
+.ai-bubble {
+    -fx-background-color: #00BFFF; 
+    -fx-text-fill: black;
+}
+
+.user-bubble {
+    -fx-background-color: #4A4A4A;
+    -fx-text-fill: white;
+}
+
+.chat-scroll-pane {
+    -fx-background: #555555;
+    -fx-background-color: #555555;
+    -fx-border-color: #0077aa;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-fit-to-width: true;
+}
+.chat-vbox {
+    -fx-background-color: #555555;
+    -fx-padding: 10px;
+}
+
 .button {
   -fx-cursor: hand;
   -fx-font-family: "Orbitron";
@@ -159,8 +189,6 @@
   -fx-faint-focus-color: transparent;
   -fx-cursor: default;
 }
-
-/* === Input Chat Area (Editable, futuristic grey) === */
 .textarea-chat {
   -fx-control-inner-background: #444444;
   -fx-background-color: linear-gradient(to bottom right, #555555, #333333);

@@ -7,13 +7,15 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
@@ -45,7 +47,8 @@ public class ChatController implements ControllerInterface {
         && contactedParticipants.contains("TrialAi");
   }
 
-  @FXML protected TextArea areaDisplayText;
+  @FXML protected VBox chatVBox;
+  @FXML protected ScrollPane chatScrollPane;
   @FXML protected TextField areaInputText;
   @FXML private Button btnSend;
   @FXML private Button btnReturn;
@@ -95,8 +98,8 @@ public class ChatController implements ControllerInterface {
   public void reset() {
 
     // clears the text area with multiple checks
-    if (areaDisplayText != null) {
-      areaDisplayText.clear();
+    if (chatVBox != null) {
+      chatVBox.getChildren().clear();
     }
     if (areaInputText != null) {
       areaInputText.clear();
@@ -211,12 +214,47 @@ public class ChatController implements ControllerInterface {
 
   // appends a chat message to the display area with appropriate formatting based on who sent it
   protected void appendChatMessage(ChatMessage msg) {
-    if (msg.getRole().equals("user")) {
-      areaDisplayText.appendText("You: " + msg.getContent() + "\n\n");
-    } else if (msg.getRole().equals("assistant")) {
-      areaDisplayText.appendText(getName() + ": " + msg.getContent() + "\n\n");
+    Label messageLabel = new Label();
+    messageLabel.setWrapText(true);
+    messageLabel.setMaxWidth(230);
+    messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
+    messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
+
+    javafx.scene.layout.HBox messageContainer = new javafx.scene.layout.HBox();
+
+    switch (msg.getRole()) {
+      case "user":
+        messageLabel.setText("You: " + msg.getContent());
+        messageLabel.setStyle(
+            messageLabel.getStyle()
+                + "-fx-background-color: linear-gradient(to right, #00bfff, #0077aa); "
+                + "-fx-text-fill: white;");
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 0, 0, 40));
+        break;
+      case "assistant":
+        messageLabel.setText(getName() + ": " + msg.getContent());
+        messageLabel.setStyle(
+            messageLabel.getStyle()
+                + "-fx-background-color: rgba(0, 0, 0, 0.6); "
+                + "-fx-text-fill: #00ffff;");
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 40, 0, 0));
+        break;
+      case "system":
+        messageLabel.setText("System: " + msg.getContent());
+        messageLabel.setStyle(
+            messageLabel.getStyle()
+                + "-fx-background-color: #333333; -fx-text-fill: #ffcc00; "
+                + "-fx-font-style: italic;");
+        messageContainer.setAlignment(javafx.geometry.Pos.CENTER);
+        javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 60, 0, 60));
+        break;
     }
-    areaDisplayText.setScrollTop(Double.MAX_VALUE); // scrolls to bottom
+
+    messageContainer.getChildren().add(messageLabel);
+    chatVBox.getChildren().add(messageContainer);
+    Platform.runLater(() -> chatScrollPane.setVvalue(1.0)); // auto-scroll
   }
 
   // helper method to be shared between characters for welcome sounds
