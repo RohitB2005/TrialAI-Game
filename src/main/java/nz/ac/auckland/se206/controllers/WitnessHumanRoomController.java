@@ -1,10 +1,13 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.animation.Interpolator;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
@@ -13,13 +16,16 @@ public class WitnessHumanRoomController extends ChatController {
 
   private String person = "witnessHuman";
   private String name = "Alex Ryder";
+  private TranslateTransition leftBounceAnimation;
+  private TranslateTransition rightBounceAnimation;
+  private boolean allItemFound = false;
 
   @FXML private ImageView viewSpraycan;
   @FXML private ImageView viewBandanna;
   @FXML private ImageView viewGun;
   @FXML private Region regionBag;
-  @FXML private Label label;
-  @FXML private Label labelCount;
+  @FXML private ImageView rightArrow;
+  @FXML private ImageView leftArrow;
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
@@ -59,11 +65,10 @@ public class WitnessHumanRoomController extends ChatController {
     viewSpraycan.setVisible(false);
     viewBandanna.setVisible(false);
     viewGun.setVisible(false);
+    allItemFound = false;
 
     // set a custom cursor on hover and labels visibility
     regionBag.setCursor(javafx.scene.Cursor.HAND);
-    label.setVisible(true);
-    labelCount.setVisible(false);
   }
 
   // logic for clicking bag for items in memory
@@ -79,24 +84,20 @@ public class WitnessHumanRoomController extends ChatController {
       viewSpraycan.setVisible(true);
       viewSpraycan.setLayoutX(parentX - 30);
       viewSpraycan.setLayoutY(parentY - 40);
-      labelCount.setVisible(true);
-      labelCount.setText("1/3 found");
     } else if (!viewBandanna.isVisible()) {
 
       // set visibility and position of bandana next, increment count
       viewBandanna.setVisible(true);
       viewBandanna.setLayoutX(parentX - 30);
       viewBandanna.setLayoutY(parentY - 40);
-      labelCount.setText("2/3 found");
     } else if (!viewGun.isVisible()) {
 
       // final item gun taken from bag, position and visibility set
       viewGun.setVisible(true);
       viewGun.setLayoutX(parentX - 30);
       viewGun.setLayoutY(parentY - 40);
-      labelCount.setText("3/3 found");
       regionBag.setCursor(null);
-      label.setVisible(false);
+      allItemFound = true;
 
       // append new message to chat and send to LLM as prompt to provide further context
       ChatMessage msg =
@@ -108,6 +109,58 @@ public class WitnessHumanRoomController extends ChatController {
       appendChatMessage(msg);
       runGpt(msg);
     }
+  }
+
+  @FXML
+  public void onHover() {
+    startBounceAnimation();
+  }
+
+    @FXML
+  private void onMouseExit(MouseEvent event) {
+    stopBounceAnimation();
+  }
+
+  private void startBounceAnimation() {
+    if (allItemFound) {
+      return;
+    }
+
+    leftArrow.setVisible(true);
+    rightArrow.setVisible(true);
+
+    leftBounceAnimation = new TranslateTransition(Duration.millis(600), leftArrow);
+    leftBounceAnimation.setFromX(0);
+    leftBounceAnimation.setToX(10);
+    leftBounceAnimation.setAutoReverse(true);
+    leftBounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
+    leftBounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
+
+    rightBounceAnimation = new TranslateTransition(Duration.millis(600), rightArrow);
+    rightBounceAnimation.setFromX(0);
+    rightBounceAnimation.setToX(-10);
+    rightBounceAnimation.setAutoReverse(true);
+    rightBounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
+    rightBounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
+    
+    leftBounceAnimation.play();
+    rightBounceAnimation.play();
+
+  }
+
+  private void stopBounceAnimation() {
+    if (leftBounceAnimation != null) {
+      leftBounceAnimation.stop();
+      leftBounceAnimation.getNode().setTranslateX(0);
+      leftBounceAnimation = null;
+    }
+    if (rightBounceAnimation != null) {
+      rightBounceAnimation.stop();
+      rightBounceAnimation.getNode().setTranslateX(0);
+      rightBounceAnimation = null;
+    }
+    leftArrow.setVisible(false);
+    rightArrow.setVisible(false);
   }
 
   // draggable animation for items in memory
