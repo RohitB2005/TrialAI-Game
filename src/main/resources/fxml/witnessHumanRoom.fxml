@@ -14,14 +14,14 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" styleClass="hud-display" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.WitnessHumanRoomController">
    <children>
-      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="724.0" layoutY="8.0" prefHeight="604.0" prefWidth="350.0" styleClass="chat-scroll-pane">
+      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="753.0" layoutY="8.0" prefHeight="586.0" prefWidth="321.0" styleClass="chat-scroll-pane">
    <content>
       <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
    </content>
 </ScrollPane>
-      <TextField fx:id="areaInputText" PromptText="Type your message..." layoutX="729.0" layoutY="621.0" onKeyPressed="#onEnterPressed" prefHeight="44.0" prefWidth="343.0" styleClass="textarea-chat" />
-      <Button fx:id="btnSend" layoutX="988.0" layoutY="667.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="44.0" prefWidth="84.0" styleClass="button1" text="Send" />
-      <Button fx:id="btnReturn" layoutX="729.0" layoutY="669.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="40.0" prefWidth="93.0" styleClass="button2" stylesheets="@../css/ControlStyle1.css" text="Return" />
+      <TextField fx:id="areaInputText" layoutX="756.0" layoutY="606.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="315.0" promptText="Type your message..." styleClass="textarea-chat" />
+      <Button fx:id="btnSend" layoutX="990.0" layoutY="661.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="81.0" styleClass="button1" text="Send" />
+      <Button fx:id="btnReturn" layoutX="753.0" layoutY="659.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="42.0" prefWidth="91.0" styleClass="button2" text="Return" />
       <ImageView fitHeight="767.0" fitWidth="540.0" layoutX="207.0" layoutY="-46.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/alex_arrested.jpg" />
@@ -76,6 +76,6 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="counterLabel" layoutX="61.0" layoutY="529.0" onMouseEntered="#onHover" onMouseExited="#onMouseExit" prefHeight="50.0" prefWidth="84.0" style="-fx-font-size: 30;" styleClass="button3" text="0/3" />
+      <Label fx:id="counterLabel" layoutX="50.0" layoutY="530.0" onMouseEntered="#onHover" onMouseExited="#onMouseExit" prefHeight="73.0" prefWidth="103.0" style="-fx-font-size: 30;" styleClass="button3" text="0/3" />
    </children>
 </Pane>
