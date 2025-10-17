@@ -101,16 +101,6 @@ public class WitnessHumanRoomController extends ChatController {
       viewGun.setLayoutX(parentX - 30);
       viewGun.setLayoutY(parentY - 40);
       regionBag.setCursor(null);
-
-      // append new message to chat and send to LLM as prompt to provide further context
-      ChatMessage msg =
-          new ChatMessage(
-              "system",
-              "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you"
-                  + " must now defend yourself over why they were there on the day you wer"
-                  + " areested");
-      appendChatMessage(msg);
-      runGpt(msg);
     }
     bagClickCount++;
   }
@@ -168,7 +158,7 @@ public class WitnessHumanRoomController extends ChatController {
 
   // draggable animation for items in memory
   @FXML
-  public void onDrag(MouseEvent event) {
+  public void onDrag(MouseEvent event) throws ApiProxyException {
     ImageView draggedImage = (ImageView) event.getSource();
     double parentX =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getX();
@@ -189,6 +179,17 @@ public class WitnessHumanRoomController extends ChatController {
       draggedImage.setVisible(false);
       itemStoredCount++;
       counterLabel.setText(itemStoredCount + "/3");
+      if (itemStoredCount == 3) {
+        // append new message to chat and send to LLM as prompt to provide further context
+        ChatMessage msg =
+            new ChatMessage(
+                "system",
+                "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you"
+                    + " must now defend yourself over why they were there on the day you were"
+                    + " arrested");
+        appendChatMessage(msg);
+        runGpt(msg);
+      }
     }
   }
 }
