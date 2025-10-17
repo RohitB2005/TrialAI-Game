@@ -249,3 +249,17 @@
   -fx-text-fill: black;
   -fx-effect: dropshadow(three-pass-box, #ff6666, 10, 0.4, 0, 0);
 }
+
+.GameLabel {
+  -fx-font-size: 12pt;
+  -fx-font-family: "Orbitron";
+  -fx-text-fill: #00aa00;
+  -fx-background-color: #002200;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-padding: 2;
+  -fx-alignment: center;
+  -fx-wrap-text: true;
+  -fx-ellipsis-string: "";
+}
+

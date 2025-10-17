@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
@@ -25,28 +24,28 @@ public class WitnessAiRoomController extends ChatController {
   private String name = "Alpha-Ai";
   private int horizontalVelocity = 0;
   private int verticalVelocity = 0;
-  private List<Rectangle> platforms;
+  private List<Label> labels;
   private Image playerImage;
   private int tileSize = 16;
   private int restCount = 0;
   private boolean playerDead = false;
   private int deathCount = 0;
-  private int platform1HorizontalVelocity = 1;
-  private int platform2HorizontalVelocity = -1;
   private Boolean hasWon = false;
+  private int[] textPos;
+  private String text;
+  private int textMove;
 
   @FXML private ImageView player;
-  @FXML private Rectangle rectPlatform1;
-  @FXML private Rectangle rectPlatform2;
-  @FXML private Rectangle rect1;
-  @FXML private Rectangle rect2;
-  @FXML private Rectangle rect3;
-  @FXML private Rectangle rect4;
-  @FXML private Rectangle rect5;
-  @FXML private Rectangle rect6;
+  @FXML private Label gameLabel1;
+  @FXML private Label gameLabel2;
+  @FXML private Label gameLabel3;
+  @FXML private Label gameLabel4;
+  @FXML private Label gameLabel5;
   @FXML private Button btnStart;
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
+  @FXML private Label gameLabelStatic1;
+  @FXML private Label gameLabelStatic2;
 
   private Timeline timer =
       new Timeline(
@@ -63,15 +62,24 @@ public class WitnessAiRoomController extends ChatController {
   void initialize() {
 
     // create list to store all platforms in game, then add each of them
-    platforms = new ArrayList<>();
-    platforms.add(rectPlatform1);
-    platforms.add(rectPlatform2);
-    platforms.add(rect1);
-    platforms.add(rect2);
-    platforms.add(rect3);
-    platforms.add(rect4);
-    platforms.add(rect5);
-    platforms.add(rect6);
+    labels = new ArrayList<>();
+    labels.add(gameLabel1);
+    labels.add(gameLabel2);
+    labels.add(gameLabel3);
+    labels.add(gameLabel4);
+    labels.add(gameLabel5);
+    labels.add(gameLabelStatic1);
+    labels.add(gameLabelStatic2);
+
+    textPos = new int[] {1, 5, 9, 13, 17, 0, 0};
+    text =
+        "        Intruder Detected. Initiating Security Protocols. All Systems Operational. Access Denied. "
+            + "         Unauthorized Access Attempt Logged. Deploying Countermeasures. System"
+            + " Integrity at 100%. Analyzing Threat Level. Activating Defense Mechanisms. "
+            + "         Security Breach Contained. Monitoring Intruder Movements. Engaging       ";
+    textMove = 0;
+
+    movePlatforms();
 
     // sets player image and timer cycles logic
     areaInputText.requestFocus();
@@ -125,10 +133,7 @@ public class WitnessAiRoomController extends ChatController {
     player.setY(675);
     player.setVisible(false);
     timer.stop();
-    rectPlatform1.setX(5);
-    rectPlatform2.setX(195);
-    platform1HorizontalVelocity = 1;
-    platform2HorizontalVelocity = -1;
+    resetLabels();
 
     // reset deaths and label text, as well as boolean statuses associated with game
     deathCount = 0;
@@ -145,6 +150,8 @@ public class WitnessAiRoomController extends ChatController {
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
       timer.play();
     }
+
+    resetLabels();
 
     // set position, health status, as well as velocity and other parameters to start game
     playerDead = false;
@@ -237,13 +244,13 @@ public class WitnessAiRoomController extends ChatController {
     }
 
     // Check for collisions with platforms
-    if (player.getX() < 1 || player.getX() > 235 || player.getY() < 1 || player.getY() > 680) {
+    if (player.getX() < 1 || player.getX() > 260 || player.getY() < 1 || player.getY() > 680) {
       player.setX(player.getX() - horizontalVelocity);
       player.setY(player.getY() - verticalVelocity);
     }
 
-    for (Rectangle platform : platforms) {
-      if (player.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+    for (Label label : labels) {
+      if (player.getBoundsInParent().intersects(label.getBoundsInParent())) {
         playerDead = true;
         btnStart.setVisible(true);
         btnStart.setText("You Died! Restart?");
@@ -293,19 +300,41 @@ public class WitnessAiRoomController extends ChatController {
 
   private void movePlatforms() {
     // Move platform 1
-    rectPlatform1.setX(rectPlatform1.getX() + platform1HorizontalVelocity);
-    if (rectPlatform1.getX() > 195) {
-      platform1HorizontalVelocity = -1;
-    } else if (rectPlatform1.getX() < 5) {
-      platform1HorizontalVelocity = 1;
+    int labelcount = 0;
+    Label label;
+    for (int i = 0; i < labels.size() - 2; i++) {
+      label = labels.get(i);
+      if (textMove % 10 == 0) {
+        label.setText(text.substring(textPos[labelcount], textPos[labelcount] + 10));
+        textPos[labelcount]++;
+        if (textPos[labelcount] + 25 > text.length()) {
+          textPos[labelcount] = 0;
+        }
+        if (label.getLayoutY() > 600) {
+          label.setLayoutY(-100 * Math.random() * 7);
+          label.setLayoutX(Math.random() * 50 + 50 * labelcount);
+        }
+      }
+      label.setLayoutY(label.getLayoutY() + 3);
+      labelcount++;
     }
+    if (textMove % 10 == 0) {
+      for (int i = labels.size() - 2; i < labels.size(); i++) {
+        label = labels.get(i);
+        label.setText(text.substring(textPos[0], textPos[0] + 25));
+      }
+    }
+    textMove++;
+  }
 
-    // Move platform 2
-    rectPlatform2.setX(rectPlatform2.getX() + platform2HorizontalVelocity);
-    if (rectPlatform2.getX() > 195) {
-      platform2HorizontalVelocity = -1;
-    } else if (rectPlatform2.getX() < 5) {
-      platform2HorizontalVelocity = 1;
+  private void resetLabels() {
+    int count = 0;
+    Label label;
+    for (int i = 0; i < labels.size() - 2; i++) {
+      label = labels.get(i);
+      label.setLayoutY(-100 * Math.random() * 10);
+      label.setLayoutX(Math.random() * 50 + 50 * count);
+      count++;
     }
   }
 
