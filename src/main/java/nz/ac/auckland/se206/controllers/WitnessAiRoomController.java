@@ -3,7 +3,11 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
@@ -34,18 +39,19 @@ public class WitnessAiRoomController extends ChatController {
   private int[] textPos;
   private String text;
   private int textMove;
+  private int labelSpeed = 2;
 
   @FXML private ImageView player;
   @FXML private Label gameLabel1;
   @FXML private Label gameLabel2;
   @FXML private Label gameLabel3;
   @FXML private Label gameLabel4;
-  @FXML private Label gameLabel5;
   @FXML private Button btnStart;
   @FXML private Label labelFinal;
   @FXML private Label labelInstructions;
   @FXML private Label gameLabelStatic1;
   @FXML private Label gameLabelStatic2;
+  @FXML private Pane paneCover;
 
   private Timeline timer =
       new Timeline(
@@ -67,11 +73,10 @@ public class WitnessAiRoomController extends ChatController {
     labels.add(gameLabel2);
     labels.add(gameLabel3);
     labels.add(gameLabel4);
-    labels.add(gameLabel5);
     labels.add(gameLabelStatic1);
     labels.add(gameLabelStatic2);
 
-    textPos = new int[] {1, 5, 9, 13, 17, 0, 0};
+    textPos = new int[] {1, 5, 9, 13};
     text =
         "        Intruder Detected. Initiating Security Protocols. All Systems Operational. Access Denied. "
             + "         Unauthorized Access Attempt Logged. Deploying Countermeasures. System"
@@ -126,10 +131,10 @@ public class WitnessAiRoomController extends ChatController {
 
     // reset visibility of buttons and positions of platforms and character, similar to initialise
     // but for replays
-    btnStart.setVisible(true);
+    paneFadeIn();
     btnStart.setText("Begin Infiltration");
     playerDead = false;
-    player.setX(20);
+    player.setX(130);
     player.setY(675);
     player.setVisible(false);
     timer.stop();
@@ -145,7 +150,7 @@ public class WitnessAiRoomController extends ChatController {
   // logic for starting the memory game and initialising fields needed
   @FXML
   private void onStart() {
-    btnStart.setVisible(false);
+    paneFadeOut();
     areaInputText.requestFocus();
     if (timer != null && !timer.getStatus().equals(Timeline.Status.RUNNING)) {
       timer.play();
@@ -155,7 +160,7 @@ public class WitnessAiRoomController extends ChatController {
 
     // set position, health status, as well as velocity and other parameters to start game
     playerDead = false;
-    player.setX(20);
+    player.setX(130);
     player.setY(675);
     player.setVisible(true);
     horizontalVelocity = 0;
@@ -223,9 +228,8 @@ public class WitnessAiRoomController extends ChatController {
     if (player.getY() < 20) {
       // Player reached the top, win condition
       timer.stop();
-      btnStart.setVisible(true);
-      labelFinal.setText("Infiltration Successful!!");
-      btnStart.setText("Restart?");
+      btnStart.setText("Infiltration Successful!!");
+      paneFadeIn();
       playerDead = true; // Prevent further movement
       if (!hasWon) {
         ChatMessage systemMessage =
@@ -252,12 +256,39 @@ public class WitnessAiRoomController extends ChatController {
     for (Label label : labels) {
       if (player.getBoundsInParent().intersects(label.getBoundsInParent())) {
         playerDead = true;
-        btnStart.setVisible(true);
-        btnStart.setText("You Died! Restart?");
+        paneFadeIn();
+        // btnStart.setVisible(true);
+        btnStart.setText("Hacking Failed! Restart?");
         break;
       }
     }
   }
+
+  private void paneFadeIn() {
+    paneCover.setVisible(true);
+
+    FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
+    ft.setToValue(1.0);
+    ScaleTransition st = new ScaleTransition(Duration.millis(500), paneCover);
+    st.setToX(1.00);
+    st.setToY(1.00);
+    ft.play();
+    st.play();
+  }
+
+  private void paneFadeOut() {
+    paneCover.setVisible(true);
+
+    FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
+    ft.setToValue(0.0);
+    ft.setOnFinished(e -> paneCover.setVisible(false));
+    ScaleTransition st = new ScaleTransition(Duration.millis(500), paneCover);
+    st.setToX(1.00);
+    st.setToY(1.00);
+    ft.play();
+    st.play();
+  }
+
 
   // method to set the image based on its pixel position
   private void setImage() {
@@ -312,10 +343,10 @@ public class WitnessAiRoomController extends ChatController {
         }
         if (label.getLayoutY() > 600) {
           label.setLayoutY(-100 * Math.random() * 7);
-          label.setLayoutX(Math.random() * 50 + 50 * labelcount);
+          label.setLayoutX(Math.random() * 65 + 75 * labelcount + 5);
         }
       }
-      label.setLayoutY(label.getLayoutY() + 3);
+      label.setLayoutY(label.getLayoutY() + labelSpeed);
       labelcount++;
     }
     if (textMove % 10 == 0) {
@@ -333,7 +364,7 @@ public class WitnessAiRoomController extends ChatController {
     for (int i = 0; i < labels.size() - 2; i++) {
       label = labels.get(i);
       label.setLayoutY(-100 * Math.random() * 10);
-      label.setLayoutX(Math.random() * 50 + 50 * count);
+      label.setLayoutX(Math.random() * 60 + 75 * count + 5);
       count++;
     }
   }

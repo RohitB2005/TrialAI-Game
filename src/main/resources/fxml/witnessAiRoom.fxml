@@ -18,32 +18,35 @@
    </content>
 </ScrollPane>
       <TextField fx:id="areaInputText" layoutX="756.0" layoutY="606.0" onKeyPressed="#onEnterPressed" onKeyReleased="#onKeyRelease" prefHeight="25.0" prefWidth="315.0" promptText="Type your message..." styleClass="textarea-chat" />
-      <ImageView fitHeight="532.0" fitWidth="443.0" pickOnBounds="true">
+      <ImageView fitHeight="560.0" fitWidth="447.0" layoutX="300.0" layoutY="8.0" pickOnBounds="true">
          <image>
             <Image url="@../images/AlphaMemory.png" />
          </image>
       </ImageView>
       <Button fx:id="btnSend" layoutX="990.0" layoutY="661.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="81.0" styleClass="button1" text="Send" />
       <Button fx:id="btnReturn" layoutX="753.0" layoutY="659.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="42.0" prefWidth="91.0" styleClass="button2" text="Return" />
+      <Pane prefHeight="720.0" prefWidth="300.0" styleClass="gamePane">
+         <children>
+            <Label fx:id="labelFinal" prefHeight="40.0" prefWidth="300.0" style="-fx-alignment: center;" styleClass="labelFinalStyle" text="Sentinel 12 logic center" textAlignment="CENTER" />
+            <ImageView fx:id="player" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" x="130.0" y="675.0" />
+            <Label fx:id="gameLabel3" layoutX="218.0" layoutY="314.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
+            <Label fx:id="gameLabel2" layoutX="130.0" layoutY="160.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
+            <Label fx:id="gameLabel1" layoutX="54.0" layoutY="102.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
+            <Label fx:id="gameLabel4" layoutX="190.0" layoutY="34.0" prefHeight="249.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
+            <Label fx:id="gameLabelStatic2" layoutX="6.0" layoutY="466.0" prefHeight="13.0" prefWidth="200.0" style="-fx-background-color: #00440050; -fx-text-fill: #FF4444;" styleClass="GameLabel" text="Label" textAlignment="RIGHT" textOverrun="CLIP" />
+            <Label fx:id="gameLabelStatic1" layoutX="96.0" layoutY="222.0" prefHeight="13.0" prefWidth="200.0" style="-fx-background-color: #00440050; -fx-text-fill: #FF4444;" styleClass="GameLabel" text="Label" textOverrun="CLIP" />
+            <Pane fx:id="paneCover" prefHeight="720.0" prefWidth="300.0" styleClass="gamePane">
+               <children>
+                  <Button fx:id="btnStart" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" onAction="#onStart" prefHeight="40.0" prefWidth="213.0" styleClass="button3" text="Begin Infiltration" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <Label fx:id="labelInstructions" focusTraversable="false" layoutX="434.0" layoutY="606.0" prefHeight="70.0" prefWidth="213.0" styleClass="button4" text="Use ArrowKeys to move. Reach The Logic Center." textAlignment="CENTER" visible="false" wrapText="true" />
       <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Pane layoutX="440.0" prefHeight="720.0" prefWidth="300.0" styleClass="gamePane">
-         <children>
-            <ImageView fx:id="player" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" x="20.0" y="675.0" />
-            <Label fx:id="gameLabel3" layoutX="218.0" layoutY="314.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
-            <Label fx:id="gameLabel2" layoutX="130.0" layoutY="160.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
-            <Label fx:id="gameLabel1" layoutX="54.0" layoutY="102.0" prefHeight="268.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
-            <Label fx:id="gameLabel5" layoutX="94.0" layoutY="-32.0" prefHeight="249.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
-            <Label fx:id="gameLabel4" layoutX="190.0" layoutY="34.0" prefHeight="249.0" prefWidth="12.0" styleClass="GameLabel" text="Label" />
-            <Label fx:id="gameLabelStatic2" layoutX="6.0" layoutY="466.0" prefHeight="13.0" prefWidth="200.0" style="-fx-background-color: #00440050; -fx-text-fill: #FF4444;" styleClass="GameLabel" text="Label" textAlignment="RIGHT" textOverrun="CLIP" />
-            <Label fx:id="gameLabelStatic1" layoutX="96.0" layoutY="222.0" prefHeight="13.0" prefWidth="200.0" style="-fx-background-color: #00440050; -fx-text-fill: #FF4444;" styleClass="GameLabel" text="Label" textOverrun="CLIP" />
-            <Label fx:id="labelFinal" layoutX="50.0" layoutY="7.0" prefHeight="40.0" prefWidth="185.0" styleClass="labelFinalStyle" text="Sentinel 12 logic center" textAlignment="CENTER" />
-            <Button fx:id="btnStart" layoutX="72.0" layoutY="655.0" mnemonicParsing="false" onAction="#onStart" prefHeight="30.0" prefWidth="157.0" styleClass="button3" text="Begin Infiltration" />
-         </children>
-      </Pane>
-      <Label fx:id="labelInstructions" focusTraversable="false" layoutX="222.0" layoutY="642.0" prefHeight="70.0" prefWidth="213.0" styleClass="button4" text="Use ArrowKeys to move. Reach The Logic Center." textAlignment="CENTER" visible="false" wrapText="true" />
    </children>
 </Pane>
