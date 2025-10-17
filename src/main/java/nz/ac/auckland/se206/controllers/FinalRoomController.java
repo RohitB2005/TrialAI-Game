@@ -58,7 +58,7 @@ public class FinalRoomController extends ChatController {
               "system",
               "You did not gather enough information to make a verdict. You can restart the game to"
                   + " try again.");
-      appendChatMessage(msg);
+      appendChatMessage(msg, true);
     }
   }
 
@@ -81,7 +81,7 @@ public class FinalRoomController extends ChatController {
 
     // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
-    appendChatMessage(msg);
+    appendChatMessage(msg, true);
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
     btnReturn.setVisible(false);
@@ -96,7 +96,7 @@ public class FinalRoomController extends ChatController {
 
     // initialise chat message from system and append the message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
-    appendChatMessage(msg);
+    appendChatMessage(msg, true);
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
     btnReturn.setVisible(false);
@@ -192,7 +192,7 @@ public class FinalRoomController extends ChatController {
     ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
     ChatMessage message = new ChatMessage("user", verdict + " " + rationale);
-    appendChatMessage(message);
+    appendChatMessage(message, true);
     runGpt(message);
   }
 }
