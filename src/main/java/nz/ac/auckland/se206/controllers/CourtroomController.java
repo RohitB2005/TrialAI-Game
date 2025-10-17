@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -40,7 +41,9 @@ public class CourtroomController implements ControllerInterface {
   @FXML private Region witnessHuman;
 
   @FXML private Label instructionLabel;
-
+  @FXML private Pane rootPane;
+  @FXML private Label finalRoomTooltip;
+  @FXML private Region finalRoomOverlay;
   @FXML private ImageView humanIndicator;
   @FXML private ImageView defendantIndicator;
   @FXML private ImageView aiIndicator;
@@ -50,6 +53,9 @@ public class CourtroomController implements ControllerInterface {
   private Media media;
   private MediaPlayer mediaPlayerWelcome;
 
+  // Tooltip label shown when hovering disabled Judge Now button
+  // (now injected from FXML)
+
   // loads and plays a stored tts file for the courtroom when the scene is opened for the first time
   @FXML
   public void initialize() throws URISyntaxException {
@@ -58,6 +64,15 @@ public class CourtroomController implements ControllerInterface {
     // Play welcome audio on first entry
     playWelcomeAudio();
     playInstructionsPopup();
+
+    // Tooltip and overlay are defined in FXML; ensure overlay visibility follows button state
+    if (finalRoomOverlay != null) {
+      finalRoomOverlay.setVisible(btnFinalRoom.isDisabled());
+    }
+    if (finalRoomTooltip != null) {
+      finalRoomTooltip.setVisible(false);
+      finalRoomTooltip.setOpacity(0);
+    }
   }
 
   private void playInstructionsPopup() {
@@ -142,6 +157,47 @@ public class CourtroomController implements ControllerInterface {
     stopBounceAnimation();
   }
 
+  // Hover handler added in FXML for btnFinalRoom
+  @FXML
+  private void onFinalRoomHover(MouseEvent event) {
+    // Only show tooltip when the button is disabled (overlay should only be active when disabled)
+    if (!btnFinalRoom.isDisabled()) {
+      return;
+    }
+
+    // Adjust max width relative to available space in rootPane so it can wrap
+    double maxAllowed = Math.max(150, rootPane.getWidth() - 40); // leave some margin
+    finalRoomTooltip.setMaxWidth(Math.min(400, maxAllowed));
+    finalRoomTooltip.applyCss();
+    finalRoomTooltip.layout();
+
+    finalRoomTooltip.setVisible(true);
+
+    FadeTransition ft = new FadeTransition(Duration.millis(300), finalRoomTooltip);
+    ft.setToValue(1.0);
+    ScaleTransition st = new ScaleTransition(Duration.millis(300), finalRoomTooltip);
+    st.setToX(1.05);
+    st.setToY(1.05);
+    ft.play();
+    st.play();
+  }
+
+  @FXML
+  private void onFinalRoomExit(MouseEvent event) {
+    if (finalRoomTooltip == null || !finalRoomTooltip.isVisible()) {
+      return;
+    }
+
+    FadeTransition ft = new FadeTransition(Duration.millis(200), finalRoomTooltip);
+    ft.setToValue(0.0);
+    ft.setOnFinished(e -> finalRoomTooltip.setVisible(false));
+    ScaleTransition st = new ScaleTransition(Duration.millis(200), finalRoomTooltip);
+    st.setToX(0.9);
+    st.setToY(0.9);
+    ft.play();
+    st.play();
+  }
+
   private void startBounceAnimation(ImageView indicator) {
     stopBounceAnimation();
 
@@ -170,12 +226,23 @@ public class CourtroomController implements ControllerInterface {
   public void updateFinalRoomButton() {
     if (ChatController.allParticipantsContacted()) {
       btnFinalRoom.setDisable(false);
+      // hide overlay and tooltip when button becomes enabled
+      if (finalRoomOverlay != null) {
+        finalRoomOverlay.setVisible(false);
+      }
+      if (finalRoomTooltip != null) {
+        finalRoomTooltip.setVisible(false);
+        finalRoomTooltip.setOpacity(0);
+      }
     }
   }
 
   @Override
   public void reset() {
     btnFinalRoom.setDisable(true);
+    if (finalRoomOverlay != null) {
+      finalRoomOverlay.setVisible(true);
+    }
     isFirstTimeInit = true; // This ensures audio will play again after reset
     viewedFlashbacks.clear();
 
