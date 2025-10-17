@@ -33,8 +33,11 @@
             <Font size="20.0" />
          </font>
       </Label>
-   <Button fx:id="btnFinalRoom" layoutX="844.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" prefHeight="48.0" prefWidth="145.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" onMouseEntered="#onFinalRoomHover" onMouseExited="#onFinalRoomExit" />
+   <Button fx:id="btnFinalRoom" layoutX="844.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" onMouseEntered="#onFinalRoomHover" onMouseExited="#onFinalRoomExit" prefHeight="48.0" prefWidth="145.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" />
       <Button fx:id="btnExit" layoutX="994.0" layoutY="652.0" mnemonicParsing="false" onAction="#onExitBtn" prefHeight="48.0" prefWidth="70.0" style="-fx-cursor: hand;" styleClass="button3" text="Exit" />
+   <!-- Tooltip and transparent overlay for the FinalRoom button (declared in FXML) -->
+   <Label fx:id="finalRoomTooltip" layoutX="664.0" layoutY="573.0" prefWidth="360.0" style="-fx-padding: 8px 12px; -fx-font-size: 14px; -fx-background-color: linear-gradient(#8B0000, #B22222); -fx-text-fill: white; -fx-border-color: #FF6B6B; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-background-radius: 8px;" text="You must chat to all 3 participants before you can make a verdict !!" visible="false" wrapText="true" />
+   <Region fx:id="finalRoomOverlay" layoutX="844.0" layoutY="652.0" onMouseEntered="#onFinalRoomHover" onMouseExited="#onFinalRoomExit" prefHeight="48.0" prefWidth="145.0" style="-fx-background-color: transparent; -fx-cursor: not-allowed;" visible="false" />
       <Label fx:id="instructionLabel" layoutX="39.0" layoutY="25.0" styleClass="hud-display" text="Select a witness to hear their story." />
       <ImageView fx:id="humanIndicator" fitHeight="56.0" fitWidth="58.0" layoutX="124.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>

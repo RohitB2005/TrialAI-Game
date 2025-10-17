@@ -11,7 +11,6 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,7 +20,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import nz.ac.auckland.se206.App;
 
@@ -44,7 +42,8 @@ public class CourtroomController implements ControllerInterface {
 
   @FXML private Label instructionLabel;
   @FXML private Pane rootPane;
-
+  @FXML private Label finalRoomTooltip;
+  @FXML private Region finalRoomOverlay;
   @FXML private ImageView humanIndicator;
   @FXML private ImageView defendantIndicator;
   @FXML private ImageView aiIndicator;
@@ -55,9 +54,7 @@ public class CourtroomController implements ControllerInterface {
   private MediaPlayer mediaPlayerWelcome;
 
   // Tooltip label shown when hovering disabled Judge Now button
-  private Label finalRoomTooltip;
-  // Transparent overlay to capture hover events when the button is disabled
-  private Region finalRoomOverlay;
+  // (now injected from FXML)
 
   // loads and plays a stored tts file for the courtroom when the scene is opened for the first time
   @FXML
@@ -68,78 +65,14 @@ public class CourtroomController implements ControllerInterface {
     playWelcomeAudio();
     playInstructionsPopup();
 
-    // Initialize the tooltip label for the FinalRoom button
-    initFinalRoomTooltip();
-  }
-
-  private void initFinalRoomTooltip() {
-    finalRoomTooltip =
-        new Label("You must chat to all 3 participants before you can make a verdict !!");
-    finalRoomTooltip.getStyleClass().add("hud-display");
-    finalRoomTooltip.setOpacity(0);
-    finalRoomTooltip.setScaleX(0.9);
-    finalRoomTooltip.setScaleY(0.9);
-    finalRoomTooltip.setVisible(false);
-    // Allow wrapping and set a reasonable default max width; adjusted before showing
-    finalRoomTooltip.setWrapText(true);
-    finalRoomTooltip.setMaxWidth(360);
-    // Center text horizontally
-    finalRoomTooltip.setAlignment(Pos.CENTER);
-    finalRoomTooltip.setTextAlignment(TextAlignment.CENTER);
-    // Add padding and slightly larger font for better readability
-    // Use a red 'disabled' theme to indicate action is not allowed yet
-    finalRoomTooltip.setStyle(
-        "-fx-padding: 8px 12px; -fx-font-size: 14px; -fx-background-color: linear-gradient(#8B0000,"
-            + " #B22222); -fx-text-fill: white; -fx-border-color: #FF6B6B; -fx-border-width: 1px;"
-            + " -fx-border-radius: 8px; -fx-background-radius: 8px;");
-
-    // Position the tooltip near the button (above it)
-    // We'll update the layout when showing so it stays consistent
-    rootPane.getChildren().add(finalRoomTooltip);
-
-    // Create transparent overlay placed over btnFinalRoom to capture hover when disabled
-    finalRoomOverlay = new Region();
-    finalRoomOverlay.setStyle("-fx-background-color: transparent; -fx-cursor: not-allowed;");
-    finalRoomOverlay.setVisible(btnFinalRoom.isDisabled());
-
-    // Forward mouse events on overlay to tooltip show/hide handlers
-    finalRoomOverlay.setOnMouseEntered(this::onFinalRoomHover);
-    finalRoomOverlay.setOnMouseExited(this::onFinalRoomExit);
-
-    // Ensure overlay and tooltip visibility follow the disabled state of the button
-    btnFinalRoom
-        .disabledProperty()
-        .addListener(
-            (obs2, wasDisabled, isDisabled) -> {
-              finalRoomOverlay.setVisible(isDisabled);
-              if (!isDisabled && finalRoomTooltip != null) {
-                // hide tooltip immediately when button becomes enabled
-                finalRoomTooltip.setVisible(false);
-                finalRoomTooltip.setOpacity(0);
-              }
-            });
-
-    // Keep overlay bounds synced with the button
-    btnFinalRoom
-        .boundsInParentProperty()
-        .addListener(
-            (obs, oldBounds, newBounds) -> {
-              finalRoomOverlay.setLayoutX(newBounds.getMinX());
-              finalRoomOverlay.setLayoutY(newBounds.getMinY());
-              finalRoomOverlay.setPrefWidth(newBounds.getWidth());
-              finalRoomOverlay.setPrefHeight(newBounds.getHeight());
-            });
-
-    // Initialize overlay bounds immediately if possible
-    finalRoomOverlay.setLayoutX(btnFinalRoom.getLayoutX());
-    finalRoomOverlay.setLayoutY(btnFinalRoom.getLayoutY());
-    finalRoomOverlay.setPrefWidth(
-        btnFinalRoom.getWidth() > 0 ? btnFinalRoom.getWidth() : btnFinalRoom.getPrefWidth());
-    finalRoomOverlay.setPrefHeight(
-        btnFinalRoom.getHeight() > 0 ? btnFinalRoom.getHeight() : btnFinalRoom.getPrefHeight());
-
-    // Add overlay on top so it can capture events when needed
-    rootPane.getChildren().add(finalRoomOverlay);
+    // Tooltip and overlay are defined in FXML; ensure overlay visibility follows button state
+    if (finalRoomOverlay != null) {
+      finalRoomOverlay.setVisible(btnFinalRoom.isDisabled());
+    }
+    if (finalRoomTooltip != null) {
+      finalRoomTooltip.setVisible(false);
+      finalRoomTooltip.setOpacity(0);
+    }
   }
 
   private void playInstructionsPopup() {
@@ -232,35 +165,12 @@ public class CourtroomController implements ControllerInterface {
       return;
     }
 
-    // Ensure CSS/layout is applied so width/height are valid
-    finalRoomTooltip.applyCss();
-    finalRoomTooltip.layout();
-
-    // Use the overlay bounds for positioning
-    double overlayX = finalRoomOverlay.getLayoutX();
-    double overlayY = finalRoomOverlay.getLayoutY();
-    double overlayW = finalRoomOverlay.getPrefWidth();
-
     // Adjust max width relative to available space in rootPane so it can wrap
     double maxAllowed = Math.max(150, rootPane.getWidth() - 40); // leave some margin
     finalRoomTooltip.setMaxWidth(Math.min(400, maxAllowed));
     finalRoomTooltip.applyCss();
     finalRoomTooltip.layout();
-    double tooltipWidth = finalRoomTooltip.prefWidth(-1);
 
-    double desiredX = overlayX + (overlayW - tooltipWidth) / 2;
-    // If tooltip would go off right edge, shift it left
-    double rightEdge = desiredX + tooltipWidth;
-    if (rightEdge > rootPane.getWidth() - 10) {
-      desiredX = rootPane.getWidth() - tooltipWidth - 10;
-    }
-
-    if (desiredX < 10) {
-      desiredX = 10;
-    }
-
-    finalRoomTooltip.setLayoutX(desiredX);
-    finalRoomTooltip.setLayoutY(overlayY - 70);
     finalRoomTooltip.setVisible(true);
 
     FadeTransition ft = new FadeTransition(Duration.millis(300), finalRoomTooltip);
