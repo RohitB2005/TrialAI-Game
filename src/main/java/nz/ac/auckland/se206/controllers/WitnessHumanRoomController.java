@@ -3,6 +3,7 @@ package nz.ac.auckland.se206.controllers;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
@@ -174,8 +175,6 @@ public class WitnessHumanRoomController extends ChatController {
     double parentY =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
 
-    
-    
     // set positions of separate images
     if (draggedImage == viewGun) {
       draggedImage.setLayoutX(parentX - 80);
@@ -185,7 +184,8 @@ public class WitnessHumanRoomController extends ChatController {
       draggedImage.setLayoutY(parentY - 80);
     }
 
-    if (draggedImage.getBoundsInParent().intersects(counterLabel.getBoundsInParent()) && draggedImage.isVisible()) {
+    if (draggedImage.getBoundsInParent().intersects(counterLabel.getBoundsInParent())
+        && draggedImage.isVisible()) {
       draggedImage.setVisible(false);
       itemStoredCount++;
       counterLabel.setText(itemStoredCount + "/3");

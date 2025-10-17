@@ -212,8 +212,16 @@ public class ChatController implements ControllerInterface {
     App.openScene(scene, "courtRoom");
   }
 
-  // appends a chat message to the display area with appropriate formatting based on who sent it
   protected void appendChatMessage(ChatMessage msg) {
+    appendChatMessage(msg, false);
+  }
+
+  // appends a chat message to the display area with appropriate formatting based on who sent it
+  protected void appendChatMessage(ChatMessage msg, boolean showSystemMessage) {
+    if ("system".equals(msg.getRole()) && !showSystemMessage) {
+      return;
+    }
+
     Label messageLabel = new Label();
     messageLabel.setWrapText(true);
     messageLabel.setMaxWidth(230);
