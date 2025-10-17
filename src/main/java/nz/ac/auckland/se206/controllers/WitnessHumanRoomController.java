@@ -18,7 +18,8 @@ public class WitnessHumanRoomController extends ChatController {
   private String name = "Alex Ryder";
   private TranslateTransition leftBounceAnimation;
   private TranslateTransition rightBounceAnimation;
-  private boolean allItemFound = false;
+  private int bagClickCount = 0;
+  private int itemStoredCount = 0;
 
   @FXML private ImageView viewSpraycan;
   @FXML private ImageView viewBandanna;
@@ -26,6 +27,7 @@ public class WitnessHumanRoomController extends ChatController {
   @FXML private Region regionBag;
   @FXML private ImageView rightArrow;
   @FXML private ImageView leftArrow;
+  @FXML private Label counterLabel;
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
@@ -65,7 +67,9 @@ public class WitnessHumanRoomController extends ChatController {
     viewSpraycan.setVisible(false);
     viewBandanna.setVisible(false);
     viewGun.setVisible(false);
-    allItemFound = false;
+    bagClickCount = 0;
+    itemStoredCount = 0;
+    counterLabel.setText("0/3");
 
     // set a custom cursor on hover and labels visibility
     regionBag.setCursor(javafx.scene.Cursor.HAND);
@@ -80,24 +84,23 @@ public class WitnessHumanRoomController extends ChatController {
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
 
     // if statement to set position and visibility of spray can, increment indicator
-    if (!viewSpraycan.isVisible()) {
+    if (bagClickCount == 0) {
       viewSpraycan.setVisible(true);
       viewSpraycan.setLayoutX(parentX - 30);
       viewSpraycan.setLayoutY(parentY - 40);
-    } else if (!viewBandanna.isVisible()) {
+    } else if (bagClickCount == 1) {
 
       // set visibility and position of bandana next, increment count
       viewBandanna.setVisible(true);
       viewBandanna.setLayoutX(parentX - 30);
       viewBandanna.setLayoutY(parentY - 40);
-    } else if (!viewGun.isVisible()) {
+    } else if (bagClickCount == 2) {
 
       // final item gun taken from bag, position and visibility set
       viewGun.setVisible(true);
       viewGun.setLayoutX(parentX - 30);
       viewGun.setLayoutY(parentY - 40);
       regionBag.setCursor(null);
-      allItemFound = true;
 
       // append new message to chat and send to LLM as prompt to provide further context
       ChatMessage msg =
@@ -109,6 +112,7 @@ public class WitnessHumanRoomController extends ChatController {
       appendChatMessage(msg);
       runGpt(msg);
     }
+    bagClickCount++;
   }
 
   @FXML
@@ -122,7 +126,7 @@ public class WitnessHumanRoomController extends ChatController {
   }
 
   private void startBounceAnimation() {
-    if (allItemFound) {
+    if (bagClickCount >= 3) {
       return;
     }
 
@@ -172,13 +176,21 @@ public class WitnessHumanRoomController extends ChatController {
     double parentY =
         viewSpraycan.getParent().sceneToLocal(event.getSceneX(), event.getSceneY()).getY();
 
+    
+    
     // set positions of separate images
     if (draggedImage == viewGun) {
       draggedImage.setLayoutX(parentX - 80);
       draggedImage.setLayoutY(parentY - 30);
-      return;
+    } else {
+      draggedImage.setLayoutX(parentX - 50);
+      draggedImage.setLayoutY(parentY - 80);
     }
-    draggedImage.setLayoutX(parentX - 50);
-    draggedImage.setLayoutY(parentY - 80);
+
+    if (draggedImage.getBoundsInParent().intersects(counterLabel.getBoundsInParent()) && draggedImage.isVisible()) {
+      draggedImage.setVisible(false);
+      itemStoredCount++;
+      counterLabel.setText(itemStoredCount + "/3");
+    }
   }
 }
