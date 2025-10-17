@@ -10,10 +10,10 @@
 
 .root {
   -fx-font-size: 12pt;
-  -fx-font-family: "Orbitron";
-  -fx-base: #dfb951;
-  -fx-background: #a78732;
-  -fx-focus-color: #b6a678;
+  -fx-font-family: "Orbitron"; 
+    -fx-base: #1c1c1c;
+    -fx-background-color: rgba(0, 56, 71, 0.75);
+    -fx-focus-color: #00BFFF; 
 }
 
 /* === General HUD Display === */
@@ -65,22 +65,6 @@
 .button {
   -fx-cursor: hand;
   -fx-font-family: "Orbitron";
-}
-
-.button1 {
-  -fx-text-fill: #006464;
-  -fx-background-color: #dfb951;
-  -fx-border-radius: 20;
-  -fx-background-radius: 20;
-  -fx-padding: 5;
-}
-
-.button2 {
-  -fx-text-fill: #c10000;
-  -fx-background-color: #dfb951;
-  -fx-border-radius: 20;
-  -fx-background-radius: 20;
-  -fx-padding: 5;
 }
 
 .button3 {
