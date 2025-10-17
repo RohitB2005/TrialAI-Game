@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CourtroomController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.CourtroomController">
    <children>
       <ImageView fitHeight="725.0" fitWidth="1080.0" layoutY="-1.0" pickOnBounds="true">
          <image>
@@ -33,7 +33,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="btnFinalRoom" layoutX="844.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" prefHeight="48.0" prefWidth="145.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" />
+   <Button fx:id="btnFinalRoom" layoutX="844.0" layoutY="652.0" mnemonicParsing="false" onAction="#onFinalRoom" prefHeight="48.0" prefWidth="145.0" style="-fx-cursor: hand;" styleClass="button3" text="Judge Now" onMouseEntered="#onFinalRoomHover" onMouseExited="#onFinalRoomExit" />
       <Button fx:id="btnExit" layoutX="994.0" layoutY="652.0" mnemonicParsing="false" onAction="#onExitBtn" prefHeight="48.0" prefWidth="70.0" style="-fx-cursor: hand;" styleClass="button3" text="Exit" />
       <Label fx:id="instructionLabel" layoutX="39.0" layoutY="25.0" styleClass="hud-display" text="Select a witness to hear their story." />
       <ImageView fx:id="humanIndicator" fitHeight="56.0" fitWidth="58.0" layoutX="124.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true" visible="false">
