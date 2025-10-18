@@ -2,7 +2,10 @@ package nz.ac.auckland.se206.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -26,6 +29,7 @@ public class TrialAiRoomController extends ChatController {
   @FXML private Button btnArrestAlex;
   @FXML private Button btnObserveAlex;
   @FXML private Button btnSurvey1;
+  @FXML private Label instructionLabel;
 
   private String person = "trialAi";
   private String name = "Sentinal-12";
@@ -44,6 +48,14 @@ public class TrialAiRoomController extends ChatController {
     images.add(new Image("/images/nightprotest.png"));
     images.add(new Image("/images/violentprotest.png"));
     images.add(new Image("/images/alexprotest.png"));
+
+    // Prepare initial hidden state for the instructions popup
+    if (instructionLabel != null) {
+      instructionLabel.setVisible(false);
+      instructionLabel.setOpacity(0);
+      instructionLabel.setScaleX(0.9);
+      instructionLabel.setScaleY(0.9);
+    }
   }
 
   private Timeline timer =
@@ -69,11 +81,40 @@ public class TrialAiRoomController extends ChatController {
       playWelcomeSound("Sentinal_12.mp3");
 
       areaInputText.requestFocus();
+      // Ensure popup runs when the scene is actually activated
+      playInstructionsPopup();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
           + " other witness have said or wait till you are asked a question";
     }
+  }
+
+  private void playInstructionsPopup() {
+    if (instructionLabel == null) {
+      return;
+    }
+    // Ensure the node is visible and initial values are applied before the animation starts
+    instructionLabel.setVisible(true);
+    instructionLabel.setOpacity(0);
+    instructionLabel.setScaleX(0.9);
+    instructionLabel.setScaleY(0.9);
+
+    PauseTransition delay = new PauseTransition(Duration.millis(1500));
+    delay.setOnFinished(
+        event -> {
+          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
+          ft.setFromValue(0);
+          ft.setToValue(1.0);
+          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
+          st.setToX(1.0);
+          st.setToY(1.0);
+          ft.play();
+          st.play();
+        });
+
+    // Start the initial delay
+    delay.play();
   }
 
   @Override
@@ -108,6 +149,14 @@ public class TrialAiRoomController extends ChatController {
 
   @FXML
   private void onSurvey() {
+    // Hide the instructions popup when survey begins
+    if (instructionLabel != null) {
+      instructionLabel.setVisible(false);
+      instructionLabel.setOpacity(0);
+      instructionLabel.setScaleX(0.9);
+      instructionLabel.setScaleY(0.9);
+    }
+
     btnSurvey.setVisible(false);
     nextImage();
     updateGameTimer();
@@ -135,7 +184,6 @@ public class TrialAiRoomController extends ChatController {
     imageScreen.setFitHeight(150);
     imageScreen.setX(0);
     imageScreen.setY(0);
-
   }
 
   @FXML
@@ -231,6 +279,6 @@ public class TrialAiRoomController extends ChatController {
     onStopSurvey();
     alexArrested = false;
     // add logic to scrink image back to original size
-    
+
   }
 }
