@@ -103,10 +103,10 @@ public class TrialAiRoomController extends ChatController {
     PauseTransition delay = new PauseTransition(Duration.millis(1500));
     delay.setOnFinished(
         event -> {
-          FadeTransition ft = new FadeTransition(Duration.millis(200), instructionLabel);
+          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
           ft.setFromValue(0);
           ft.setToValue(1.0);
-          ScaleTransition st = new ScaleTransition(Duration.millis(200), instructionLabel);
+          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
           st.setToX(1.0);
           st.setToY(1.0);
           ft.play();
@@ -149,6 +149,14 @@ public class TrialAiRoomController extends ChatController {
 
   @FXML
   private void onSurvey() {
+    // Hide the instructions popup when survey begins
+    if (instructionLabel != null) {
+      instructionLabel.setVisible(false);
+      instructionLabel.setOpacity(0);
+      instructionLabel.setScaleX(0.9);
+      instructionLabel.setScaleY(0.9);
+    }
+
     btnSurvey.setVisible(false);
     nextImage();
     updateGameTimer();

@@ -55,6 +55,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="instructionLabel" layoutX="150.0" layoutY="38.0" styleClass="hud-display" text="placeholder text for now for instructions" visible="false" />
+      <Label fx:id="instructionLabel" layoutX="20.0" layoutY="38.0" styleClass="hud-display" text="Observe the suspect and decided to arrest or release them" visible="false" />
    </children>
 </Pane>
