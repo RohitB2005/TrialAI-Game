@@ -34,6 +34,7 @@ public class TrialAiRoomController extends ChatController {
   private int timeRemaining = 60; // seconds
   private int framesRemaining = 50;
   private List<Image> images;
+  private Timeline growTimeline;
 
   @FXML
   public void initialize() {
@@ -120,6 +121,7 @@ public class TrialAiRoomController extends ChatController {
     btnSurvey1.setVisible(false);
     btnSurvey.setVisible(true);
     timer.stop();
+    growTimeline.stop();
     imageAlex.setVisible(false);
     imageScreen.setVisible(false);
     labelScene.setVisible(false);
@@ -161,7 +163,7 @@ public class TrialAiRoomController extends ChatController {
 
     framesRemaining = 55;
 
-    Timeline growTimeline =
+    growTimeline =
         new Timeline(
             new KeyFrame(
                 Duration.millis(25),
