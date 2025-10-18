@@ -2,12 +2,16 @@ package nz.ac.auckland.se206.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -17,7 +21,7 @@ public class TrialAiRoomController extends ChatController {
 
   @FXML private Button btnSurvey;
   @FXML private ImageView imageFlashback;
-  @FXML private ImageView imageFlashback1;
+  @FXML private ImageView imageAlex;
   @FXML private Button btnLeftArrest;
   @FXML private Button btnLeftObserve;
   @FXML private Button btnDownRightArrest;
@@ -28,33 +32,31 @@ public class TrialAiRoomController extends ChatController {
   @FXML private Button btnDownObserve;
   @FXML private Label labelSecurity;
   @FXML private Label labelScene;
+  @FXML private Button btnArrestAlex;
+  @FXML private Button btnObserveAlex;
 
-  private List<Image> flashbacks;
   private String person = "trialAi";
   private String name = "Sentinal-12";
   private int imageCount = 0;
-  private int score = 0;
   private boolean alexArrested = false;
-  private int scene = 0;
   private List<Button> buttons;
+  private int timeRemaining = 60; // seconds
+
+  private Timeline timer =
+    new Timeline(
+        new KeyFrame(
+            Duration.millis(100),
+            event -> {
+              timeRemaining--;
+              updateGameTimer();
+              if (timeRemaining <= 0) {
+                  nextImage();
+              }
+            }));
 
   // initializes the linked list of images for the flashback sequence
   @FXML
   public void initialize() {
-
-    // create list to store flashback images and create image objects
-    flashbacks = new ArrayList<>();
-    Image image1 = new Image(App.class.getResource("/images/Criminal_drunk.png").toExternalForm());
-    Image image2 = new Image(App.class.getResource("/images/Criminal_Knife.png").toExternalForm());
-    Image image3 =
-        new Image(App.class.getResource("/images/Criminal_Activist.png").toExternalForm());
-
-    // add images to flashbacks array
-    flashbacks.add(image1);
-    flashbacks.add(image2);
-    flashbacks.add(image3);
-    imageFlashback1.setImage(flashbacks.get(0));
-    imageFlashback1.setVisible(false);
 
     // create buttons as an array list to select actions
     buttons = new ArrayList<>();
@@ -66,6 +68,8 @@ public class TrialAiRoomController extends ChatController {
     buttons.add(btnUpObserve);
     buttons.add(btnDownArrest);
     buttons.add(btnDownObserve);
+    buttons.add(btnArrestAlex);
+    buttons.add(btnObserveAlex);
   }
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
@@ -107,106 +111,79 @@ public class TrialAiRoomController extends ChatController {
     switch (btnId) {
       case "btnLeftArrest":
         btnLeftObserve.setVisible(false);
-        updateButtonStyle(clickedbtn, true);
         break;
       case "btnLeftObserve":
         btnLeftArrest.setVisible(false);
-        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownRightArrest":
-
-        // update score for correct answer
         btnDownRightObserve.setVisible(false);
-        updateButtonStyle(clickedbtn, true);
-        score = score + 20;
         break;
       case "btnDownRightObserve":
         btnDownRightArrest.setVisible(false);
-        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownArrest":
         btnDownObserve.setVisible(false);
-        updateButtonStyle(clickedbtn, false);
         break;
       case "btnDownObserve":
         btnDownArrest.setVisible(false);
-        updateButtonStyle(clickedbtn, true);
         break;
       case "btnUpArrest":
-        minigame("arrest");
+        btnDownArrest.setVisible(false);
         break;
       case "btnUpObserve":
-        minigame("observe");
+        btnUpArrest.setVisible(false);
+        break;
+      case "btnArrestAlex":
+        btnObserveAlex.setVisible(false);
+        alexArrested = true;
+        lastResponce();
+        break;
+      case "btnObserveAlex":
+        btnArrestAlex.setVisible(false);
+        alexArrested = false;
+        lastResponce();
         break;
       default:
         break;
     }
-
-    // print text for scores and security level
-    scene++;
-    System.out.println("Score: " + score);
-    labelSecurity.setText("City Security Level: " + score + "%");
-    labelScene.setText(scene + "/7 situations judged");
-
-    // special case for max security level obtained
-    if (score >= 100) {
-      labelSecurity.setText("City Security Level: MAXIMUM");
-      labelSecurity.setTextFill(javafx.scene.paint.Color.RED);
-    }
-    if (scene == 7) {
-      lastResponce();
-    }
-  }
-
-  private void updateButtonStyle(Button clickedbtn, boolean answer) {
-    clickedbtn.getStyleClass().remove("button3");
-    if (answer) {
-      clickedbtn.getStyleClass().add("button4");
-    } else {
-      clickedbtn.getStyleClass().add("button5");
-    }
-    clickedbtn.setDisable(true);
-  }
-
-  // changes the flashback image to the next in the linked list
-  private void minigame(String action) {
-
-    // choose flashback slide based on image count
-    if (imageCount == 0) {
-      imageFlashback1.setVisible(true);
-    } else if (imageCount == 1) {
-      imageFlashback1.setImage(flashbacks.get(1));
-    } else if (imageCount == 2) {
-      imageFlashback1.setImage(flashbacks.get(2));
-    } else {
-
-      // sets observe and arrest buttons based on choices
-      if (action.equals("arrest")) {
-        btnUpObserve.setVisible(false);
-        updateButtonStyle(btnUpArrest, true);
-        alexArrested = true;
-      } else {
-        btnUpArrest.setVisible(false);
-        updateButtonStyle(btnUpObserve, false);
-        alexArrested = false;
-      }
-    }
-
-    // increment image count and score
-    imageCount++;
-    if (action.equals("arrest")) {
-      score = score + 20;
-    }
+    nextImage();
+    clickedbtn.setStyle("-fx-background-color: #00bfff; -fx-text-fill: white;");
   }
 
   @FXML
   private void onSurvey() {
     btnSurvey.setVisible(false);
-    for (Button btn : buttons) {
-      btn.setVisible(true);
-    }
+    nextImage();
+    updateGameTimer();
     labelSecurity.setText("choose to arrest or observe the suspects");
     labelScene.setVisible(true);
+  }
+
+  @FXML void nextImage() {
+    timer.stop();
+    if (imageCount < buttons.size() / 2) {
+      if (timeRemaining <= 0) {
+        // if no decision made, disable both buttons
+        buttons.get(imageCount * 2 - 1).setDisable(true);
+        buttons.get(imageCount * 2 - 2).setDisable(true);
+      }
+      buttons.get(imageCount*2).setVisible(true);
+      buttons.get(imageCount*2 + 1).setVisible(true);
+      imageCount++;
+      if (imageCount == buttons.size() / 2) {
+        imageAlex.setVisible(true);
+        timeRemaining = 120;
+      } else {
+        timeRemaining = 60;
+      }
+      updateGameTimer();
+      timer.setCycleCount(timeRemaining);
+      timer.play();
+    }
+  }
+
+  private void updateGameTimer() {
+    labelScene.setText("Time Remaining: " + timeRemaining / 10 + "." + timeRemaining % 10 + "s");
   }
 
   // adjusts prompt based on users actions taken
@@ -243,23 +220,18 @@ public class TrialAiRoomController extends ChatController {
   @Override
   public void reset() {
     super.reset();
-    imageFlashback1.setVisible(false);
+    imageAlex.setVisible(false);
     btnSurvey.setVisible(true);
     for (Button btn : buttons) {
       btn.setVisible(false);
       btn.setDisable(false);
-      btn.getStyleClass().remove("button4");
-      btn.getStyleClass().remove("button5");
-      btn.getStyleClass().add("button3");
+      btn.setStyle(""); // reset style
     }
 
     // reset values, scores and booleans here
-    labelSecurity.setText("City Security Level: 0%");
-    labelSecurity.setTextFill(javafx.scene.paint.Color.BLACK);
+    labelSecurity.setText("try to protect the city");
     labelScene.setVisible(false);
     imageCount = 0;
-    score = 0;
     alexArrested = false;
-    scene = 0;
   }
 }
