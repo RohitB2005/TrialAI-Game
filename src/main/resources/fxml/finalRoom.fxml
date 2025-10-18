@@ -34,7 +34,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="170.0" layoutY="227.0" prefHeight="347.0" prefWidth="685.0" styleClass="chat-scroll-pane">
+      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="49.0" layoutY="85.0" prefHeight="138.0" prefWidth="230.0" styleClass="chat-scroll-pane">
    <content>
       <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
    </content>
