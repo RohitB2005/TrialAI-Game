@@ -1,6 +1,9 @@
 package nz.ac.auckland.se206.controllers;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,6 +31,45 @@ public class WitnessHumanRoomController extends ChatController {
   @FXML private ImageView rightArrow;
   @FXML private ImageView leftArrow;
   @FXML private Label counterLabel;
+  @FXML private Label instructionLabel;
+
+  @FXML
+  public void initialize() {
+    // Prepare initial hidden state; popup is triggered from getPrompt() when the scene is active
+    if (instructionLabel != null) {
+      instructionLabel.setVisible(false);
+      instructionLabel.setOpacity(0);
+      instructionLabel.setScaleX(0.9);
+      instructionLabel.setScaleY(0.9);
+    }
+  }
+
+  private void playInstructionsPopup() {
+    if (instructionLabel == null) {
+      return;
+    }
+    // Ensure the node is visible and initial values are applied before the animation starts
+    instructionLabel.setVisible(true);
+    instructionLabel.setOpacity(0);
+    instructionLabel.setScaleX(0.9);
+    instructionLabel.setScaleY(0.9);
+
+    PauseTransition delay = new PauseTransition(Duration.millis(1500));
+    delay.setOnFinished(
+        event -> {
+          FadeTransition ft = new FadeTransition(Duration.millis(200), instructionLabel);
+          ft.setFromValue(0);
+          ft.setToValue(1.0);
+          ScaleTransition st = new ScaleTransition(Duration.millis(200), instructionLabel);
+          st.setToX(1.0);
+          st.setToY(1.0);
+          ft.play();
+          st.play();
+        });
+
+    // Start the initial delay
+    delay.play();
+  }
 
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
@@ -39,6 +81,8 @@ public class WitnessHumanRoomController extends ChatController {
       // call the helper method to play mp3
       playWelcomeSound("Alex_Ryder.mp3");
       areaInputText.requestFocus();
+      // ensure popup runs when the scene is actually activated
+      playInstructionsPopup();
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
 
