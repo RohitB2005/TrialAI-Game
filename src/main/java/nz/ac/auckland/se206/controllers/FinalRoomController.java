@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Region;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -18,8 +19,8 @@ public class FinalRoomController extends ChatController {
   @FXML private Button btnReturn;
   @FXML private Button btnReplay;
   @FXML private Button btnSend;
-  @FXML private Button btnGuilty;
-  @FXML private Button btnInnocent;
+  @FXML private Region btnGuilty;
+  @FXML private Region btnInnocent;
   @FXML private Label timerLabel;
   @FXML private Label question;
   @FXML private Label cannotMakeVerdict;
