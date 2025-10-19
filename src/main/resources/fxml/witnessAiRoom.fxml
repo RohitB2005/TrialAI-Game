@@ -37,12 +37,12 @@
             <Label fx:id="gameLabelStatic1" layoutX="96.0" layoutY="222.0" prefHeight="13.0" prefWidth="200.0" style="-fx-background-color: #00440050; -fx-text-fill: #FF4444;" styleClass="GameLabel" text="Label" textOverrun="CLIP" />
             <Pane fx:id="paneCover" prefHeight="720.0" prefWidth="300.0" styleClass="gamePane">
                <children>
-                  <Button fx:id="btnStart" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" onAction="#onStart" prefHeight="40.0" prefWidth="213.0" styleClass="button3" text="Begin Infiltration" />
+                  <Button fx:id="btnStart" layoutX="41.0" layoutY="340.0" mnemonicParsing="false" onAction="#onStart" prefWidth="213.0" styleClass="button3" text="Begin Infiltration" />
                </children>
             </Pane>
          </children>
       </Pane>
-      <Label fx:id="labelInstructions" focusTraversable="false" layoutX="434.0" layoutY="606.0" prefHeight="70.0" prefWidth="213.0" styleClass="button4" text="Use ArrowKeys to move. Reach The Logic Center." textAlignment="CENTER" visible="false" wrapText="true" />
+      <Label fx:id="labelInstructions" focusTraversable="false" layoutX="434.0" layoutY="606.0" prefWidth="213.0" styleClass="button4" text="Use ArrowKeys to move. Reach The Logic Center." textAlignment="CENTER" visible="false" wrapText="true" />
       <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
