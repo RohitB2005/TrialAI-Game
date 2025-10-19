@@ -467,4 +467,14 @@ public class FinalRoomController extends ChatController {
     appendChatMessage(message, true);
     runGpt(message);
   }
+
+  @Override
+  protected Label createLabel() {
+    Label messageLabel = new Label();
+    messageLabel.setWrapText(true);
+    messageLabel.setMaxWidth(500);
+    messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
+    messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
+    return messageLabel;
+  }
 }

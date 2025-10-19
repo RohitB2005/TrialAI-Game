@@ -1,5 +1,3 @@
-Finalroom Prompt:
-
 You are evaluating a player’s verdict in an AI ethics case. Do not introduce yourself.
 
 Correct Verdict: Guilty of Unlawful Surveillance and breaching AI ethical guidelines.

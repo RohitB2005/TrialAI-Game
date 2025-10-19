@@ -46,6 +46,7 @@ public class ChatController implements ControllerInterface {
 
   // method to check if all participants have been contacted
   public static boolean allParticipantsContacted() {
+    // return true;
     return contactedParticipants.contains("WitnessAi")
         && contactedParticipants.contains("WitnessHuman")
         && contactedParticipants.contains("TrialAi");
@@ -229,11 +230,7 @@ public class ChatController implements ControllerInterface {
       return;
     }
 
-    Label messageLabel = new Label();
-    messageLabel.setWrapText(true);
-    messageLabel.setMaxWidth(230);
-    messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
-    messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
+    Label messageLabel = createLabel();
 
     javafx.scene.layout.HBox messageContainer = new javafx.scene.layout.HBox();
 
@@ -293,6 +290,15 @@ public class ChatController implements ControllerInterface {
           scrollTimeline.getKeyFrames().add(kf);
           scrollTimeline.play();
         }); // animated auto-scroll
+  }
+
+  protected Label createLabel() {
+    Label messageLabel = new Label();
+    messageLabel.setWrapText(true);
+    messageLabel.setMaxWidth(230);
+    messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
+    messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
+    return messageLabel;
   }
 
   // helper method to be shared between characters for welcome sounds
