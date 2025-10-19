@@ -20,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
+import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -461,6 +462,7 @@ public class FinalRoomController extends ChatController {
   }
 
   private void submitRationale(String rationale) throws ApiProxyException {
+    initializeChatCompletionRequest();
     ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
     ChatMessage message = new ChatMessage("user", verdict + " " + rationale);
