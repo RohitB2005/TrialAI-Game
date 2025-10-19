@@ -18,9 +18,9 @@
    </content>
 </ScrollPane>
       <TextField fx:id="areaInputText" layoutX="756.0" layoutY="606.0" onKeyPressed="#onEnterPressed" onKeyReleased="#onKeyRelease" prefHeight="25.0" prefWidth="315.0" promptText="Type your message..." styleClass="textarea-chat" />
-      <ImageView fitHeight="560.0" fitWidth="447.0" layoutX="300.0" layoutY="8.0" pickOnBounds="true">
+      <ImageView fx:id="imageAlpha" fitHeight="720.0" fitWidth="447.0" layoutX="300.0" pickOnBounds="true">
          <image>
-            <Image url="@../images/AlphaMemory.png" />
+            <Image url="@../images/alphastanding.png" />
          </image>
       </ImageView>
       <Button fx:id="btnSend" layoutX="990.0" layoutY="661.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="81.0" styleClass="button1" text="Send" />
