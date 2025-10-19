@@ -1,7 +1,5 @@
 package nz.ac.auckland.se206.states;
 
-import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.controllers.ChatController;
 import nz.ac.auckland.se206.controllers.SceneManager;
 import nz.ac.auckland.se206.controllers.SceneManager.AppUi;
@@ -19,17 +17,7 @@ public class ChatState implements GameState {
   // logic to use prompt to send message to llm
   @Override
   public void onEnter() {
-    try {
-
-      // initialise prompt from controller and send as chat message to LLM
-      String prompt = controller.getPrompt();
-      ChatMessage msg = new ChatMessage("system", prompt);
-      controller.runGpt(msg);
-    } catch (ApiProxyException e) {
-
-      // debugging info for errors
-      e.printStackTrace();
-    }
+    return;
   }
 
   @Override
