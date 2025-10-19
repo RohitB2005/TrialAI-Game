@@ -1,14 +1,24 @@
 package nz.ac.auckland.se206.controllers;
 
 import java.io.IOException;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -24,9 +34,13 @@ public class FinalRoomController extends ChatController {
   @FXML private Label timerLabel;
   @FXML private Label question;
   @FXML private Label cannotMakeVerdict;
+  @FXML private Pane rootPane;
+  @FXML private ScrollPane chatScrollPane;
 
   private boolean choiceMade = false;
   private String verdict = "";
+  // Keep reference to any running timeline so we can stop it before starting another
+  private Timeline blurTimeline;
 
   @Override
   public void updateTimer(int timeRemaining) {
@@ -61,6 +75,12 @@ public class FinalRoomController extends ChatController {
                   + " try again.");
       appendChatMessage(msg, true);
     }
+
+    // ensure chat is hidden on entry until a verdict is chosen
+    if (chatScrollPane != null) {
+      chatScrollPane.setVisible(false);
+      chatScrollPane.setManaged(false);
+    }
   }
 
   @Override
@@ -70,6 +90,13 @@ public class FinalRoomController extends ChatController {
 
   @FXML
   private void onReplayClicked() {
+    // clear blur and hide chat if present
+    applyBackgroundBlur(false);
+    if (chatScrollPane != null) {
+      chatScrollPane.setVisible(false);
+      chatScrollPane.setManaged(false);
+      chatScrollPane.getStyleClass().remove("chat-floating");
+    }
     App.resetGame();
   }
 
@@ -86,6 +113,9 @@ public class FinalRoomController extends ChatController {
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
     btnReturn.setVisible(false);
+    // show the chat popup and blur the background
+    showChatPopup();
+    applyBackgroundBlur(true);
   }
 
   // selects not guilty verdict on innocent button click, sending message prompting for reasons
@@ -101,6 +131,9 @@ public class FinalRoomController extends ChatController {
     btnSend.setDisable(false);
     areaInputText.setDisable(false);
     btnReturn.setVisible(false);
+    // show the chat popup and blur the background
+    showChatPopup();
+    applyBackgroundBlur(true);
   }
 
   // logic for when the player has sent their final message or the timer has run out
@@ -149,6 +182,105 @@ public class FinalRoomController extends ChatController {
     areaInputText.setDisable(true);
     btnGuilty.setDisable(false);
     btnInnocent.setDisable(false);
+    // remove any blur when resetting
+    applyBackgroundBlur(false);
+    // hide chat on reset
+    if (chatScrollPane != null) {
+      chatScrollPane.setVisible(false);
+      chatScrollPane.setManaged(false);
+      chatScrollPane.getStyleClass().remove("chat-floating");
+    }
+  }
+
+  /** Make the chat ScrollPane visible and play a small entrance animation. */
+  private void showChatPopup() {
+    if (chatScrollPane == null) {
+      return;
+    }
+
+    // Make visible and managed so it occupies layout space
+    chatScrollPane.setManaged(true);
+    chatScrollPane.setVisible(true);
+
+    // Add the stronger floating style if not present
+    if (!chatScrollPane.getStyleClass().contains("chat-floating")) {
+      chatScrollPane.getStyleClass().add("chat-floating");
+    }
+
+    // entrance animation: fade + slight scale pop
+    chatScrollPane.setOpacity(0);
+    ScaleTransition st = new ScaleTransition(Duration.millis(260), chatScrollPane);
+    st.setFromX(0.98);
+    st.setFromY(0.98);
+    st.setToX(1.0);
+    st.setToY(1.0);
+
+    FadeTransition ft = new FadeTransition(Duration.millis(260), chatScrollPane);
+    ft.setFromValue(0.0);
+    ft.setToValue(1.0);
+
+    st.play();
+    ft.play();
+  }
+
+  /**
+   * Animate Gaussian blur radius for all root children except the chat pane. Smoothly transitions
+   * the blur in or out.
+   */
+  private void applyBackgroundBlur(boolean enable) {
+    if (rootPane == null) {
+      return;
+    }
+
+    // Cancel any previous blur animation
+    if (blurTimeline != null) {
+      blurTimeline.stop();
+      blurTimeline = null;
+    }
+
+    blurTimeline = new Timeline();
+    double target = enable ? 12.0 : 0.0;
+    Duration duration = Duration.millis(360);
+
+    for (Node child : rootPane.getChildren()) {
+      if (chatScrollPane != null && child == chatScrollPane) {
+        // ensure chat has no blur
+        child.setEffect(null);
+        continue;
+      }
+
+      // Ensure the node has a GaussianBlur effect instance to animate
+      GaussianBlur gb;
+      if (child.getEffect() instanceof GaussianBlur) {
+        gb = (GaussianBlur) child.getEffect();
+      } else if (child.getEffect() == null) {
+        gb = new GaussianBlur(0);
+        child.setEffect(gb);
+      } else {
+        // If there's an unrelated effect, replace it with GaussianBlur for our purposes
+        gb = new GaussianBlur(0);
+        child.setEffect(gb);
+      }
+
+      KeyValue kv = new KeyValue(gb.radiusProperty(), target);
+      KeyFrame kf = new KeyFrame(duration, kv);
+      blurTimeline.getKeyFrames().add(kf);
+    }
+
+    // When disabling blur, clear effects at the end to avoid lingering zero-radius effects
+    blurTimeline.setOnFinished(
+        e -> {
+          if (!enable) {
+            for (Node child : rootPane.getChildren()) {
+              if (chatScrollPane != null && child == chatScrollPane) {
+                continue;
+              }
+              child.setEffect(null);
+            }
+          }
+        });
+
+    blurTimeline.play();
   }
 
   @Override

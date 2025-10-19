@@ -4,62 +4,99 @@
 */
 
 @font-face {
-    font-family: 'Orbitron';
-    src: url('../fonts/Orbitron-Regular.ttf');
+  font-family: "Orbitron";
+  src: url("../fonts/Orbitron-Regular.ttf");
 }
 
 .root {
   -fx-font-size: 12pt;
-  -fx-font-family: "Orbitron"; 
-    -fx-base: #1c1c1c;
-    -fx-background-color: rgba(0, 56, 71, 0.75);
-    -fx-focus-color: #00BFFF; 
+  -fx-font-family: "Orbitron";
+  -fx-base: #1c1c1c;
+  -fx-background-color: rgba(0, 56, 71, 0.75);
+  -fx-focus-color: #00bfff;
 }
 
 /* === General HUD Display === */
 .hud-display {
   -fx-background-color: rgba(0, 56, 71, 0.75);
-  -fx-background-radius: 8px; 
+  -fx-background-radius: 8px;
   -fx-border-color: #00bfff;
   -fx-border-width: 1px;
   -fx-border-radius: 8px;
   -fx-text-fill: #e0e0e0;
-  -fx-padding: 10px 20px; 
+  -fx-padding: 10px 20px;
   -fx-font-size: 16px;
   -fx-font-family: "Orbitron";
   -fx-alignment: center;
 }
 
 .chat-bubble {
-    -fx-padding: 10px 15px;
-    -fx-background-radius: 15px;
-    -fx-max-width: 75%; 
-    -fx-font-family: "'Roboto Mono', monospace";
-    -fx-font-size: 14px;
+  -fx-padding: 10px 15px;
+  -fx-background-radius: 15px;
+  -fx-max-width: 75%;
+  -fx-font-family: "'Roboto Mono', monospace";
+  -fx-font-size: 14px;
 }
 
 .ai-bubble {
-    -fx-background-color: #00BFFF; 
-    -fx-text-fill: black;
+  -fx-background-color: #00bfff;
+  -fx-text-fill: black;
 }
 
 .user-bubble {
-    -fx-background-color: #4A4A4A;
-    -fx-text-fill: white;
+  -fx-background-color: #4a4a4a;
+  -fx-text-fill: white;
 }
 
 .chat-scroll-pane {
-    -fx-background: #555555;
-    -fx-background-color: #555555;
-    -fx-border-color: #0077aa;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-fit-to-width: true;
+  -fx-background: #555555;
+  -fx-background-color: #555555;
+  -fx-border-color: #0077aa;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-fit-to-width: true;
+}
+.chat-popup {
+  /* Subtle glassy background so the pane reads as a floating card */
+  -fx-background-color: linear-gradient(
+    to bottom right,
+    rgba(8, 12, 14, 0.9),
+    rgba(24, 28, 30, 0.85)
+  );
+  -fx-background-radius: 14px;
+  -fx-border-radius: 14px;
+  -fx-border-color: rgba(0, 191, 255, 0.22);
+  -fx-border-width: 1px;
+  -fx-padding: 10px;
+  /* Stronger drop shadow to lift it from the background */
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.72), 40, 0.45, 0, 18);
+  /* Slight inner glow to make edges crisp */
+  -fx-background-insets: 0;
+}
+
+/* Optional stronger floating class you can add at runtime when the chat appears */
+.chat-floating {
+  -fx-background-color: linear-gradient(
+    to bottom right,
+    rgba(6, 10, 14, 0.95),
+    rgba(20, 24, 26, 0.9)
+  );
+  /* Elevated shadow for the stronger floating state */
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.82), 56, 0.5, 0, 24);
+  -fx-border-color: rgba(0, 191, 255, 0.28);
+  -fx-border-width: 1.5px;
+  -fx-opacity: 0.99;
 }
 .chat-vbox {
-    -fx-background-color: #555555;
-    -fx-padding: 10px;
+  -fx-background-color: #555555;
+  -fx-padding: 10px;
+}
+
+/* Make the chat bubbles sit comfortably inside the floating card */
+.chat-vbox .chat-bubble {
+  -fx-background-color: transparent;
+  -fx-padding: 8px 12px;
 }
 
 .button {
@@ -262,4 +299,3 @@
   -fx-wrap-text: true;
   -fx-ellipsis-string: "";
 }
-
