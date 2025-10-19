@@ -21,7 +21,7 @@
       </ImageView>
       <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="161.0" layoutY="124.0" prefHeight="422.0" prefWidth="728.0" styleClass="chat-scroll-pane">
    <content>
-      <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
+      <VBox fx:id="chatVbox" spacing="10" styleClass="chat-vbox" />
    </content>
 </ScrollPane>
    <Button fx:id="btnReturn" layoutX="26.0" layoutY="18.0" mnemonicParsing="false" onAction="#onReturn" style="-fx-cursor: hand;" styleClass="button3" text="Return" />
