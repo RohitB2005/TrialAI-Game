@@ -3,8 +3,12 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -319,5 +323,32 @@ public class ChatController implements ControllerInterface {
       // debug and error case accounted for
       System.err.println("Error loading " + soundFileName + ": " + e.getMessage());
     }
+  }
+
+  protected void playInstructionsPopup(Label instructionLabel) {
+    if (instructionLabel == null) {
+      return;
+    }
+    // Ensure the node is visible and initial values are applied before the animation starts
+    instructionLabel.setVisible(true);
+    instructionLabel.setOpacity(0);
+    instructionLabel.setScaleX(0.9);
+    instructionLabel.setScaleY(0.9);
+
+    PauseTransition delay = new PauseTransition(Duration.millis(1500));
+    delay.setOnFinished(
+        event -> {
+          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
+          ft.setFromValue(0);
+          ft.setToValue(1.0);
+          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
+          st.setToX(1.0);
+          st.setToY(1.0);
+          ft.play();
+          st.play();
+        });
+
+    // Start the initial delay
+    delay.play();
   }
 }

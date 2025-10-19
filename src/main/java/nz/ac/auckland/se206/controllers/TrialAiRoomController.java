@@ -82,39 +82,12 @@ public class TrialAiRoomController extends ChatController {
 
       areaInputText.requestFocus();
       // Ensure popup runs when the scene is actually activated
-      playInstructionsPopup();
+      playInstructionsPopup(instructionLabel);
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
           + " other witness have said or wait till you are asked a question";
     }
-  }
-
-  private void playInstructionsPopup() {
-    if (instructionLabel == null) {
-      return;
-    }
-    // Ensure the node is visible and initial values are applied before the animation starts
-    instructionLabel.setVisible(true);
-    instructionLabel.setOpacity(0);
-    instructionLabel.setScaleX(0.9);
-    instructionLabel.setScaleY(0.9);
-
-    PauseTransition delay = new PauseTransition(Duration.millis(1500));
-    delay.setOnFinished(
-        event -> {
-          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
-          ft.setFromValue(0);
-          ft.setToValue(1.0);
-          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
-          st.setToX(1.0);
-          st.setToY(1.0);
-          ft.play();
-          st.play();
-        });
-
-    // Start the initial delay
-    delay.play();
   }
 
   @Override

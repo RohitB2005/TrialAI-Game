@@ -44,33 +44,6 @@ public class WitnessHumanRoomController extends ChatController {
     }
   }
 
-  private void playInstructionsPopup() {
-    if (instructionLabel == null) {
-      return;
-    }
-    // Ensure the node is visible and initial values are applied before the animation starts
-    instructionLabel.setVisible(true);
-    instructionLabel.setOpacity(0);
-    instructionLabel.setScaleX(0.9);
-    instructionLabel.setScaleY(0.9);
-
-    PauseTransition delay = new PauseTransition(Duration.millis(1500));
-    delay.setOnFinished(
-        event -> {
-          FadeTransition ft = new FadeTransition(Duration.millis(200), instructionLabel);
-          ft.setFromValue(0);
-          ft.setToValue(1.0);
-          ScaleTransition st = new ScaleTransition(Duration.millis(200), instructionLabel);
-          st.setToX(1.0);
-          st.setToY(1.0);
-          ft.play();
-          st.play();
-        });
-
-    // Start the initial delay
-    delay.play();
-  }
-
   // loads and plays a stored tts file for the human witness when the scene is opened for the first
   // time
   @Override
@@ -82,7 +55,7 @@ public class WitnessHumanRoomController extends ChatController {
       playWelcomeSound("Alex_Ryder.mp3");
       areaInputText.requestFocus();
       // ensure popup runs when the scene is actually activated
-      playInstructionsPopup();
+      playInstructionsPopup(instructionLabel);
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
 
