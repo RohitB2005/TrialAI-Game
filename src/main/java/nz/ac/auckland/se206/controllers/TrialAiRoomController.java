@@ -170,7 +170,10 @@ public class TrialAiRoomController extends ChatController {
     btnSurvey1.setVisible(false);
     btnSurvey.setVisible(true);
     timer.stop();
-    growTimeline.stop();
+    if (growTimeline != null) {
+      growTimeline.stop();
+      growTimeline = null;
+    }
     imageAlex.setVisible(false);
     imageScreen.setVisible(false);
     labelScene.setVisible(false);

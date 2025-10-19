@@ -3,6 +3,9 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -18,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest.Model;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionResult;
@@ -53,6 +57,9 @@ public class ChatController implements ControllerInterface {
   @FXML private Button btnSend;
   @FXML private Button btnReturn;
   @FXML private Label timerLabel;
+
+  // timeline used to animate smooth scrolling to bottom
+  private Timeline scrollTimeline;
 
   protected Media media;
   protected MediaPlayer mediaPlayerWelcome;
@@ -262,7 +269,30 @@ public class ChatController implements ControllerInterface {
 
     messageContainer.getChildren().add(messageLabel);
     chatVBox.getChildren().add(messageContainer);
-    Platform.runLater(() -> chatScrollPane.setVvalue(1.0)); // auto-scroll
+    // Smooth scroll to bottom after layout
+    Platform.runLater(
+        () -> {
+          chatScrollPane.layout();
+
+          // Cancel any running scroll animation
+          if (scrollTimeline != null) {
+            scrollTimeline.stop();
+          }
+
+          double start = chatScrollPane.getVvalue();
+          double end = 1.0;
+          // If already at bottom, just set and return
+          if (Math.abs(end - start) < 1e-6) {
+            chatScrollPane.setVvalue(end);
+            return;
+          }
+
+          scrollTimeline = new Timeline();
+          KeyValue kv = new KeyValue(chatScrollPane.vvalueProperty(), end);
+          KeyFrame kf = new KeyFrame(Duration.millis(320), kv);
+          scrollTimeline.getKeyFrames().add(kf);
+          scrollTimeline.play();
+        }); // animated auto-scroll
   }
 
   // helper method to be shared between characters for welcome sounds
