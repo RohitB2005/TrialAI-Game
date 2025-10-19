@@ -336,8 +336,25 @@ public class FinalRoomController extends ChatController {
     Duration duration = Duration.millis(360);
 
     for (Node child : rootPane.getChildren()) {
+      // Don't blur the chat pane (we want it to stay crisp when showing)
       if (chatScrollPane != null && child == chatScrollPane) {
-        // ensure chat has no blur
+        child.setEffect(null);
+        continue;
+      }
+
+      // Also avoid blurring UI elements that should remain readable while typing
+      if (timerLabel != null && child == timerLabel) {
+        child.setEffect(null);
+        continue;
+      }
+
+      if (btnReplay != null && child == btnReplay) {
+        child.setEffect(null);
+        continue;
+      }
+
+      // Keep the return button unblurred as well (navigation controls should stay readable)
+      if (btnReturn != null && child == btnReturn) {
         child.setEffect(null);
         continue;
       }
