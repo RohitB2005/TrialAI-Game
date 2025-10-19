@@ -17,7 +17,7 @@
    <children>
       <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="753.0" layoutY="8.0" prefHeight="586.0" prefWidth="321.0" styleClass="chat-scroll-pane">
    <content>
-      <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
+      <VBox fx:id="chatVbox" spacing="10" styleClass="chat-vbox" />
    </content>
 </ScrollPane>
       <TextField fx:id="areaInputText" layoutX="756.0" layoutY="606.0" onKeyPressed="#onEnterPressed" prefHeight="25.0" prefWidth="315.0" promptText="Type your message..." styleClass="textarea-chat" />
