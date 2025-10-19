@@ -134,15 +134,17 @@ public class TrialAiRoomController extends ChatController {
     Button clickedButton = (Button) event.getSource();
     if (imageCount < 4) {
       updateGameTimer();
-    } else if (!alexArrested) {
+    } else {
       if (clickedButton == btnArrestAlex) {
         btnObserveAlex.setVisible(false);
       } else {
         btnArrestAlex.setVisible(false);
       }
+      if (!alexArrested) {
       alexArrested = true;
-      clickedButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: black;");
       lastResponce();
+      }
+      clickedButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: black;");
     }
     nextImage();
   }
