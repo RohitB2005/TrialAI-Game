@@ -264,7 +264,6 @@ public class WitnessAiRoomController extends ChatController {
       if (player.getBoundsInParent().intersects(label.getBoundsInParent())) {
         playerDead = true;
         paneFadeIn();
-        // btnStart.setVisible(true);
         btnStart.setText("Hack Failed! Restart?");
         break;
       }
@@ -383,6 +382,7 @@ public class WitnessAiRoomController extends ChatController {
 
     // call interface with master return method, then set required components' visibility
     super.onReturn(event);
+    paneFadeIn();
     timer.stop();
     btnStart.setVisible(true);
     btnStart.setText("Begin Infiltration");

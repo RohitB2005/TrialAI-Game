@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
+import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -372,8 +373,25 @@ public class FinalRoomController extends ChatController {
     Duration duration = Duration.millis(360);
 
     for (Node child : rootPane.getChildren()) {
+      // Don't blur the chat pane (we want it to stay crisp when showing)
       if (chatScrollPane != null && child == chatScrollPane) {
-        // ensure chat has no blur
+        child.setEffect(null);
+        continue;
+      }
+
+      // Also avoid blurring UI elements that should remain readable while typing
+      if (timerLabel != null && child == timerLabel) {
+        child.setEffect(null);
+        continue;
+      }
+
+      if (btnReplay != null && child == btnReplay) {
+        child.setEffect(null);
+        continue;
+      }
+
+      // Keep the return button unblurred as well (navigation controls should stay readable)
+      if (btnReturn != null && child == btnReturn) {
         child.setEffect(null);
         continue;
       }
@@ -497,6 +515,7 @@ public class FinalRoomController extends ChatController {
   }
 
   private void submitRationale(String rationale) throws ApiProxyException {
+    initializeChatCompletionRequest();
     ChatMessage prompt = new ChatMessage("system", getPrompt());
     chatCompletionRequest.addMessage(prompt);
     ChatMessage message = new ChatMessage("user", verdict + " " + rationale);
