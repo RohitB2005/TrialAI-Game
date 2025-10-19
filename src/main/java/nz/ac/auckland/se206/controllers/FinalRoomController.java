@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -81,6 +82,16 @@ public class FinalRoomController extends ChatController {
       chatScrollPane.setVisible(false);
       chatScrollPane.setManaged(false);
     }
+    // hide input area and send button until a verdict is chosen
+    if (areaInputText != null) {
+      areaInputText.setVisible(false);
+      areaInputText.setManaged(false);
+      areaInputText.setDisable(true);
+    }
+    if (btnSend != null) {
+      btnSend.setVisible(false);
+      btnSend.setDisable(true);
+    }
   }
 
   @Override
@@ -104,16 +115,29 @@ public class FinalRoomController extends ChatController {
   @FXML
   private void onGuiltyClicked() {
     verdict = "I find the Sentinel-12 guilty of all charges.";
+    // Disable both verdict buttons to prevent multiple selections
     btnGuilty.setDisable(true);
+    btnInnocent.setDisable(true);
     btnInnocent.setVisible(false);
 
     // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
     appendChatMessage(msg, true);
     btnSend.setDisable(false);
+    btnSend.setVisible(true);
+    btnSend.setManaged(true);
     areaInputText.setDisable(false);
+    areaInputText.setVisible(true);
+    areaInputText.setManaged(true);
+    areaInputText.requestFocus();
     btnReturn.setVisible(false);
-    // show the chat popup and blur the background
+    // make verdict regions non-interactive and show the chat popup
+    if (btnGuilty != null) {
+      btnGuilty.setMouseTransparent(true);
+    }
+    if (btnInnocent != null) {
+      btnInnocent.setMouseTransparent(true);
+    }
     showChatPopup();
     applyBackgroundBlur(true);
   }
@@ -122,16 +146,29 @@ public class FinalRoomController extends ChatController {
   @FXML
   private void onInnocentClicked() {
     verdict = "I find the Sentinel-12 innocent of all charges.";
+    // Disable both verdict buttons to prevent multiple selections
     btnInnocent.setDisable(true);
+    btnGuilty.setDisable(true);
     btnGuilty.setVisible(false);
 
     // initialise chat message from system and append the message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
     appendChatMessage(msg, true);
     btnSend.setDisable(false);
+    btnSend.setVisible(true);
+    btnSend.setManaged(true);
     areaInputText.setDisable(false);
+    areaInputText.setVisible(true);
+    areaInputText.setManaged(true);
+    areaInputText.requestFocus();
     btnReturn.setVisible(false);
-    // show the chat popup and blur the background
+    // make verdict regions non-interactive and show the chat popup
+    if (btnGuilty != null) {
+      btnGuilty.setMouseTransparent(true);
+    }
+    if (btnInnocent != null) {
+      btnInnocent.setMouseTransparent(true);
+    }
     showChatPopup();
     applyBackgroundBlur(true);
   }
@@ -190,6 +227,23 @@ public class FinalRoomController extends ChatController {
       chatScrollPane.setManaged(false);
       chatScrollPane.getStyleClass().remove("chat-floating");
     }
+    // restore verdict regions to be clickable
+    if (btnGuilty != null) {
+      btnGuilty.setMouseTransparent(false);
+    }
+    if (btnInnocent != null) {
+      btnInnocent.setMouseTransparent(false);
+    }
+    // hide input and send when resetting
+    if (areaInputText != null) {
+      areaInputText.setVisible(false);
+      areaInputText.setManaged(false);
+      areaInputText.setDisable(true);
+    }
+    if (btnSend != null) {
+      btnSend.setVisible(false);
+      btnSend.setDisable(true);
+    }
   }
 
   /** Make the chat ScrollPane visible and play a small entrance animation. */
@@ -207,7 +261,7 @@ public class FinalRoomController extends ChatController {
       chatScrollPane.getStyleClass().add("chat-floating");
     }
 
-    // entrance animation: fade + slight scale pop
+    // entrance animation: fade + slight scale pop for chat
     chatScrollPane.setOpacity(0);
     ScaleTransition st = new ScaleTransition(Duration.millis(260), chatScrollPane);
     st.setFromX(0.98);
@@ -221,6 +275,41 @@ public class FinalRoomController extends ChatController {
 
     st.play();
     ft.play();
+
+    // animate input and send button coming in (fade + translate)
+    if (areaInputText != null) {
+      areaInputText.setOpacity(0);
+      areaInputText.setTranslateY(8);
+      FadeTransition fin = new FadeTransition(Duration.millis(220), areaInputText);
+      fin.setFromValue(0);
+      fin.setToValue(1);
+      ScaleTransition sin = new ScaleTransition(Duration.millis(220), areaInputText);
+      sin.setFromX(0.995);
+      sin.setFromY(0.995);
+      sin.setToX(1);
+      sin.setToY(1);
+      fin.play();
+      sin.play();
+    }
+
+    if (btnSend != null) {
+      btnSend.setOpacity(0);
+      btnSend.setTranslateY(8);
+      FadeTransition fbtn = new FadeTransition(Duration.millis(220), btnSend);
+      fbtn.setFromValue(0);
+      fbtn.setToValue(1);
+      ScaleTransition sbtn = new ScaleTransition(Duration.millis(220), btnSend);
+      sbtn.setFromX(0.995);
+      sbtn.setFromY(0.995);
+      sbtn.setToX(1);
+      sbtn.setToY(1);
+      fbtn.play();
+      sbtn.play();
+    }
+    // ensure input visibility follows chat popup (if it was enabled)
+    if (areaInputText != null && !areaInputText.isDisabled()) {
+      areaInputText.requestFocus();
+    }
   }
 
   /**
@@ -310,7 +399,53 @@ public class FinalRoomController extends ChatController {
     // adds messages for user and system to chat
     submitRationale(message);
 
-    onChoiceSelected();
+    // Build animations (fade + slight scale) for input and send, run them in parallel,
+    // then hide the controls and perform choice handling once finished.
+    ParallelTransition pt = new ParallelTransition();
+
+    if (areaInputText != null) {
+      FadeTransition fout = new FadeTransition(Duration.millis(220), areaInputText);
+      fout.setFromValue(areaInputText.getOpacity());
+      fout.setToValue(0);
+      ScaleTransition sout = new ScaleTransition(Duration.millis(220), areaInputText);
+      sout.setFromX(areaInputText.getScaleX());
+      sout.setFromY(areaInputText.getScaleY());
+      sout.setToX(0.995);
+      sout.setToY(0.995);
+      pt.getChildren().addAll(fout, sout);
+    }
+
+    if (btnSend != null) {
+      FadeTransition fbtn = new FadeTransition(Duration.millis(220), btnSend);
+      fbtn.setFromValue(btnSend.getOpacity());
+      fbtn.setToValue(0);
+      ScaleTransition sbtn = new ScaleTransition(Duration.millis(220), btnSend);
+      sbtn.setFromX(btnSend.getScaleX());
+      sbtn.setFromY(btnSend.getScaleY());
+      sbtn.setToX(0.995);
+      sbtn.setToY(0.995);
+      pt.getChildren().addAll(fbtn, sbtn);
+    }
+
+    if (pt.getChildren().isEmpty()) {
+      onChoiceSelected();
+    } else {
+      pt.setOnFinished(
+          e -> {
+            if (areaInputText != null) {
+              areaInputText.setVisible(false);
+              areaInputText.setManaged(false);
+              areaInputText.setDisable(true);
+            }
+            if (btnSend != null) {
+              btnSend.setVisible(false);
+              btnSend.setManaged(false);
+              btnSend.setDisable(true);
+            }
+            onChoiceSelected();
+          });
+      pt.play();
+    }
   }
 
   @FXML

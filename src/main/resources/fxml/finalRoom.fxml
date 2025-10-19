@@ -34,11 +34,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="161.0" layoutY="124.0" prefHeight="422.0" prefWidth="728.0" styleClass="chat-scroll-pane">
-   <content>
-      <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
-   </content>
-</ScrollPane>
+      <!-- chat scrollpane moved below so we can insert a modal overlay above verdict regions -->
       <TextField fx:id="areaInputText" disable="true" layoutX="197.0" layoutY="586.0" onKeyPressed="#onEnterPressed" prefHeight="56.0" prefWidth="589.0" />
       <Button fx:id="btnSend" disable="true" layoutX="813.0" layoutY="592.0" mnemonicParsing="false" onAction="#onSendMessage" prefHeight="42.0" prefWidth="89.0" styleClass="button1" text="Send" />
       <Region fx:id="btnGuilty" layoutX="323.0" layoutY="316.0" onMouseClicked="#onGuiltyClicked" prefHeight="138.0" prefWidth="166.0" />
@@ -46,5 +42,14 @@
       <!-- Verdict regions (replaces buttons) -->
       <Region fx:id="btnGuilty" focusTraversable="true" layoutX="323.0" layoutY="316.0" onMouseClicked="#onGuiltyClicked" prefHeight="138.0" prefWidth="166.0" style="-fx-cursor: hand;" />
       <Region fx:id="btnInnocent" focusTraversable="true" layoutX="561.0" layoutY="302.0" onMouseClicked="#onInnocentClicked" prefHeight="138.0" prefWidth="166.0" style="-fx-cursor: hand;" />
+
+      <!-- Modal overlay to block clicks to the scene when the chat popup is shown -->
+      <Region fx:id="modalOverlay" layoutX="0.0" layoutY="0.0" prefWidth="1080.0" prefHeight="720.0" style="-fx-background-color: rgba(0,0,0,0.0);" visible="false" />
+
+      <ScrollPane fx:id="chatScrollPane" fitToWidth="true" layoutX="161.0" layoutY="124.0" prefHeight="422.0" prefWidth="728.0" styleClass="chat-scroll-pane">
+         <content>
+            <VBox fx:id="chatVBox" spacing="10" styleClass="chat-vbox" />
+         </content>
+      </ScrollPane>
    </children>
 </Pane>
