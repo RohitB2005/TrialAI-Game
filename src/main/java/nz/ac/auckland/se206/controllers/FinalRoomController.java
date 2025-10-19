@@ -22,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
-import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -126,8 +125,6 @@ public class FinalRoomController extends ChatController {
     appendChatMessage(msg, true);
   }
 
-
-
   // selects not guilty verdict on innocent button click, sending message prompting for reasons
   @FXML
   private void onInnocentClicked() {
@@ -135,7 +132,6 @@ public class FinalRoomController extends ChatController {
     verdictDecided();
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
     appendChatMessage(msg, true);
-
   }
 
   private void verdictDecided() {
@@ -348,7 +344,6 @@ public class FinalRoomController extends ChatController {
     // Cancel any previous blur animation
     if (blurTimeline != null) {
       blurTimeline.stop();
-      blurTimeline = null;
     }
 
     blurTimeline = new Timeline();

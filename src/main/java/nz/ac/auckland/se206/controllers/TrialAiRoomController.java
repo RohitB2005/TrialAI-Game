@@ -2,10 +2,7 @@ package nz.ac.auckland.se206.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -40,6 +37,18 @@ public class TrialAiRoomController extends ChatController {
   private List<Image> images;
   private Timeline growTimeline;
 
+  private Timeline timer =
+      new Timeline(
+          new KeyFrame(
+              Duration.millis(100),
+              event -> {
+                timeRemaining--;
+                updateGameTimer();
+                if (timeRemaining <= 0) {
+                  nextImage();
+                }
+              }));
+
   @FXML
   public void initialize() {
 
@@ -57,18 +66,6 @@ public class TrialAiRoomController extends ChatController {
       instructionLabel.setScaleY(0.9);
     }
   }
-
-  private Timeline timer =
-      new Timeline(
-          new KeyFrame(
-              Duration.millis(100),
-              event -> {
-                timeRemaining--;
-                updateGameTimer();
-                if (timeRemaining <= 0) {
-                  nextImage();
-                }
-              }));
 
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
   // the first time
@@ -114,8 +111,8 @@ public class TrialAiRoomController extends ChatController {
         btnArrestAlex.setVisible(false);
       }
       if (!alexArrested) {
-      alexArrested = true;
-      lastResponce();
+        alexArrested = true;
+        lastResponce();
       }
       clickedButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: black;");
     }

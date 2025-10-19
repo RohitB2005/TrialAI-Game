@@ -3,7 +3,6 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -56,7 +55,7 @@ public class ChatController implements ControllerInterface {
         && contactedParticipants.contains("TrialAi");
   }
 
-  @FXML protected VBox chatVBox;
+  @FXML protected VBox chatVbox;
   @FXML protected ScrollPane chatScrollPane;
   @FXML protected TextField areaInputText;
   @FXML private Button btnSend;
@@ -110,8 +109,8 @@ public class ChatController implements ControllerInterface {
   public void reset() {
 
     // clears the text area with multiple checks
-    if (chatVBox != null) {
-      chatVBox.getChildren().clear();
+    if (chatVbox != null) {
+      chatVbox.getChildren().clear();
     }
     if (areaInputText != null) {
       areaInputText.clear();
@@ -269,7 +268,7 @@ public class ChatController implements ControllerInterface {
     }
 
     messageContainer.getChildren().add(messageLabel);
-    chatVBox.getChildren().add(messageContainer);
+    chatVbox.getChildren().add(messageContainer);
     // Smooth scroll to bottom after layout
     Platform.runLater(
         () -> {
