@@ -270,25 +270,33 @@ public class WitnessAiRoomController extends ChatController {
     }
   }
 
+  // handles the fade in animation for the pane
   private void paneFadeIn() {
     paneCover.setVisible(true);
 
+    // initialise new fade and scale animations to show a popup bubble appearing
     FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
     ft.setToValue(1.0);
     ScaleTransition st = new ScaleTransition(Duration.millis(500), paneCover);
+
+    // select scaling options and play both transitions
     st.setToX(1.00);
     st.setToY(1.00);
     ft.play();
     st.play();
   }
 
+  // handles the fade out animation for the pane
   private void paneFadeOut() {
     paneCover.setVisible(true);
 
+    // initialise fade and scale animations once more, setting required parameters
     FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
     ft.setToValue(0.0);
     ft.setOnFinished(e -> paneCover.setVisible(false));
     ScaleTransition st = new ScaleTransition(Duration.millis(500), paneCover);
+
+    // scaling options selected and animations played
     st.setToX(1.00);
     st.setToY(1.00);
     ft.play();
@@ -364,10 +372,15 @@ public class WitnessAiRoomController extends ChatController {
     textMove++;
   }
 
+  // handles logic for resetting the labels
   private void resetLabels() {
+
+    // set count to 0 and declare label field
     int count = 0;
     Label label;
     for (int i = 0; i < labels.size() - 2; i++) {
+
+      // loop uses math/equation to set positioning and layout of the labels for game
       label = labels.get(i);
       label.setLayoutY(-100 * Math.random() * 10);
       label.setLayoutX(Math.random() * 60 + 75 * count + 5);

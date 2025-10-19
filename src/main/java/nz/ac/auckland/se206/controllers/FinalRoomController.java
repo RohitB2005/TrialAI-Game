@@ -172,13 +172,17 @@ public class FinalRoomController extends ChatController {
     }
   }
 
+  // hover effect animations for verdict buttons from the image
   @FXML
   private void onVerdictHover(MouseEvent event) {
+
+    // get the source of the event before choice is made
     Region region = (Region) event.getSource();
     if (choiceMade) {
       return;
     }
 
+    // identify region and show the intended colour on hover with animation
     if (region == btnGuilty) {
       animateHoverShape(guiltyHoverShape, true);
     } else if (region == btnInnocent) {
@@ -187,7 +191,9 @@ public class FinalRoomController extends ChatController {
   }
 
   private void animateHoverShape(Node shape, boolean fadeIn) {
-    if (shape == null) return;
+    if (shape == null) {
+      return;
+    }
     FadeTransition ft = new FadeTransition(Duration.millis(200), shape);
     ft.setToValue(fadeIn ? 0.4 : 0.0);
     ft.play();
@@ -501,9 +507,12 @@ public class FinalRoomController extends ChatController {
     runGpt(message);
   }
 
+  // method creates a label object with specified parameters
   @Override
   protected Label createLabel() {
     Label messageLabel = new Label();
+
+    // set specific styling, text wrapping and size of the label to return
     messageLabel.setWrapText(true);
     messageLabel.setMaxWidth(500);
     messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);

@@ -134,11 +134,15 @@ public class CourtroomController implements ControllerInterface {
     App.openScene(scene, "finalRoom");
   }
 
+  // hover effect indicator for each character utilises the arrow bounce animation
   @FXML
   private void onCharacterHover(MouseEvent event) {
+
+    // set the regions and their ids
     Region region = (Region) event.getSource();
     String regionId = region.getId();
 
+    // switch statement plays the arrow bounce animation above the specified character hovered
     switch (regionId) {
       case "witnessHuman":
         startBounceAnimation(humanIndicator);
@@ -182,42 +186,58 @@ public class CourtroomController implements ControllerInterface {
     st.play();
   }
 
+  // method to create a transition animation for exiting the final room
   @FXML
   private void onFinalRoomExit(MouseEvent event) {
+
+    // return if requirements not properly met
     if (finalRoomTooltip == null || !finalRoomTooltip.isVisible()) {
       return;
     }
 
+    // initialise fade and scale transitions, showing popup animation for judge button
     FadeTransition ft = new FadeTransition(Duration.millis(200), finalRoomTooltip);
     ft.setToValue(0.0);
     ft.setOnFinished(e -> finalRoomTooltip.setVisible(false));
     ScaleTransition st = new ScaleTransition(Duration.millis(200), finalRoomTooltip);
     st.setToX(0.9);
     st.setToY(0.9);
+
+    // play both animations
     ft.play();
     st.play();
   }
 
+  // method to play the bounce animation for arrows on the courtroom screen
   private void startBounceAnimation(ImageView indicator) {
-    stopBounceAnimation();
 
+    // stop any existing animation and set the arrows visibility
+    stopBounceAnimation();
     indicator.setVisible(true);
 
+    // create new transition type, set y values and infinite cycling, and animation styling
     bounceAnimation = new TranslateTransition(Duration.millis(600), indicator);
     bounceAnimation.setFromY(0);
     bounceAnimation.setToY(-10);
     bounceAnimation.setAutoReverse(true);
     bounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
     bounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
+
+    // play the animation for the arrow above the characters head
     bounceAnimation.play();
   }
 
+  // method to end the bouncing animation when not hovered
   private void stopBounceAnimation() {
+
+    // if animation is playing, then stop it and reset its positioning
     if (bounceAnimation != null) {
       bounceAnimation.stop();
       bounceAnimation.getNode().setTranslateY(0);
       bounceAnimation = null;
     }
+
+    // disable indicators for characters on end of animation
     humanIndicator.setVisible(false);
     defendantIndicator.setVisible(false);
     aiIndicator.setVisible(false);
