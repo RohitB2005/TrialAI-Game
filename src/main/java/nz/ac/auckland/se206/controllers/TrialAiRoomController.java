@@ -2,10 +2,7 @@ package nz.ac.auckland.se206.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -40,6 +37,18 @@ public class TrialAiRoomController extends ChatController {
   private List<Image> images;
   private Timeline growTimeline;
 
+  private Timeline timer =
+      new Timeline(
+          new KeyFrame(
+              Duration.millis(100),
+              event -> {
+                timeRemaining--;
+                updateGameTimer();
+                if (timeRemaining <= 0) {
+                  nextImage();
+                }
+              }));
+
   @FXML
   public void initialize() {
 
@@ -58,18 +67,6 @@ public class TrialAiRoomController extends ChatController {
     }
   }
 
-  private Timeline timer =
-      new Timeline(
-          new KeyFrame(
-              Duration.millis(100),
-              event -> {
-                timeRemaining--;
-                updateGameTimer();
-                if (timeRemaining <= 0) {
-                  nextImage();
-                }
-              }));
-
   // loads and plays a stored tts file and prompt for the on-trial ai when the scene is opened for
   // the first time
   @Override
@@ -82,39 +79,12 @@ public class TrialAiRoomController extends ChatController {
 
       areaInputText.requestFocus();
       // Ensure popup runs when the scene is actually activated
-      playInstructionsPopup();
+      playInstructionsPopup(instructionLabel);
       return PromptEngineering.getPrompt(person + ".txt");
     } else {
       return "you are now sentinal-12 again, the on-trial Ai, you may make a comment on what the"
           + " other witness have said or wait till you are asked a question";
     }
-  }
-
-  private void playInstructionsPopup() {
-    if (instructionLabel == null) {
-      return;
-    }
-    // Ensure the node is visible and initial values are applied before the animation starts
-    instructionLabel.setVisible(true);
-    instructionLabel.setOpacity(0);
-    instructionLabel.setScaleX(0.9);
-    instructionLabel.setScaleY(0.9);
-
-    PauseTransition delay = new PauseTransition(Duration.millis(1500));
-    delay.setOnFinished(
-        event -> {
-          FadeTransition ft = new FadeTransition(Duration.millis(300), instructionLabel);
-          ft.setFromValue(0);
-          ft.setToValue(1.0);
-          ScaleTransition st = new ScaleTransition(Duration.millis(300), instructionLabel);
-          st.setToX(1.0);
-          st.setToY(1.0);
-          ft.play();
-          st.play();
-        });
-
-    // Start the initial delay
-    delay.play();
   }
 
   @Override
@@ -141,8 +111,8 @@ public class TrialAiRoomController extends ChatController {
         btnArrestAlex.setVisible(false);
       }
       if (!alexArrested) {
-      alexArrested = true;
-      lastResponce();
+        alexArrested = true;
+        lastResponce();
       }
       clickedButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: black;");
     }

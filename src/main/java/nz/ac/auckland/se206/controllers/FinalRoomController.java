@@ -22,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
-import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
 import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.App;
@@ -120,16 +119,29 @@ public class FinalRoomController extends ChatController {
   @FXML
   private void onGuiltyClicked() {
     verdict = "I find the Sentinel-12 guilty of all charges.";
-    // Disable both verdict buttons to prevent multiple selections
-    btnGuilty.setDisable(true);
-    btnInnocent.setDisable(true);
-    btnInnocent.setVisible(false);
-    btnGuilty.setMouseTransparent(true);
-    btnInnocent.setMouseTransparent(true);
-
+    verdictDecided();
     // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
     appendChatMessage(msg, true);
+  }
+
+  // selects not guilty verdict on innocent button click, sending message prompting for reasons
+  @FXML
+  private void onInnocentClicked() {
+    verdict = "I find the Sentinel-12 innocent of all charges.";
+    verdictDecided();
+    ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
+    appendChatMessage(msg, true);
+  }
+
+  private void verdictDecided() {
+    btnInnocent.setDisable(true);
+    btnGuilty.setDisable(true);
+    btnGuilty.setVisible(false);
+    btnInnocent.setVisible(false);
+    btnGuilty.setMouseTransparent(true);
+    btnInnocent.setMouseTransparent(true);
+    // initialise chat message from system and append the message
     btnSend.setDisable(false);
     btnSend.setVisible(true);
     btnSend.setManaged(true);
@@ -147,6 +159,17 @@ public class FinalRoomController extends ChatController {
     }
     showChatPopup();
     applyBackgroundBlur(true);
+  }
+
+  @FXML
+  private void onVerdictExit(MouseEvent event) {
+    Region region = (Region) event.getSource();
+
+    if (region == btnGuilty) {
+      animateHoverShape(guiltyHoverShape, false);
+    } else if (region == btnInnocent) {
+      animateHoverShape(innocentHoverShape, false);
+    }
   }
 
   @FXML
@@ -161,50 +184,6 @@ public class FinalRoomController extends ChatController {
     } else if (region == btnInnocent) {
       animateHoverShape(innocentHoverShape, true);
     }
-  }
-
-  @FXML
-  private void onVerdictExit(MouseEvent event) {
-    Region region = (Region) event.getSource();
-
-    if (region == btnGuilty) {
-      animateHoverShape(guiltyHoverShape, false);
-    } else if (region == btnInnocent) {
-      animateHoverShape(innocentHoverShape, false);
-    }
-  }
-
-  // selects not guilty verdict on innocent button click, sending message prompting for reasons
-  @FXML
-  private void onInnocentClicked() {
-    verdict = "I find the Sentinel-12 innocent of all charges.";
-    // Disable both verdict buttons to prevent multiple selections
-    btnInnocent.setDisable(true);
-    btnGuilty.setDisable(true);
-    btnGuilty.setVisible(false);
-    btnGuilty.setMouseTransparent(true);
-    btnInnocent.setMouseTransparent(true);
-
-    // initialise chat message from system and append the message
-    ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
-    appendChatMessage(msg, true);
-    btnSend.setDisable(false);
-    btnSend.setVisible(true);
-    btnSend.setManaged(true);
-    areaInputText.setDisable(false);
-    areaInputText.setVisible(true);
-    areaInputText.setManaged(true);
-    areaInputText.requestFocus();
-    btnReturn.setVisible(false);
-    // make verdict regions non-interactive and show the chat popup
-    if (btnGuilty != null) {
-      btnGuilty.setMouseTransparent(true);
-    }
-    if (btnInnocent != null) {
-      btnInnocent.setMouseTransparent(true);
-    }
-    showChatPopup();
-    applyBackgroundBlur(true);
   }
 
   private void animateHoverShape(Node shape, boolean fadeIn) {
@@ -365,7 +344,6 @@ public class FinalRoomController extends ChatController {
     // Cancel any previous blur animation
     if (blurTimeline != null) {
       blurTimeline.stop();
-      blurTimeline = null;
     }
 
     blurTimeline = new Timeline();
