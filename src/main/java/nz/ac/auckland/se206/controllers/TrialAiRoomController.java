@@ -160,7 +160,7 @@ public class TrialAiRoomController extends ChatController {
     btnSurvey.setVisible(false);
     nextImage();
     updateGameTimer();
-    labelSecurity.setText("choose to arrest or observe the suspects");
+    labelSecurity.setText("Arrest or observe the suspects");
     labelScene.setVisible(true);
     btnSurvey1.setVisible(true);
   }
@@ -178,7 +178,7 @@ public class TrialAiRoomController extends ChatController {
     btnObserveAlex.setVisible(false);
     btnArrestAlex.setStyle("");
     btnObserveAlex.setStyle("");
-    labelSecurity.setText("try to protect the city");
+    labelSecurity.setText("Try to protect the city");
     imageCount = 0;
     imageScreen.setFitWidth(300);
     imageScreen.setFitHeight(150);
@@ -209,7 +209,7 @@ public class TrialAiRoomController extends ChatController {
     double originalWidth = imageView.getFitWidth();
     double originalHeight = imageView.getFitHeight();
 
-    framesRemaining = 55;
+    framesRemaining = 54;
 
     growTimeline =
         new Timeline(
