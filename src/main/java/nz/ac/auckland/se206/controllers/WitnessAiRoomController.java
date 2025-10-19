@@ -30,6 +30,7 @@ public class WitnessAiRoomController extends ChatController {
   private int horizontalVelocity = 0;
   private int verticalVelocity = 0;
   private List<Label> labels;
+  private List<Image> images;
   private Image playerImage;
   private int tileSize = 16;
   private int restCount = 0;
@@ -52,6 +53,7 @@ public class WitnessAiRoomController extends ChatController {
   @FXML private Label gameLabelStatic1;
   @FXML private Label gameLabelStatic2;
   @FXML private Pane paneCover;
+  @FXML private ImageView imageAlpha;
 
   private Timeline timer =
       new Timeline(
@@ -85,6 +87,10 @@ public class WitnessAiRoomController extends ChatController {
     textMove = 0;
 
     movePlatforms();
+
+    images = new ArrayList<Image>();
+    images.add(new Image("/images/alphastanding.png"));
+    images.add(new Image("/images/alpharunning.png"));
 
     // sets player image and timer cycles logic
     areaInputText.requestFocus();
@@ -167,6 +173,8 @@ public class WitnessAiRoomController extends ChatController {
     verticalVelocity = 0;
     restCount = 0;
 
+    imageAlpha.setImage(images.get(1));
+
     // text and image included in memory
     labelFinal.setText("Sentinel 12 Logic Centre");
     labelInstructions.setVisible(true);
@@ -231,6 +239,7 @@ public class WitnessAiRoomController extends ChatController {
       btnStart.setText("Infiltration Successful!!");
       paneFadeIn();
       playerDead = true; // Prevent further movement
+      imageAlpha.setImage(images.get(0));
       if (!hasWon) {
         ChatMessage systemMessage =
             new ChatMessage(
@@ -325,6 +334,7 @@ public class WitnessAiRoomController extends ChatController {
         player.setVisible(false);
         timer.stop();
         deathCount = 0;
+        imageAlpha.setImage(images.get(0));
       }
     }
   }
