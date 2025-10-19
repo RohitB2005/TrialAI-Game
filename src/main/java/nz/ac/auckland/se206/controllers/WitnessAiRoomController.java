@@ -3,10 +3,8 @@ package nz.ac.auckland.se206.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -80,10 +78,10 @@ public class WitnessAiRoomController extends ChatController {
 
     textPos = new int[] {1, 5, 9, 13};
     text =
-        "        Intruder Detected. Initiating Security Protocols. All Systems Operational. Access Denied. "
-            + "         Unauthorized Access Attempt Logged. Deploying Countermeasures. System"
-            + " Integrity at 100%. Analyzing Threat Level. Activating Defense Mechanisms. "
-            + "         Security Breach Contained. Monitoring Intruder Movements. Engaging       ";
+        "        Intruder Detected. Initiating Security Protocols. All Systems Operational. Access"
+            + " Denied.          Unauthorized Access Attempt Logged. Deploying Countermeasures."
+            + " System Integrity at 100%. Analyzing Threat Level. Activating Defense Mechanisms.   "
+            + "       Security Breach Contained. Monitoring Intruder Movements. Engaging       ";
     textMove = 0;
 
     movePlatforms();
@@ -267,7 +265,7 @@ public class WitnessAiRoomController extends ChatController {
         playerDead = true;
         paneFadeIn();
         // btnStart.setVisible(true);
-        btnStart.setText("Hacking Failed! Restart?");
+        btnStart.setText("Hack Failed! Restart?");
         break;
       }
     }
@@ -297,7 +295,6 @@ public class WitnessAiRoomController extends ChatController {
     ft.play();
     st.play();
   }
-
 
   // method to set the image based on its pixel position
   private void setImage() {
