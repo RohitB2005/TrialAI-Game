@@ -1,9 +1,6 @@
 package nz.ac.auckland.se206.controllers;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
-import javafx.animation.PauseTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -132,14 +129,17 @@ public class WitnessHumanRoomController extends ChatController {
     stopBounceAnimation();
   }
 
+  // method to play the bounce animation for arrows around bag
   private void startBounceAnimation() {
     if (bagClickCount >= 3) {
       return;
     }
 
+    // set visibility of arrows(initially invisible)
     leftArrow.setVisible(true);
     rightArrow.setVisible(true);
 
+    // create new transition type, set x values and infinite cycling, and animation styling
     leftBounceAnimation = new TranslateTransition(Duration.millis(600), leftArrow);
     leftBounceAnimation.setFromX(0);
     leftBounceAnimation.setToX(10);
@@ -147,6 +147,8 @@ public class WitnessHumanRoomController extends ChatController {
     leftBounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
     leftBounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
 
+    // create transition type for right arrow animation, setting same parameters for cycling, x
+    // values, and animations
     rightBounceAnimation = new TranslateTransition(Duration.millis(600), rightArrow);
     rightBounceAnimation.setFromX(0);
     rightBounceAnimation.setToX(-10);
@@ -154,21 +156,28 @@ public class WitnessHumanRoomController extends ChatController {
     rightBounceAnimation.setCycleCount(TranslateTransition.INDEFINITE);
     rightBounceAnimation.setInterpolator(Interpolator.EASE_BOTH);
 
+    // play bounce animation for arrows
     leftBounceAnimation.play();
     rightBounceAnimation.play();
   }
 
+  // method to stop the bounce animation from cycling
   private void stopBounceAnimation() {
+    // when not hovered, disable the animation and set position
     if (leftBounceAnimation != null) {
       leftBounceAnimation.stop();
       leftBounceAnimation.getNode().setTranslateX(0);
       leftBounceAnimation = null;
     }
+
+    // same check for the right arrow, disable animation and set position
     if (rightBounceAnimation != null) {
       rightBounceAnimation.stop();
       rightBounceAnimation.getNode().setTranslateX(0);
       rightBounceAnimation = null;
     }
+
+    // disable visibility of arrows once animations stop
     leftArrow.setVisible(false);
     rightArrow.setVisible(false);
   }

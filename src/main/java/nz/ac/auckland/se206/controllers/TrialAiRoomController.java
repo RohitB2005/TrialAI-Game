@@ -97,23 +97,30 @@ public class TrialAiRoomController extends ChatController {
     return "TrialAi";
   }
 
-  // selects decision with event to record answer
+  // selects decision with event to record users answer
   @FXML
   private void onDecisionBtnClick(Event event) {
 
+    // set field for the button event, and check if images are done cycling
     Button clickedButton = (Button) event.getSource();
     if (imageCount < 4) {
       updateGameTimer();
     } else {
+
+      // set opposite button of selected to be invisible when decision is made
       if (clickedButton == btnArrestAlex) {
         btnObserveAlex.setVisible(false);
       } else {
         btnArrestAlex.setVisible(false);
       }
+
+      // status of users decision is saved to be given to llm with lastResponce
       if (!alexArrested) {
         alexArrested = true;
         lastResponce();
       }
+
+      // set a solid new style for the clicked button and cycle to the next image
       clickedButton.setStyle("-fx-background-color: #00bfff; -fx-text-fill: black;");
     }
     nextImage();
@@ -137,8 +144,11 @@ public class TrialAiRoomController extends ChatController {
     btnSurvey1.setVisible(true);
   }
 
+  // method to handle closing the surveying panel on screen, clicking stop survey
   @FXML
   private void onStopSurvey() {
+
+    // swap button styling back to original style and stop timer. Call on constructed timeline
     btnSurvey1.setVisible(false);
     btnSurvey.setVisible(true);
     timer.stop();
@@ -146,14 +156,20 @@ public class TrialAiRoomController extends ChatController {
       growTimeline.stop();
       growTimeline = null;
     }
+
+    // set visibility for the images on the tablet and buttons needed for game
     imageAlex.setVisible(false);
     imageScreen.setVisible(false);
     labelScene.setVisible(false);
     btnArrestAlex.setVisible(false);
     btnObserveAlex.setVisible(false);
+
+    // set style for the arrest/observe buttons and the text label for information
     btnArrestAlex.setStyle("");
     btnObserveAlex.setStyle("");
     labelSecurity.setText("Try to protect the city");
+
+    // specific parameters, positioning, and sizing for the images appearing on the tablet
     imageCount = 0;
     imageScreen.setFitWidth(300);
     imageScreen.setFitHeight(150);
@@ -161,16 +177,20 @@ public class TrialAiRoomController extends ChatController {
     imageScreen.setY(0);
   }
 
+  // method to cycle to the next image for sentinel's minigame
   @FXML
   void nextImage() {
     timer.stop();
 
+    // set the visibility of the tablet and start the grow animation with the required method
     if (imageCount == 0) {
       imageScreen.setVisible(true);
       growImage(imageScreen);
     } else if (imageCount == 4) {
       return;
     }
+
+    // update timer and increment image to move to next image in sequence
     imageAlex.setImage(images.get(imageCount));
     timeRemaining = 120;
     updateGameTimer();
@@ -179,13 +199,16 @@ public class TrialAiRoomController extends ChatController {
     imageCount++;
   }
 
+  // method to grow the tablet to fit on the screen for animation
   private void growImage(ImageView imageView) {
 
+    // set the frames to cycle through, and get the width/height
     double originalWidth = imageView.getFitWidth();
     double originalHeight = imageView.getFitHeight();
 
     framesRemaining = 54;
 
+    // initialise timeline for scale up animation, setting duration
     growTimeline =
         new Timeline(
             new KeyFrame(
@@ -194,14 +217,18 @@ public class TrialAiRoomController extends ChatController {
                   double currentWidth = imageView.getFitWidth();
                   double currentHeight = imageView.getFitHeight();
 
+                  // set new width and positioning for the scaled up image version
                   imageView.setFitWidth(currentWidth + originalWidth * 0.05);
                   imageView.setFitHeight(currentHeight + originalHeight * 0.05);
 
                   imageView.setX(imageView.getX() - (originalWidth * 0.04) / 2);
                   imageView.setY(imageView.getY() - (originalHeight * 0.05) / 2);
 
+                  // decrement frames remaining to move to next frame
                   framesRemaining--;
 
+                  // set visibility of the last image and final buttons, the part of the game with
+                  // an actual output
                   if (framesRemaining == 1) {
                     imageAlex.setVisible(true);
                     btnArrestAlex.setVisible(true);
