@@ -17,8 +17,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatCompletionRequest;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
@@ -38,6 +40,8 @@ public class FinalRoomController extends ChatController {
   @FXML private Label cannotMakeVerdict;
   @FXML private Pane rootPane;
   @FXML private ScrollPane chatScrollPane;
+  @FXML private Ellipse guiltyHoverShape;
+  @FXML private Ellipse innocentHoverShape;
 
   private boolean choiceMade = false;
   private String verdict = "";
@@ -145,6 +149,31 @@ public class FinalRoomController extends ChatController {
     applyBackgroundBlur(true);
   }
 
+  @FXML
+  private void onVerdictHover(MouseEvent event) {
+    Region region = (Region) event.getSource();
+    if (choiceMade) {
+      return;
+    }
+
+    if (region == btnGuilty) {
+      animateHoverShape(guiltyHoverShape, true);
+    } else if (region == btnInnocent) {
+      animateHoverShape(innocentHoverShape, true);
+    }
+  }
+
+  @FXML
+  private void onVerdictExit(MouseEvent event) {
+    Region region = (Region) event.getSource();
+
+    if (region == btnGuilty) {
+      animateHoverShape(guiltyHoverShape, false);
+    } else if (region == btnInnocent) {
+      animateHoverShape(innocentHoverShape, false);
+    }
+  }
+
   // selects not guilty verdict on innocent button click, sending message prompting for reasons
   @FXML
   private void onInnocentClicked() {
@@ -176,6 +205,13 @@ public class FinalRoomController extends ChatController {
     }
     showChatPopup();
     applyBackgroundBlur(true);
+  }
+
+  private void animateHoverShape(Node shape, boolean fadeIn) {
+    if (shape == null) return;
+    FadeTransition ft = new FadeTransition(Duration.millis(200), shape);
+    ft.setToValue(fadeIn ? 0.4 : 0.0);
+    ft.play();
   }
 
   // logic for when the player has sent their final message or the timer has run out

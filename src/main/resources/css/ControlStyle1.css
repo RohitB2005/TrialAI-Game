@@ -99,6 +99,20 @@
   -fx-padding: 8px 12px;
 }
 
+.guilty-hover-effect {
+    -fx-fill: rgba(255, 0, 0, 0.4); 
+    -fx-stroke: #FF5555; 
+    -fx-stroke-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, #FF5555, 15, 0.6, 0, 0); 
+}
+
+.innocent-hover-effect {
+    -fx-fill: rgba(0, 191, 255, 0.4); 
+    -fx-stroke: #00BFFF; 
+    -fx-stroke-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, #00BFFF, 15, 0.6, 0, 0); 
+}
+
 .button {
   -fx-cursor: hand;
   -fx-font-family: "Orbitron";
