@@ -119,6 +119,8 @@ public class FinalRoomController extends ChatController {
     btnGuilty.setDisable(true);
     btnInnocent.setDisable(true);
     btnInnocent.setVisible(false);
+    btnGuilty.setMouseTransparent(true);
+    btnInnocent.setMouseTransparent(true);
 
     // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
@@ -150,6 +152,8 @@ public class FinalRoomController extends ChatController {
     btnInnocent.setDisable(true);
     btnGuilty.setDisable(true);
     btnGuilty.setVisible(false);
+    btnGuilty.setMouseTransparent(true);
+    btnInnocent.setMouseTransparent(true);
 
     // initialise chat message from system and append the message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
