@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FinalRoomController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/ControlStyle1.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nz.ac.auckland.se206.controllers.FinalRoomController">
    <children>
       <ImageView fitHeight="723.0" fitWidth="1105.0" layoutX="-4.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -29,11 +29,6 @@
             <Font size="11.0" />
          </font></Label>
    <Button fx:id="btnReplay" layoutX="970.0" layoutY="16.0" mnemonicParsing="false" onAction="#onReplayClicked" style="-fx-cursor: hand;" styleClass="button3" text="Replay" />
-      <Label fx:id="cannotMakeVerdict" layoutX="322.0" layoutY="156.0" prefHeight="70.0" prefWidth="411.0" text="Game Over, you cannot make a verdict!!" textAlignment="CENTER" textFill="RED">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
       <Label fx:id="timerLabel" layoutX="39.0" layoutY="662.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);                     -fx-padding: 5px 10px;                     -fx-background-radius: 8px;                     -fx-text-fill: #00E0FF;                     -fx-font-family: 'Orbitron';">
          <font>
             <Font size="20.0" />
@@ -44,5 +39,10 @@
       <!-- Verdict regions (replaces buttons) -->
       <Region fx:id="btnGuilty" focusTraversable="true" layoutX="323.0" layoutY="316.0" onMouseClicked="#onGuiltyClicked" prefHeight="138.0" prefWidth="166.0" style="-fx-cursor: hand;" />
       <Region fx:id="btnInnocent" focusTraversable="true" layoutX="561.0" layoutY="302.0" onMouseClicked="#onInnocentClicked" prefHeight="138.0" prefWidth="166.0" style="-fx-cursor: hand;" />
+      <Label fx:id="cannotMakeVerdict" layoutX="161.0" layoutY="122.0" prefHeight="433.0" prefWidth="735.0" style="-fx-padding: 8px 12px; -fx-font-size: 24px; -fx-background-color: linear-gradient(#8B0000, #B22222); -fx-text-fill: white; -fx-border-color: #FF6B6B; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-background-radius: 8px;" text="GAME OVER!!&#10;You did not gather enough information so you cannot make a verdict!!" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
