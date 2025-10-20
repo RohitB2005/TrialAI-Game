@@ -211,11 +211,12 @@ public class WitnessHumanRoomController extends ChatController {
             new ChatMessage(
                 "assistant",
                 "The spray can was for making protest signs nothing more. The bandanna was to cover"
-                    + " my face from dust and paint fumes, not to hide my identity.\nAnd the airsoft"
-                    + " gun? It was a prop for a street performance piece, part of the protest’s"
-                    + " message about police overreach.\nNone of it was meant to harm"
-                    + " anyone. Sentinel-12 saw what it wanted to see, not the truth.\nI was"
-                    + " exercising my right to protest, not planning a crime.");
+                    + " my face from dust and paint fumes, not to hide my identity.\n"
+                    + "And the airsoft gun? It was a prop for a street performance piece, part of"
+                    + " the protest’s message about police overreach.\n"
+                    + "None of it was meant to harm anyone. Sentinel-12 saw what it wanted to see,"
+                    + " not the truth.\n"
+                    + "I was exercising my right to protest, not planning a crime.");
         appendChatMessage(msg);
         chatCompletionRequest.addMessage(msg);
       }

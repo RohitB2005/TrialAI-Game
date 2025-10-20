@@ -300,7 +300,9 @@ public class ChatController implements ControllerInterface {
     messageLabel.setWrapText(true);
     messageLabel.setMaxWidth(230);
     messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
-    messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10; -fx-font-family: 'Roboto mono';");
+    messageLabel.setStyle(
+        "-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10; -fx-font-family: 'Roboto"
+            + " mono';");
     return messageLabel;
   }
 

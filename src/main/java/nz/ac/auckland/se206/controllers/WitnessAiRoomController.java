@@ -241,13 +241,13 @@ public class WitnessAiRoomController extends ChatController {
         ChatMessage systemMessage =
             new ChatMessage(
                 "assistant",
-                "Information recovered regarding sentinel 12's threat algorithms.\nAlex Ryder has no"
-                    + " criminal history therefore there is no reason to expect he would act outside"
-                    + " of peaceful protesting parameters.\nSentinel 12's threat algorithms"
-                    + " escalated the situation based on possession of an gun like object and"
-                    + " presence at a protest due to bias in his training data causing them to"
-                    + " bypass standard protocols of assessing based on prior behaviour or requesting"
-                    + " human review.");
+                "Information recovered regarding sentinel 12's threat algorithms.\n"
+                    + "Alex Ryder has no criminal history therefore there is no reason to expect he"
+                    + " would act outside of peaceful protesting parameters.\n"
+                    + "Sentinel 12's threat algorithms escalated the situation based on possession"
+                    + " of an gun like object and presence at a protest due to bias in his training"
+                    + " data causing them to bypass standard protocols of assessing based on prior"
+                    + " behaviour or requesting human review.");
         appendChatMessage(systemMessage);
       }
       hasWon = true;
