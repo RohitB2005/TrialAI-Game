@@ -82,16 +82,14 @@ public class FlashbackController implements ControllerInterface {
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha1.png").toExternalForm()),
-                "I have analyzed the defendant AI's telemetry from the incident. It"
-                    + " cross-referenced the subject's biometrics—elevated heart rate and stress"
-                    + " indicators—with crowd-wide sentiment analysis that showed rising"
-                    + " aggression."));
+                "After careful analysis, I've determined Sentinel AI cross-referenced the subject's"
+                    + " elevated heart rate and stress indicators with crowd data showing rising"
+                    + " tension."));
         slides.add(
             new FlashbackSlide(
                 new Image(App.class.getResource("/images/Alpha2.png").toExternalForm()),
-                "The critical flaw was in its predictive model. The subject's profile matched a"
-                    + " 'high-threat instigator' profile with 92% confidence, but this profile was"
-                    + " built on outdated and biased training data from riots, not peaceful"
+                "The issue lay in its predictive model — it marked the subject as a 'high-threat"
+                    + " instigator' using outdated, biased data from riots, not peaceful"
                     + " protests."));
         slides.add(
             new FlashbackSlide(
