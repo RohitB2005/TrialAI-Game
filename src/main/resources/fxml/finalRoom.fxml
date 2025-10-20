@@ -47,5 +47,6 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Button fx:id="btnExit" layoutX="971.0" layoutY="662.0" mnemonicParsing="false" onAction="#onExitBtn" prefHeight="39.0" prefWidth="88.0" style="-fx-cursor: hand;" styleClass="button3" text="Exit" />
    </children>
 </Pane>
