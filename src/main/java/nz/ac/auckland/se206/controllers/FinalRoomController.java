@@ -63,6 +63,10 @@ public class FinalRoomController extends ChatController {
       btnReturn.setVisible(false);
     }
 
+    if (verdict != "") {
+      return;
+    }
+
     // Checks if player can make a verdict when time runs out
     boolean canMakeVerdict = allParticipantsContacted();
     timerLabel.setVisible(canMakeVerdict);
@@ -220,6 +224,7 @@ public class FinalRoomController extends ChatController {
     btnReturn.setVisible(false);
     btnSend.setVisible(false);
     btnSend.setDisable(true);
+    areaInputText.setVisible(false);
     areaInputText.setDisable(true);
     choiceMade = true;
     App.stopTimer();
