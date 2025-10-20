@@ -295,11 +295,14 @@ public class ChatController implements ControllerInterface {
         }); // animated auto-scroll
   }
 
+  // createLabel makes a message label for the chat window
   protected Label createLabel() {
     Label messageLabel = new Label();
     messageLabel.setWrapText(true);
     messageLabel.setMaxWidth(250);
     messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
+
+    // set CSS styling for label and return the message
     messageLabel.setStyle(
         "-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10; -fx-font-family: 'Roboto"
             + " mono';");
