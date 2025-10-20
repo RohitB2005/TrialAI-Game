@@ -99,11 +99,6 @@ public class FinalRoomController extends ChatController {
     }
   }
 
-  @Override
-  public String getName() {
-    return "Verdict";
-  }
-
   @FXML
   private void onReplayClicked() {
     // clear blur and hide chat if present

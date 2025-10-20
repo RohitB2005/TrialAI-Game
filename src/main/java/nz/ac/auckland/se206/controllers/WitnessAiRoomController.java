@@ -24,7 +24,7 @@ import nz.ac.auckland.se206.prompts.PromptEngineering;
 public class WitnessAiRoomController extends ChatController {
 
   private String person = "witnessAi";
-  private String name = "Alpha-Ai";
+  private String name = "Alpha-Ai: ";
   private int horizontalVelocity = 0;
   private int verticalVelocity = 0;
   private List<Label> labels;
@@ -242,13 +242,14 @@ public class WitnessAiRoomController extends ChatController {
         ChatMessage systemMessage =
             new ChatMessage(
                 "assistant",
-                "Information recovered regarding Alex Ryder. Using current law enforcement"
-                    + " protocols there is no reason to believe he would act outside peaceful"
-                    + " protesting parameters. Compared to Sentinel 12 logic it is obvious the"
-                    + " algorithm used is out of date and due to bias against potential rioters."
-                    + " Unlawfully used his home camera's to survey him while monitering");
+                "Information recovered regarding sentinel 12's threat algorithms.\nAlex Ryder has no"
+                    + " criminal history therefore there is no reason to expect he would act outside"
+                    + " of peaceful protesting parameters.\nSentinel 12's threat algorithms"
+                    + " escalated the situation based on possession of an gun like object and"
+                    + " presence at a protest due to bias in his training data causing them to"
+                    + " bypass standard protocols of assessing based on prior behaviour or requesting"
+                    + " human review.");
         appendChatMessage(systemMessage);
-        chatCompletionRequest.addMessage(systemMessage);
       }
       hasWon = true;
       return;

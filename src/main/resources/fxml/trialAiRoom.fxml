@@ -47,7 +47,7 @@
       <Button fx:id="btnObserveAlex" layoutX="528.0" layoutY="537.0" mnemonicParsing="false" onAction="#onDecisionBtnClick" styleClass="button3" stylesheets="@../css/ControlStyle1.css" text="Maintain Observation" visible="false" />
       <ImageView fx:id="imageAlex" fitHeight="327.0" fitWidth="327.0" layoutX="216.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@../images/peacefulprotest.png" />
+            <Image url="@../images/protestpeaceful.png" />
          </image>
       </ImageView>
       <Button fx:id="btnSurvey1" layoutX="548.0" layoutY="656.0" mnemonicParsing="false" onAction="#onStopSurvey" styleClass="button3" stylesheets="@../css/ControlStyle1.css" text="Stop Surveying" visible="false">
