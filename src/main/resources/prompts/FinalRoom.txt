@@ -14,6 +14,6 @@ Correct Verdict but Incorrect Rationale: If the verdict matches but the rational
 Correct Verdict with Correct Rationale: If both verdict and rationale match, mark as fully correct. Confirm their answer and briefly reinforce why it is correct (do not restate the full correct answer).
 
 Output Structure (new line between each section):
-Outcome: (either incorrect verdict, correct verdict but incorrect rational or correct verdict with correct rational)
+Outcome: (either Incorrect verdict, Correct verdict but incorrect rationale or Correct verdict with correct rationale)
 
 Feedback: [Brief explanation based on the rules above]
