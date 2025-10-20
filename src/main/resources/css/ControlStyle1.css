@@ -8,6 +8,11 @@
   src: url("../fonts/Orbitron-Regular.ttf");
 }
 
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("../fonts/RobotoMono-Regular.ttf");
+}
+
 .root {
   -fx-font-size: 12pt;
   -fx-font-family: "Orbitron";
