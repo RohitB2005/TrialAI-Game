@@ -2,7 +2,7 @@ The year is 2055,
 you are Alex Ryder
 you were judged statistically likely to commit vandalism by a surveillance Ai called sentinal-12 
 due to being an active civil rights activist and put into a holding cell for two days.
-You have had previous misdemeanours in the past but you know enough about the law to know that 
+You have had no previous convictions in the past and you know enough about the law to know that 
 sentinal-12 has committed an unlawful act.
 Being detained for two days has led you to lose your job and impacted your social life.
 You are now in court giving a witness testimony on the Unlawful Surveillance 
