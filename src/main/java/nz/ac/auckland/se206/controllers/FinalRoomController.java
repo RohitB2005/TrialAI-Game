@@ -118,7 +118,7 @@ public class FinalRoomController extends ChatController {
   // selects guilty verdict on guilty button click, and sends a message to prompt for reasoning
   @FXML
   private void onGuiltyClicked() {
-    verdict = "I find the Sentinel-12 guilty of all charges.";
+    verdict = "I find the defendant Sentinel-12 Guilty.";
     verdictDecided();
     // initialise chat message from system and append message
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is guilty");
@@ -128,7 +128,7 @@ public class FinalRoomController extends ChatController {
   // selects not guilty verdict on innocent button click, sending message prompting for reasons
   @FXML
   private void onInnocentClicked() {
-    verdict = "I find the Sentinel-12 innocent of all charges.";
+    verdict = "I find the defendant Sentinel-12 to be innocent.";
     verdictDecided();
     ChatMessage msg = new ChatMessage("system", "Give reasoning for why the AI is innocent");
     appendChatMessage(msg, true);
