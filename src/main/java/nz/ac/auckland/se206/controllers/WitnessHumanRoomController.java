@@ -209,12 +209,15 @@ public class WitnessHumanRoomController extends ChatController {
         // append new message to chat and send to LLM as prompt to provide further context
         ChatMessage msg =
             new ChatMessage(
-                "system",
-                "The interviewer has found a spray can, Bandanna and Airsoft gun in your bag, you"
-                    + " must now defend yourself over why they were there on the day you were"
-                    + " arrested");
+                "assistant",
+                "The spray can was for making protest signs nothing more. The bandanna was to cover"
+                    + " my face from dust and paint fumes, not to hide my identity.\nAnd the airsoft"
+                    + " gun? It was a prop for a street performance piece, part of the protest’s"
+                    + " message about police overreach.\nNone of it was meant to harm"
+                    + " anyone. Sentinel-12 saw what it wanted to see, not the truth.\nI was"
+                    + " exercising my right to protest, not planning a crime.");
         appendChatMessage(msg);
-        runGpt(msg);
+        chatCompletionRequest.addMessage(msg);
       }
     }
   }

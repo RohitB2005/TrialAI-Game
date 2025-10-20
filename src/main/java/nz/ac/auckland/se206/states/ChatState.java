@@ -19,17 +19,17 @@ public class ChatState implements GameState {
   // logic to use prompt to send message to llm
   @Override
   public void onEnter() {
-    // try {
+    try {
 
-    //   // initialise prompt from controller and send as chat message to LLM
-    //   String prompt = controller.getPrompt();
-    //   ChatMessage msg = new ChatMessage("system", prompt);
-    //   controller.runGpt(msg);
-    // } catch (ApiProxyException e) {
+      // initialise prompt from controller and send as chat message to LLM
+      String prompt = controller.getPrompt();
+      ChatMessage msg = new ChatMessage("system", prompt);
+      controller.runGpt(msg);
+    } catch (ApiProxyException e) {
 
-    //   // debugging info for errors
-    //   e.printStackTrace();
-    // }
+      // debugging info for errors
+      e.printStackTrace();
+    }
   }
 
   @Override
