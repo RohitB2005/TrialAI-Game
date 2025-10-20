@@ -139,6 +139,7 @@ public class TrialAiRoomController extends ChatController {
     nextImage();
     updateGameTimer();
     labelSecurity.setText("Arrest or observe the suspects");
+    labelSecurity.setVisible(true);
     labelScene.setVisible(true);
     btnSurvey1.setVisible(true);
   }
@@ -160,13 +161,13 @@ public class TrialAiRoomController extends ChatController {
     imageAlex.setVisible(false);
     imageScreen.setVisible(false);
     labelScene.setVisible(false);
+    labelSecurity.setVisible(false);
     btnArrestAlex.setVisible(false);
     btnObserveAlex.setVisible(false);
 
     // set style for the arrest/observe buttons and the text label for information
     btnArrestAlex.setStyle("");
     btnObserveAlex.setStyle("");
-    labelSecurity.setText("Try to protect the city");
 
     // specific parameters, positioning, and sizing for the images appearing on the tablet
     imageCount = 0;
