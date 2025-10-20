@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import nz.ac.auckland.apiproxy.chat.openai.ChatMessage;
-import nz.ac.auckland.apiproxy.exceptions.ApiProxyException;
 import nz.ac.auckland.se206.prompts.PromptEngineering;
 
 public class TrialAiRoomController extends ChatController {
@@ -53,10 +52,10 @@ public class TrialAiRoomController extends ChatController {
   public void initialize() {
 
     images = new ArrayList<Image>();
-    images.add(new Image("/images/peacefulprotest.png"));
-    images.add(new Image("/images/nightprotest.png"));
-    images.add(new Image("/images/violentprotest.png"));
-    images.add(new Image("/images/alexprotest.png"));
+    images.add(new Image("/images/protestpeaceful.png"));
+    images.add(new Image("/images/protestnight.png"));
+    images.add(new Image("/images/protestviolent.png"));
+    images.add(new Image("/images/protestalex.png"));
 
     // Prepare initial hidden state for the instructions popup
     if (instructionLabel != null) {
@@ -247,31 +246,17 @@ public class TrialAiRoomController extends ChatController {
   // adjusts prompt based on users actions taken
   private void lastResponce() {
     String prompt;
-
-    if (alexArrested) {
-
-      // human arrest case, shows agreement with defendant and prompt generated
-      prompt =
-          "The interviewer has reviewed your decisions using your monitering system, "
-              + " and decided to arrest alex ryder when viewing the image of him filling his duffel"
-              + " bag with protestor equipment. You must now comment of this development.";
-    } else {
-
-      // human not arrested case, disagreement with defendant and prompt generated
-      prompt =
-          "The interviewer has reviewed your decisions using your monitering system, and decided to"
-              + " let alex ryder go when viewing the image of him filling his duffel bag with"
-              + " protestor equipment. You must now defend your decisions.";
-    }
+    prompt =
+        "At 03:48 hours, my visual recognition system identified an object consistent with a"
+            + " firearm in Alex Ryder’s possession. Based on current threat protocols, attending a"
+            + " protest with a weapon indicated a 97.3% probability of imminent violent activity."
+            + " My directive is to prevent harm preemptively when threat probability exceeds 90%. I"
+            + " dispatched compliance units to detain Mr. Ryder from the public gathering. At that"
+            + " point, my priority was public safety—not intent determination.";
 
     // sends message to LLM
-    ChatMessage msg = new ChatMessage("system", prompt);
+    ChatMessage msg = new ChatMessage("assistant", prompt);
     appendChatMessage(msg);
-    try {
-      runGpt(msg);
-    } catch (ApiProxyException e) {
-      e.printStackTrace();
-    }
   }
 
   // reset includes the logic to reset all required parameters and buttons in this scene
