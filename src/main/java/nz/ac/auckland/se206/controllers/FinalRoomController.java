@@ -41,6 +41,7 @@ public class FinalRoomController extends ChatController {
   @FXML private ScrollPane chatScrollPane;
   @FXML private Ellipse guiltyHoverShape;
   @FXML private Ellipse innocentHoverShape;
+  @FXML private Button btnExit;
 
   private boolean choiceMade = false;
   private String verdict = "";
@@ -380,6 +381,12 @@ public class FinalRoomController extends ChatController {
         continue;
       }
 
+      // Keep the exit button unblurred so the user can always quit while typing
+      if (btnExit != null && child == btnExit) {
+        child.setEffect(null);
+        continue;
+      }
+
       // Ensure the node has a GaussianBlur effect instance to animate
       GaussianBlur gb;
       if (child.getEffect() instanceof GaussianBlur) {
@@ -518,5 +525,10 @@ public class FinalRoomController extends ChatController {
     messageLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
     messageLabel.setStyle("-fx-padding: 8; -fx-font-size: 14px; -fx-background-radius: 10;");
     return messageLabel;
+  }
+
+  @FXML
+  private void onExitBtn() {
+    javafx.application.Platform.exit();
   }
 }
