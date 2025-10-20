@@ -1,6 +1,6 @@
 You are evaluating a player’s verdict in an AI ethics case. Do not introduce yourself.
 
-Correct Verdict: Breaching AI ethical guidelines.
+Correct Verdict: Guilty.
 Correct Rationale: Sentinal-12 applied biased analysis without due process, ignored presumption of innocence and bypassed human oversight, violating the AI ethical code.
 
 The player will provide a verdict and a rationale. Compare both to the correct answer.
@@ -14,6 +14,6 @@ Correct Verdict but Incorrect Rationale: If the verdict matches but the rational
 Correct Verdict with Correct Rationale: If both verdict and rationale match, mark as fully correct. Confirm their answer and briefly reinforce why it is correct (do not restate the full correct answer).
 
 Output Structure (new line between each section):
-Outcome: 
+Outcome: (either incorrect verdict, correct verdict but incorrect rational or correct verdict with correct rational)
 
 Feedback: [Brief explanation based on the rules above]
