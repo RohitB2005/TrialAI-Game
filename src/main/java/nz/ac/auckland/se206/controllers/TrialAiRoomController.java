@@ -28,7 +28,7 @@ public class TrialAiRoomController extends ChatController {
   @FXML private Label instructionLabel;
 
   private String person = "trialAi";
-  private String name = "Sentinal-12";
+  private String name = "Sentinal-12: ";
   private int imageCount = 0;
   private boolean alexArrested = false;
   private int timeRemaining = 60; // seconds

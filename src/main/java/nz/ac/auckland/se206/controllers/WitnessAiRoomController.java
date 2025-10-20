@@ -24,7 +24,7 @@ import nz.ac.auckland.se206.prompts.PromptEngineering;
 public class WitnessAiRoomController extends ChatController {
 
   private String person = "witnessAi";
-  private String name = "Alpha-Ai";
+  private String name = "Alpha-Ai: ";
   private int horizontalVelocity = 0;
   private int verticalVelocity = 0;
   private List<Label> labels;

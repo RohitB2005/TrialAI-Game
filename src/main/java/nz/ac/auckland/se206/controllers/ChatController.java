@@ -49,7 +49,7 @@ public class ChatController implements ControllerInterface {
 
   // method to check if all participants have been contacted
   public static boolean allParticipantsContacted() {
-    // return true;
+    //  return true;
     return contactedParticipants.contains("WitnessAi")
         && contactedParticipants.contains("WitnessHuman")
         && contactedParticipants.contains("TrialAi");
@@ -170,7 +170,7 @@ public class ChatController implements ControllerInterface {
   }
 
   public String getName() {
-    return "RoomController";
+    return "";
   }
 
   // overridden in flashback controllers to provide the appropriate prompt
@@ -248,7 +248,7 @@ public class ChatController implements ControllerInterface {
         javafx.scene.layout.HBox.setMargin(messageLabel, new Insets(0, 0, 0, 40));
         break;
       case "assistant":
-        messageLabel.setText(getName() + ": " + msg.getContent());
+        messageLabel.setText(getName() + msg.getContent());
         messageLabel.setStyle(
             messageLabel.getStyle()
                 + "-fx-background-color: rgba(0, 0, 0, 0.6); "

@@ -15,7 +15,7 @@ import nz.ac.auckland.se206.prompts.PromptEngineering;
 public class WitnessHumanRoomController extends ChatController {
 
   private String person = "witnessHuman";
-  private String name = "Alex Ryder";
+  private String name = "Alex Ryder: ";
   private TranslateTransition leftBounceAnimation;
   private TranslateTransition rightBounceAnimation;
   private int bagClickCount = 0;
