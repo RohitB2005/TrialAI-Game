@@ -175,7 +175,6 @@ public class WitnessAiRoomController extends ChatController {
 
     // text and image included in memory
     labelFinal.setText("Sentinel 12 Logic Centre");
-    labelInstructions.setVisible(true);
     setImage();
   }
 
@@ -274,6 +273,7 @@ public class WitnessAiRoomController extends ChatController {
   // handles the fade in animation for the pane
   private void paneFadeIn() {
     paneCover.setVisible(true);
+    labelInstructions.setVisible(false);
 
     // initialise new fade and scale animations to show a popup bubble appearing
     FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
@@ -290,6 +290,7 @@ public class WitnessAiRoomController extends ChatController {
   // handles the fade out animation for the pane
   private void paneFadeOut() {
     paneCover.setVisible(true);
+    labelInstructions.setVisible(true);
 
     // initialise fade and scale animations once more, setting required parameters
     FadeTransition ft = new FadeTransition(Duration.millis(500), paneCover);
